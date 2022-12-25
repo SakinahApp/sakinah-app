@@ -2,12 +2,12 @@ import React from "react";
 import NoUpcomingSession from "../Components/NoUpcomingSession";
 import TherapistAvatars from "../Components/TherapistAvatars";
 import welcomeImage from "./subscribe.svg";
-import { useStore } from "../../../../Zustand";
+import { useStoreSession } from "../../../../Zustand";
 import { auth } from "../../../../Firebase";
 
 function MyHome() {
-  const { userInfo } = useStore((state) => state);
-  const userName = auth.currentUser.displayName;
+  const { userInfo } = useStoreSession((state) => state);
+
   return (
     <div style={{ display: "flex", height: "100%" }}>
       <div style={{ display: "flex" }}>
@@ -23,7 +23,7 @@ function MyHome() {
           }}
         >
           <h3 style={{ marginBottom: 20, fontWeight: 600, fontSize: 22 }}>
-            As-salamu alaykum, {userName}! 🙂
+            As-salamu alaykum, {userInfo?.name || ""}! 🙂
           </h3>
           <p>
             We are glad that you have taken the step to seek support and

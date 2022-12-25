@@ -3,7 +3,7 @@ import "./App.css";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./Firebase";
 import AuthContainer from "./views/auth/User/AuthContainer";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import LoginWithPhone from "./views/auth/User/SignInPhone";
 import Login from "./views/auth/User/SignIn";
 import SignUp from "./views/auth/User/SignUp";
@@ -17,28 +17,40 @@ import TherapistProfile from "./views/sakinah/User/Therapists/TherapistProfile";
 import ProtectedRoute from "./views/auth/ProtectedRoutes/ProtectedRoute";
 import UserInfo from "./views/sakinah/User/UserInfo";
 import ForgotPassword from "./views/auth/User/ForgotPassword";
+import MyPreferences from "./views/sakinah/User/MyPreferences";
+import { db } from "./Firebase";
+import { getDoc, doc } from "firebase/firestore";
+import { useStoreSession } from "./Zustand";
 
 function App() {
-  const navigate = useNavigate();
-  const [user, setUser] = React.useState(null);
+  const { userInfo, setUserInfo, userLogin, setUserLogin } = useStoreSession();
 
+  console.log("userInfo :>> ", userInfo);
+  console.log("userLogin :>> ", userLogin);
 
+  // Fetch current user data
+  async function fetchData(uid: string) {
+    const docRef = doc(db, "users", uid);
+    const usersData = await getDoc(docRef);
+
+    usersData.exists()
+      ? setUserInfo(usersData.data())
+      : console.log("No such document!");
+  }
+
+  // set logged in user and fethced user data
   React.useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        setUser(user);
-        // console.log("user :>> ", user);
+        setUserLogin(user);
+        fetchData(user.uid);
       } else {
         // User is signed out
-        // console.log("user is logged out");
-        setUser(null);
-        // navigate("/auth/login");
+        setUserLogin(null);
+        fetchData(null);
       }
     });
   }, []);
-
 
   return (
     <Routes>
@@ -49,7 +61,8 @@ function App() {
         <Route path="forgot-password" element={<ForgotPassword />} />
       </Route>
 
-      <Route element={<ProtectedRoute user={user} />}>
+      <Route element={<ProtectedRoute user={userLogin} />}>
+        <Route path="/user-preferences" element={<MyPreferences />} />
         <Route path="user-info" element={<UserInfo />} />
         <Route path="/" element={<Profile />}>
           <Route index element={<MyHome />} />

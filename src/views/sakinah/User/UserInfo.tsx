@@ -6,21 +6,19 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../../Firebase";
 import photo from "../../../assets/images/business-account.png";
-import { useStore } from "../../../Zustand";
+import { useStoreSession } from "../../../Zustand";
 import { updateProfile } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function UserInfo() {
-  const { userInfo } = useStore((state) => state);
-
   const navigate = useNavigate();
   const [name, setName] = React.useState("");
   const [age, setAge] = React.useState(null);
   const [gender, setGender] = React.useState(null);
+  const { setUserInfo } = useStoreSession();
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -29,11 +27,11 @@ export default function UserInfo() {
     setGender(newAlignment);
   };
 
-  // Add user data
+  // Add user data with specified ID, if you want with auto generated ID -> use addDoc()
   async function addUser(id: string, name: string, email: string) {
     try {
-      const user = await addDoc(collection(db, "users"), {
-        id: id,
+      const user = await setDoc(doc(db, "users", id), {
+        uid: id,
         name: name,
         email: email,
         age: age,
@@ -44,6 +42,20 @@ export default function UserInfo() {
         therapistsSessions: [],
         consultationType: [],
       });
+
+      setUserInfo({
+        uid: id,
+        name: name,
+        email: email,
+        age: age,
+        gender: gender,
+        phone: null,
+        company: null,
+        therapists: [],
+        therapistsSessions: [],
+        consultationType: [],
+      });
+
       console.log("Document written with ID: ", user);
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -57,7 +69,6 @@ export default function UserInfo() {
     if (name.length) {
       updateProfile(auth.currentUser, {
         displayName: name,
-        photoURL: "https://example.com/jane-q-user/profile.jpg",
       })
         .then((user) => {
           // Signed in
@@ -66,8 +77,7 @@ export default function UserInfo() {
             auth.currentUser.displayName,
             auth.currentUser.email
           );
-          navigate("/");
-          console.log("auth.currentUser :>> ", auth.currentUser);
+          navigate("/user-preferences");
         })
         .catch((error) => {
           const errorCode = error.code;

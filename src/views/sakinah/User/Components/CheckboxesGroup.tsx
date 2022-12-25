@@ -6,20 +6,27 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormHelperText from "@mui/material/FormHelperText";
 import Checkbox from "@mui/material/Checkbox";
+import { Dashboard } from "@mui/icons-material";
 
 interface Data {
   data: string[];
   title: string;
+  preferences: string[];
+  setPreferences: (preferences: string[]) => void;
 }
 
-export default function CheckboxesGroup({ data, title }: Data) {
-  const [state, setState] = React.useState([]);
-
+export default function CheckboxesGroup({
+  data,
+  title,
+  setPreferences,
+  preferences,
+}: Data) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
+    if (!preferences.includes(event.target.name)) {
+      return setPreferences([...preferences, event.target.name]);
+    } else {
+      return setPreferences(preferences.filter((p) => p!== event.target.name));
+    }
   };
 
   return (
@@ -29,7 +36,13 @@ export default function CheckboxesGroup({ data, title }: Data) {
         <FormGroup>
           {data.map((item) => (
             <FormControlLabel
-              control={<Checkbox onChange={handleChange} name={item} />}
+              control={
+                <Checkbox
+                  checked={preferences.includes(item) ? true : false}
+                  onChange={handleChange}
+                  name={item}
+                />
+              }
               label={item}
             />
           ))}
