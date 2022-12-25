@@ -1,11 +1,42 @@
-import { Box, Button, CssBaseline } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import { useStore, useStoreTemporary } from "../../../../Zustand";
+import { Box, Button, CssBaseline } from "@mui/material";
+import { useStore, useStoreTemporary, useStoreUser } from "../../../../Zustand";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../../../../Firebase";
 
 function ConfirmBooking({ therapist, visibility, setVisibility, date, time }) {
   const { setUpcomingSession } = useStore((state) => state);
+  const { userInfo, setUserInfo } = useStoreUser((state) => state);
   const { setSnackbarOpen } = useStoreTemporary((state) => state);
+
+  // Add a new session with a generated id.
+  async function addSession() {
+    try {
+      const docRef = await addDoc(collection(db, "therapy-session"), {
+        room_code: Math.floor(100000 + Math.random() * 900000),
+        therapist_id: therapist.id,
+        therapist_name: therapist.fullName,
+        time: time,
+        date: date,
+        type: "single",
+        user_id: userInfo.uid,
+        user_name: userInfo.name,
+      });
+      setSnackbarOpen(true);
+      // console.log("Document written with ID: ", docRef.id);
+      return;
+    } catch (e) {
+      console.log(e);
+      return;
+    }
+  }
+
+  function handleBook() {
+    setVisibility("flex");
+    addSession();
+    setUpcomingSession({ ...therapist, date: date, time: time });
+  }
 
   return (
     <div
@@ -67,11 +98,7 @@ function ConfirmBooking({ therapist, visibility, setVisibility, date, time }) {
       >
         <Link to="/sessions">
           <Button
-            onClick={() => (
-              setVisibility("flex"),
-              setSnackbarOpen(true),
-              setUpcomingSession({ ...therapist, date: date, time: time })
-            )}
+            onClick={handleBook}
             color="inherit"
             style={{
               borderRadius: "20px",

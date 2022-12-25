@@ -6,8 +6,6 @@ function ChosenPrefrences({ item }) {
       style={{
         padding: "10px",
         fontWeight: 600,
-        width: "100%",
-        maxWidth: 150,
         margin: 10,
         borderRadius: 10,
         height: 50,
