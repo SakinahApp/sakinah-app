@@ -2,11 +2,11 @@ import React from "react";
 import NoUpcomingSession from "../Components/NoUpcomingSession";
 import TherapistAvatars from "../Components/TherapistAvatars";
 import welcomeImage from "./subscribe.svg";
-import { useStoreSession } from "../../../../Zustand";
+import { useStoreUser } from "../../../../Zustand";
 import { auth } from "../../../../Firebase";
 
 function MyHome() {
-  const { userInfo } = useStoreSession((state) => state);
+  const { userInfo } = useStoreUser((state) => state);
 
   return (
     <div style={{ display: "flex", height: "100%" }}>

@@ -20,10 +20,10 @@ import ForgotPassword from "./views/auth/User/ForgotPassword";
 import MyPreferences from "./views/sakinah/User/MyPreferences";
 import { db } from "./Firebase";
 import { getDoc, doc } from "firebase/firestore";
-import { useStoreSession } from "./Zustand";
+import { useStoreUser } from "./Zustand";
 
 function App() {
-  const { userInfo, setUserInfo, userLogin, setUserLogin } = useStoreSession();
+  const { userInfo, setUserInfo, userLogin, setUserLogin } = useStoreUser();
 
   console.log("userInfo :>> ", userInfo);
   console.log("userLogin :>> ", userLogin);

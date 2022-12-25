@@ -9,7 +9,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../../Firebase";
 import photo from "../../../assets/images/business-account.png";
-import { useStoreSession } from "../../../Zustand";
+import { useStoreUser } from "../../../Zustand";
 import { updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
@@ -18,7 +18,7 @@ export default function UserInfo() {
   const [name, setName] = React.useState("");
   const [age, setAge] = React.useState(null);
   const [gender, setGender] = React.useState(null);
-  const { setUserInfo } = useStoreSession();
+  const { setUserInfo } = useStoreUser();
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,

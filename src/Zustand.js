@@ -18,12 +18,13 @@ const useStore = create(
         }),
         {
             name: 'therapy-session', // unique name
+            getStorage: () => sessionStorage,
         }
     )
 )
 
 
-const useStoreSession = create(
+const useStoreUser = create(
     persist(
         (set, get) => ({
             userInfo: {},
@@ -40,5 +41,5 @@ const useStoreSession = create(
 
 
 
-export { useStore, useStoreTemporary, useStoreSession }
+export { useStore, useStoreTemporary, useStoreUser }
 
