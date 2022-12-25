@@ -12,11 +12,11 @@ import Logout from "@mui/icons-material/Logout";
 import { auth } from "../../../../Firebase";
 import { signOut } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
-import { useStore } from "../../../../Zustand";
+import { useStoreSession } from "../../../../Zustand";
 
 export default function AccountMenu() {
   const navigate = useNavigate();
-  const { userInfo } = useStore((state) => state);
+  const { userInfo } = useStoreSession((state) => state);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -39,6 +39,7 @@ export default function AccountMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -52,7 +53,7 @@ export default function AccountMenu() {
             aria-expanded={open ? "true" : undefined}
           >
             <Avatar sx={{ width: 32, height: 32, border: "1px solid white" }}>
-              {userInfo.name?.slice(0, 1)}
+              {userInfo?.name?.slice(0, 1)}
             </Avatar>
           </IconButton>
         </Tooltip>

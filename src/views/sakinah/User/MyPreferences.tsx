@@ -3,16 +3,17 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
-// import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
-import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
-import { Container, Grid } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Container } from "@mui/material";
 import CheckboxesGroup from "./Components/CheckboxesGroup";
+import { db } from "../../../Firebase";
+import { updateDoc, doc } from "firebase/firestore";
+import { useStoreSession } from "../../../Zustand";
 
 const situationData = [
   "Feeling sad",
-  "feeling Low",
+  "feeling medium",
   "Happy",
   "Feeling sad",
   "feeling Low",
@@ -40,15 +41,47 @@ const workData = [
   "Happy",
 ];
 
+const styling = {
+  background: "rgb(245, 245, 245)",
+  borderRadius: 10,
+  margin: "20px 10px",
+  padding: "10px 30px",
+};
+
 export default function MyPreferences() {
-  const styling = {
-    background: "rgb(245, 245, 245)",
-    borderRadius: 10,
-    margin: "20px 10px",
-    padding: "10px 30px",
-  };
+  const { userInfo, setUserInfo } = useStoreSession();
+  const [preferences, setPreferences] = React.useState([]);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // if user already have preferences, load them
+  React.useEffect(() => {
+    if (userInfo?.consultationType?.length > 0) {
+      !location.pathname.includes("user-preferences") &&
+        setPreferences(userInfo?.consultationType);
+    }
+  }, []);
+
+  // Update user data -> add preferences
+  async function updateData() {
+    const userDoc = doc(db, "users", userInfo.uid);
+    try {
+      await updateDoc(userDoc, { consultationType: preferences });
+      setUserInfo({ ...userInfo, consultationType: preferences });
+    } catch (e) {
+      console.error("Error updating user: ", e);
+    }
+  }
+
+  function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
+    updateData();
+    location.pathname.includes("user-preferences") && navigate("/");
+  }
+
   return (
-    <>
+    <Container
+      style={{ marginTop: location.pathname.includes("user-pref") ? 80 : 0 }}
+    >
       <CssBaseline />
       <Box
         sx={{
@@ -90,20 +123,41 @@ export default function MyPreferences() {
           }}
         >
           <Box style={styling}>
-            <CheckboxesGroup data={situationData} title="My Situation" />
+            <CheckboxesGroup
+              data={situationData}
+              preferences={preferences}
+              setPreferences={setPreferences}
+              title="My Situation"
+            />
           </Box>
           <Box style={styling}>
-            <CheckboxesGroup data={relationshipData} title="My Relationship" />
+            <CheckboxesGroup
+              data={relationshipData}
+              preferences={preferences}
+              setPreferences={setPreferences}
+              title="My Relationship"
+            />
           </Box>
           <Box style={styling}>
-            <CheckboxesGroup data={workData} title="Work, study" />
+            <CheckboxesGroup
+              data={workData}
+              preferences={preferences}
+              setPreferences={setPreferences}
+              title="Work, study"
+            />
           </Box>
           <Box style={styling}>
-            <CheckboxesGroup data={workData} title="Work, study" />
+            <CheckboxesGroup
+              data={workData}
+              preferences={preferences}
+              setPreferences={setPreferences}
+              title="Work, study"
+            />
           </Box>
         </Box>
         <Button
           variant="contained"
+          onClick={handleClick}
           style={{
             margin: 20,
             background: "rgb(226, 109, 128)",
@@ -114,6 +168,6 @@ export default function MyPreferences() {
           Save
         </Button>
       </Box>
-    </>
+    </Container>
   );
 }

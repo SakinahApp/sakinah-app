@@ -45,7 +45,6 @@ export default function SignIn() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        // console.log("user :>> ", user);
         if (user.emailVerified) {
           return user.displayName ? navigate("/") : navigate("/user-info");
         } else {

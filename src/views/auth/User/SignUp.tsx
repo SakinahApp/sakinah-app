@@ -3,15 +3,10 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-// import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { Alert, Typography } from "@mui/material";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
@@ -40,7 +35,6 @@ function Copyright(props: any) {
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const { setUserInfo } = useStore((state) => state);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [message, setMessage] = React.useState("");
@@ -53,11 +47,11 @@ export default function SignUp() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-
         sendEmailVerification(user).then(() => {
           // Email verification sent!
-          setMessage("Email verification sent! Please check your email.");
-          // setUserInfo({ name, age, gender, email });
+          setMessage(
+            "Email verification sent! Please check your email. After verified your account, you can log in."
+          );
           // navigate("/auth/login");
         });
       })
@@ -69,8 +63,6 @@ export default function SignUp() {
         } else {
           setMessage(errorMessage);
         }
-        console.log(errorCode, errorMessage);
-        // ..
       });
   };
 
@@ -92,18 +84,6 @@ export default function SignUp() {
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            {/* <Grid item xs={12}>
-              <TextField
-                name="firstName"
-                required
-                fullWidth
-                id="firstName"
-                label="Name"
-                autoFocus
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </Grid> */}
             <Grid item xs={12}>
               <TextField
                 required
