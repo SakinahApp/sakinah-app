@@ -8,7 +8,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { auth, db } from "../../../Firebase";
 import photo from "../../../assets/images/business-account.png";
-import { useStore } from "../../../Zustand";
+import { useStoreUser } from "../../../Zustand";
 import {
   collection,
   addDoc,
@@ -19,12 +19,11 @@ import {
 } from "firebase/firestore";
 
 export default function MySettings() {
-  const { userInfo } = useStore((state) => state);
+  const { userInfo } = useStoreUser((state) => state);
   const [currentUser, setCurrentUser] = React.useState(null);
-  const [email, setEmail] = React.useState(userInfo.email);
+  const [email, setEmail] = React.useState(userInfo?.email || "");
 
-  console.log("currentUser :>> ", currentUser);
-
+  // set gender
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string
@@ -32,19 +31,18 @@ export default function MySettings() {
     setCurrentUser({ ...currentUser, gender: newAlignment });
   };
 
-  // Fetch user data
-  React.useEffect(() => {
-    async function fetchData() {
-      const usersData = await getDocs(collection(db, "users"));
-      const arrayUsers = usersData.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setCurrentUser(arrayUsers[0]);
-      console.log("array :>> ", arrayUsers);
-    }
-    fetchData();
-  }, []);
+  // Fetch users data - ALL USERS
+  // React.useEffect(() => {
+  //   async function fetchData() {
+  //     const usersData = await getDocs(collection(db, "users"));
+  //     const arrayUsers = usersData.docs.map((doc) => ({
+  //       ...doc.data(),
+  //       id: doc.id,
+  //     }));
+  //     setCurrentUser(arrayUsers[0]);
+  //   }
+  //   fetchData();
+  // }, []);
 
   // Add user data
   async function addUser() {
@@ -83,7 +81,7 @@ export default function MySettings() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    updateData("AMtfntrB8PZUs3fx6Ui8");
+    // updateData();
     // deleteData("AMtfntrB8PZUs3fx6Ui8");
     // addUser();
   };

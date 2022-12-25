@@ -9,7 +9,7 @@ import { Container } from "@mui/material";
 import CheckboxesGroup from "./Components/CheckboxesGroup";
 import { db } from "../../../Firebase";
 import { updateDoc, doc } from "firebase/firestore";
-import { useStoreSession } from "../../../Zustand";
+import { useStoreUser } from "../../../Zustand";
 
 const situationData = [
   "Feeling sad",
@@ -49,7 +49,7 @@ const styling = {
 };
 
 export default function MyPreferences() {
-  const { userInfo, setUserInfo } = useStoreSession();
+  const { userInfo, setUserInfo } = useStoreUser();
   const [preferences, setPreferences] = React.useState([]);
   const navigate = useNavigate();
   const location = useLocation();

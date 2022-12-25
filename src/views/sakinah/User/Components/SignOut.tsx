@@ -12,11 +12,11 @@ import Logout from "@mui/icons-material/Logout";
 import { auth } from "../../../../Firebase";
 import { signOut } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
-import { useStoreSession } from "../../../../Zustand";
+import { useStoreUser } from "../../../../Zustand";
 
 export default function AccountMenu() {
   const navigate = useNavigate();
-  const { userInfo } = useStoreSession((state) => state);
+  const { userInfo } = useStoreUser((state) => state);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
