@@ -6,7 +6,9 @@ function MySessions() {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       {/* <UpcomingSession /> */}
-      <NoUpcomingSession />
+      <div style={{ maxHeight: 500, overflowY: "scroll" }}>
+        <NoUpcomingSession />
+      </div>
       <PrevSessions />
     </div>
   );

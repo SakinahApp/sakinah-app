@@ -43,7 +43,7 @@ function MyHome() {
           />
         </div>
         <div style={{ display: "flex", flex: 2, flexDirection: "column" }}>
-          <NoUpcomingSession />
+          <NoUpcomingSession num={1} />
           <TherapistAvatars />
         </div>
       </div>

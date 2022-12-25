@@ -13,7 +13,8 @@ const useStore = create(
     persist(
         (set, get) => ({
             upcomingSessionState: [],
-            setUpcomingSession: (session) => set((state) => ({ upcomingSessionState: [...state.upcomingSessionState, session] })),
+            setUpcomingSession: (session) => set((state) => ({ upcomingSessionState: session })),
+            // setUpcomingSession: (session) => set((state) => ({ upcomingSessionState: [...state.upcomingSessionState, session] })),
             removeSessions: () => set({ upcomingSessionState: [] }),
         }),
         {

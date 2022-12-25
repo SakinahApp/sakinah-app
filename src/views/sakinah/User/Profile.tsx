@@ -23,7 +23,6 @@ function Profile(props: any) {
     return () => clearTimeout(timeout);
   }, [snackbarOpen]);
 
-
   return (
     <Grid sx={{ width: "100%" }}>
       <ThemeProvider theme={theme}>

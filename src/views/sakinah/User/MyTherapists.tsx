@@ -1,10 +1,13 @@
 import { Chip } from "@mui/material";
 import React from "react";
+import { useStoreUser } from "../../../Zustand";
 import ConfimrBooking from "./Components/ConfirmBooking";
 import ChosenPrefrences from "./Therapists/ChosenPrefrences";
 import TherapistCard from "./Therapists/TherapistCard";
 
 function MyTherapists() {
+  const { userInfo } = useStoreUser();
+
   return (
     <div style={{ overflowY: "scroll", overflow: "hidden" }}>
       <h3
@@ -38,7 +41,7 @@ function MyTherapists() {
           width: "100%",
         }}
       >
-        {prefData.map((item) => (
+        {userInfo?.consultationType?.map((item) => (
           <ChosenPrefrences item={item} />
         ))}
       </div>
