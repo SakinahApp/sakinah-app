@@ -10,6 +10,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import SnackbarX from "./SnackbarX";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../../../Firebase";
+import VideocamIcon from "@mui/icons-material/Videocam";
+import dayjs from "dayjs";
 
 function NoUpcomingSession(props) {
   const [open, setOpen] = React.useState(false);
@@ -17,6 +19,18 @@ function NoUpcomingSession(props) {
   const { upcomingSessionState, removeSessions, setUpcomingSession } = useStore(
     (state) => state
   );
+
+  function disableCall(date, time) {
+    const now = dayjs().unix();
+    const expTime = dayjs(date + " " + time?.slice(0, 5)).unix();
+    const leftTime = (expTime - now) / 60;
+
+    if (leftTime > 5 || leftTime < -100) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   // fetch upcoming sessions for the current user and add them to session[]
   async function fetchData() {
@@ -122,7 +136,7 @@ function NoUpcomingSession(props) {
                   margin: 10,
                   borderRadius: 8,
                   color: "white",
-                  maxHeight: 220,
+                  maxHeight: 280,
                   display: "flex",
                   justifyContent: "space-between",
                   flexDirection: "column",
@@ -252,6 +266,28 @@ function NoUpcomingSession(props) {
                         {session.therapist_name}
                       </div>
                     </div>
+                    <Button
+                      // disabled={leftTime > 5}
+                      disabled={disableCall(session.date, session.time)}
+                      style={{
+                        background: disableCall(session.date, session.time)
+                          ? "#e4e4e4"
+                          : "#5f61c4",
+                        color: disableCall(session.date, session.time)
+                          ? "#afafaf"
+                          : "white",
+                        marginTop: 30,
+                      }}
+                    >
+                      <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href={`http://teleport.video/sakinah/yaseenavgani`}
+                      >
+                        <VideocamIcon style={{ marginRight: 5 }} />
+                        Video Call
+                      </a>
+                    </Button>
                   </div>
                   <img
                     style={{
