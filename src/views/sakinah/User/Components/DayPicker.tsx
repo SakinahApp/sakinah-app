@@ -22,6 +22,7 @@ export default function StaticDatePickerDemo({
   const [time, setTime] = React.useState("11:00-12:00");
 
   const date = dayjs(value).format("LL");
+
   const day = dayjs(value).date();
   const month = dayjs(value).month();
   const year = dayjs().year();
@@ -68,24 +69,25 @@ export default function StaticDatePickerDemo({
           "16:00-17:00",
         ].map((item, index) => (
           <Button
+            key={index}
             onClick={() => setTime(item)}
-            disabled={index % 4 === 0}
+            disabled={index % 5 === 0}
             style={{
               padding: "2px 8px",
               background:
                 item === time
                   ? "rgb(226, 109, 128)"
-                  : index % 4
+                  : index % 5
                   ? "white"
                   : "#e4e4e4",
               color:
                 item === time
                   ? "white"
-                  : index % 4
+                  : index % 5
                   ? "rgb(226, 109, 128)"
                   : "white",
               border:
-                index % 4 ? "1px solid rgb(226, 109, 128)" : "1px solid white",
+                index % 5 ? "1px solid rgb(226, 109, 128)" : "1px solid white",
               fontSize: 12,
               boxShadow: "none",
               margin: 5,
