@@ -22,6 +22,7 @@ function ConfirmBooking({ therapist, visibility, setVisibility, date, time }) {
         type: "single",
         user_id: userInfo.uid,
         user_name: userInfo.name,
+        cancel: false,
       });
       setSnackbarOpen(true);
       // console.log("Document written with ID: ", docRef.id);
