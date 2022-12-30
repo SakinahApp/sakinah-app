@@ -5,52 +5,95 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Container } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import CheckboxesGroup from "./Components/CheckboxesGroup";
 import { db } from "../../../Firebase";
 import { updateDoc, doc } from "firebase/firestore";
 import { useStoreUser } from "../../../Zustand";
+import SnackbarX from "./Components/SnackbarX";
 
+// Feelings and emotions, complex experiences and states
 const situationData = [
-  "Feeling sad",
-  "feeling medium",
-  "Happy",
-  "Feeling sad",
-  "feeling Low",
-  "Happy",
-  "feeling Low",
-  "Happy",
+  "Apathy",
+  "Mood change",
+  "Burnout",
+  "Depression",
+  "Guilt",
 ];
+
+// Behavior and thoughts, uncontrollable actions
 const relationshipData = [
-  "Anxious",
-  "Depressed",
-  "Feeling sad",
-  "feeling Low",
-  "Happy",
-  "feeling Low",
-  "Happy",
+  "Compulsive thoughts",
+  "Anger issues",
+  "Selfharm",
+  "Self-control",
+  "Violent trauma",
+  "Suicide attempts",
 ];
+
+// Bad habits and addictions
 const workData = [
-  "Performance",
-  "Happy",
-  "Feeling sad",
-  "feeling Low",
-  "Happy",
-  "Feeling sad",
-  "feeling Low",
-  "Happy",
+  "Nicotine withdrawal",
+  "Substance abuse",
+  "Compuslive behaviour",
+  "Consumatory behavior",
+];
+
+// Self-relationships, self-esteem, psychosomatics
+const psychosomatics = [
+  "Life purpose",
+  "Self-assessment",
+  "Lack of conviction",
+  "Loneliness",
+];
+
+// Relationships, intimacy, family, sex
+const intimacy = [
+  "Codependency",
+  "Intercourse",
+  "Betrayal",
+  "Breakup",
+  "Paternity",
+  "Pregnancy care",
+  "LGBTQ-relations",
+  "Relationship",
+  "Jealousy",
+];
+
+// Self-development and changing living conditions
+const self_development = [
+  "Professional relationship",
+  "Crisis",
+  "Self-improvement",
+  "Finance",
+  "New normal",
+  "Grief",
+  "Trauma",
+  "PTSD",
+];
+
+// Difficult experiences and states
+const difficult_experiences = [
+  "Panic attacks ",
+  "Chronic stress",
+  "Grief",
+  "Trauma",
+  "Psychosomatics",
 ];
 
 const styling = {
-  background: "rgb(245, 245, 245)",
+  // background: "rgb(245, 245, 245)",
   borderRadius: 10,
-  margin: "20px 10px",
-  padding: "10px 30px",
+  // margin: "10px 5px",
+  padding: "10px 20px",
+  // width: 350,
 };
 
 export default function MyPreferences() {
   const { userInfo, setUserInfo } = useStoreUser();
   const [preferences, setPreferences] = React.useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -68,8 +111,12 @@ export default function MyPreferences() {
     try {
       await updateDoc(userDoc, { consultationType: preferences });
       setUserInfo({ ...userInfo, consultationType: preferences });
+      setOpen(true);
+      setMessage("Your request has been successfully saved!");
     } catch (e) {
       console.error("Error updating user: ", e);
+      setOpen(true);
+      setMessage("Something went wrong, please try again later.");
     }
   }
 
@@ -82,6 +129,12 @@ export default function MyPreferences() {
     <Container
       style={{ marginTop: location.pathname.includes("user-pref") ? 80 : 0 }}
     >
+      <SnackbarX
+        open={open}
+        setOpen={setOpen}
+        backgroundColor="#32a676"
+        message={message}
+      />
       <CssBaseline />
       <Box
         sx={{
@@ -94,9 +147,9 @@ export default function MyPreferences() {
           style={{
             boxShadow: "none",
             background: "rgb(95, 106, 196)",
-            padding: "10px 20px",
+            // padding: "10px 20px",
             flex: 2,
-            margin: 10,
+            // margin: 10,
             borderRadius: 8,
             width: "100%",
             display: "flex",
@@ -113,48 +166,75 @@ export default function MyPreferences() {
             What would you like to discuss with your therapist?
           </h2>
         </div>
-        <Box
+        <Grid
+          container
+          spacing={2}
           sx={{
             mt: 1,
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            width: "100%",
+            // display: "flex",
+            // flexDirection: "row",
+            // justifyContent: "space-between",
+            // width: "100%",
+            // flexWrap: "wrap",
           }}
         >
-          <Box style={styling}>
+          <Grid item xs={12} sm={6} style={styling}>
             <CheckboxesGroup
+              title="Feelings and emotions, complex experiences and states"
               data={situationData}
               preferences={preferences}
               setPreferences={setPreferences}
-              title="My Situation"
             />
-          </Box>
-          <Box style={styling}>
+          </Grid>
+          <Grid item xs={12} sm={6} style={styling}>
             <CheckboxesGroup
               data={relationshipData}
               preferences={preferences}
               setPreferences={setPreferences}
-              title="My Relationship"
+              title="Behavior and thoughts, uncontrollable actions"
             />
-          </Box>
-          <Box style={styling}>
+          </Grid>
+          <Grid item xs={12} sm={6} style={styling}>
             <CheckboxesGroup
               data={workData}
               preferences={preferences}
               setPreferences={setPreferences}
-              title="Work, study"
+              title="Bad habits and addictions"
             />
-          </Box>
-          <Box style={styling}>
+          </Grid>
+          <Grid item xs={12} sm={6} style={styling}>
             <CheckboxesGroup
-              data={workData}
+              data={psychosomatics}
               preferences={preferences}
               setPreferences={setPreferences}
-              title="Work, study"
+              title="Self-relationships, self-esteem, psychosomatics"
             />
-          </Box>
-        </Box>
+          </Grid>
+          <Grid item xs={12} sm={6} style={styling}>
+            <CheckboxesGroup
+              data={intimacy}
+              preferences={preferences}
+              setPreferences={setPreferences}
+              title="Relationships, intimacy, family, sex"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} style={styling}>
+            <CheckboxesGroup
+              data={self_development}
+              preferences={preferences}
+              setPreferences={setPreferences}
+              title="Self-development and changing living conditions"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} style={styling}>
+            <CheckboxesGroup
+              data={difficult_experiences}
+              preferences={preferences}
+              setPreferences={setPreferences}
+              title="Difficult experiences and states"
+            />
+          </Grid>
+        </Grid>
         <Button
           variant="contained"
           onClick={handleClick}
