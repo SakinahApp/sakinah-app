@@ -17,11 +17,13 @@ function ConfirmBooking({ therapist, visibility, setVisibility, date, time }) {
         room_code: Math.floor(100000 + Math.random() * 900000),
         therapist_id: therapist.id,
         therapist_name: therapist.fullName,
+        therapist_email: therapist.email || null,
         time: time,
         date: date,
         type: "single",
         user_id: userInfo.uid,
         user_name: userInfo.name,
+        user_email: userInfo.email,
         cancel: false,
       });
       setSnackbarOpen(true);
