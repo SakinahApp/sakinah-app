@@ -25,8 +25,8 @@ import { useStoreUser } from "./Zustand";
 function App() {
   const { userInfo, setUserInfo, userLogin, setUserLogin } = useStoreUser();
 
-  console.log("userInfo :>> ", userInfo);
-  console.log("userLogin :>> ", userLogin);
+  // console.log("userInfo :>> ", userInfo);
+  // console.log("userLogin :>> ", userLogin);
 
   // Fetch current user data
   async function fetchData(uid: string) {
