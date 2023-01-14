@@ -59,7 +59,6 @@ export default function SignInPhone() {
           // SMS sent. Ask user to type the code from the message, then sign the user in with confirmationResult.confirm(code).
           // we also create a global variable to save confirmationResult to access it on verifyOTP function to confirm user has put the right code
           window.confirmationResult = confirmationResult;
-          console.log('confirmationResult', confirmationResult)
         })
         .catch((error) => {
           // Error; SMS not sent

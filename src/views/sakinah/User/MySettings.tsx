@@ -52,7 +52,6 @@ export default function MySettings() {
         age: currentUser?.age,
         gender: currentUser?.gender,
       });
-      console.log("Document written with ID: ", user);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
