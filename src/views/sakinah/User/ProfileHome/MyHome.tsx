@@ -23,7 +23,7 @@ function MyHome() {
           }}
         >
           <h3 style={{ marginBottom: 20, fontWeight: 600, fontSize: 22 }}>
-            As-salamu alaykum, {userInfo?.name || ""}! 🙂
+            As-salamu aleikum, {userInfo?.name || ""}! 🙂
           </h3>
           <p>
             We are glad that you have taken the step to seek support and
