@@ -9,14 +9,17 @@ import { Avatar, Button } from "@mui/material";
 import dayjs from "dayjs";
 import { useStore, useStoreUser } from "../../../../Zustand";
 import { db } from "../../../../Firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
+import SnackbarX from "./SnackbarX";
 
-function CancelSession({ session, upSessions }) {
+function TherapySession({ session, upSessions }) {
   const [openCancel, setOpenCancel] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const { upcomingSessionState, setUpcomingSession } = useStore(
     (state) => state
   );
+
+  console.log("session", session);
 
   function disableCall(date, time) {
     const now = dayjs().unix();
@@ -38,6 +41,16 @@ function CancelSession({ session, upSessions }) {
       });
       setOpen(true);
       setUpcomingSession({ ...upcomingSessionState, cancel: true });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function deleteSession(id: string) {
+    const sessionRef = doc(db, "therapy-session", id);
+    try {
+      await deleteDoc(sessionRef);
+      setOpen(true);
     } catch (error) {
       console.log(error);
     }
@@ -65,6 +78,12 @@ function CancelSession({ session, upSessions }) {
             : "rgb(95 106 196 / 5%)",
       }}
     >
+      <SnackbarX
+        open={open}
+        setOpen={setOpen}
+        backgroundColor="#32a676"
+        message="You have deleted the session!"
+      />
       <ConfirmationModal
         openConfirm={openCancel}
         setOpenConfirm={setOpenCancel}
@@ -102,7 +121,6 @@ function CancelSession({ session, upSessions }) {
               "Your Upcoming Sessions!"
             )}
           </h3>
-
           <p
             style={{
               color: "rgb(50, 51, 49)",
@@ -193,21 +211,35 @@ function CancelSession({ session, upSessions }) {
               Video Call
             </a>
           </Button>
-          <Button
-            onClick={() => !session?.cancel && setOpenCancel(true)}
-            color="error"
-            style={{
-              background: "white",
-              color: !session?.cancel ? "rgb(226, 109, 128)" : "grey",
-              border: !session?.cancel
-                ? "1px solid rgb(226, 109, 128)"
-                : "none",
-              marginTop: 30,
-              marginLeft: 14,
-            }}
-          >
-            Cancel
-          </Button>
+          {!session?.cancel ? (
+            <Button
+              onClick={() => !session?.cancel && setOpenCancel(true)}
+              color="error"
+              style={{
+                background: "white",
+                color: "rgb(226, 109, 128)",
+                border: "1px solid rgb(226, 109, 128)",
+                marginTop: 30,
+                marginLeft: 14,
+              }}
+            >
+              Cancel
+            </Button>
+          ) : (
+            <Button
+              onClick={() => deleteSession(session?.docId)}
+              color="error"
+              style={{
+                background: "white",
+                color: "rgb(226, 109, 128)",
+                border: "1px solid rgb(226, 109, 128)",
+                marginTop: 30,
+                marginLeft: 14,
+              }}
+            >
+              Delete
+            </Button>
+          )}
         </div>
         <img
           style={{
@@ -224,4 +256,4 @@ function CancelSession({ session, upSessions }) {
   );
 }
 
-export default CancelSession;
+export default TherapySession;

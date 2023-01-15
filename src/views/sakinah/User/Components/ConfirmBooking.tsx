@@ -18,7 +18,7 @@ function ConfirmBooking({ therapist, open, setOpen, date, time }) {
   async function addSession() {
     try {
       const docRef = await addDoc(collection(db, "therapy-session"), {
-        room_code: Math.floor(100000 + Math.random() * 900000),
+        // room_code: Math.floor(100000 + Math.random() * 900000),
         therapist_id: therapist.id,
         therapist_name: therapist.fullName,
         therapist_email: therapist.email || null,
@@ -31,7 +31,6 @@ function ConfirmBooking({ therapist, open, setOpen, date, time }) {
         cancel: false,
       });
       setSnackbarOpen(true);
-      // console.log("Document written with ID: ", docRef.id);
       return;
     } catch (e) {
       console.log(e);
