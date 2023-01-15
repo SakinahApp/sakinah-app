@@ -19,8 +19,6 @@ function TherapySession({ session, upSessions }) {
     (state) => state
   );
 
-  console.log("session", session);
-
   function disableCall(date, time) {
     const now = dayjs().unix();
     const expTime = dayjs(date + " " + time?.slice(0, 5)).unix();
@@ -69,7 +67,6 @@ function TherapySession({ session, upSessions }) {
         display: "flex",
         justifyContent: "space-between",
         flexDirection: "column",
-        position: "relative",
         background:
           upSessions?.length === 0
             ? "white"
@@ -82,7 +79,7 @@ function TherapySession({ session, upSessions }) {
         open={open}
         setOpen={setOpen}
         backgroundColor="#32a676"
-        message="You have deleted the session!"
+        message="The session has been successfully deleted!"
       />
       <ConfirmationModal
         openConfirm={openCancel}
