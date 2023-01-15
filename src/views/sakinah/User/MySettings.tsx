@@ -65,6 +65,7 @@ export default function MySettings() {
   console.log("currentUser :>> ", currentUser);
 
   // Update user data
+  const [openConfirmUpdate, setOpenConfirmUpdate] = React.useState(false);
   async function updateData() {
     const userDoc = doc(db, "users", userInfo?.uid);
     try {
@@ -117,6 +118,13 @@ export default function MySettings() {
         action={resetPassword}
         topic="Reset Password"
         message="Are you sure you want to reset your password?"
+      />
+      <ConfirmationModal
+        openConfirm={openConfirmUpdate}
+        setOpenConfirm={setOpenConfirmUpdate}
+        action={updateData}
+        topic="Update Information"
+        message="Are you sure you want to update your information?"
       />
 
       <SnackbarX
@@ -236,7 +244,8 @@ export default function MySettings() {
               </Grid> */}
             </Grid>
             <Button
-              type="submit"
+              onClick={() => setOpenConfirmUpdate(true)}
+              // type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 8, mb: 2, background: "rgb(226, 109, 128)" }}

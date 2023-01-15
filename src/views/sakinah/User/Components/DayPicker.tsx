@@ -13,11 +13,7 @@ const isWeekend = (date: Dayjs) => {
   return day === 0 || day === 6;
 };
 
-export default function StaticDatePickerDemo({
-  therapist,
-  visibility,
-  setVisibility,
-}) {
+export default function DayPicker({ therapist, open, setOpen }) {
   const [value, setValue] = React.useState<Dayjs | null>(dayjs("2022-12-07"));
   const [time, setTime] = React.useState("11:00-12:00");
 
@@ -31,8 +27,8 @@ export default function StaticDatePickerDemo({
     <Box sx={{}}>
       <ConfirmBooking
         therapist={therapist}
-        visibility={visibility}
-        setVisibility={setVisibility}
+        open={open}
+        setOpen={setOpen}
         date={date}
         time={time}
       />

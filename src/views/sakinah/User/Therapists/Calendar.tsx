@@ -3,7 +3,7 @@ import React from "react";
 import DayPicker from "../Components/DayPicker";
 
 function Calendar({ therapist }) {
-  const [visibility, setVisibility] = React.useState("none");
+  const [open, setOpen] = React.useState(false);
 
   return (
     <>
@@ -40,15 +40,11 @@ function Calendar({ therapist }) {
           >
             Pick your session
           </h3>
-          <DayPicker
-            therapist={therapist}
-            visibility={visibility}
-            setVisibility={setVisibility}
-          />
+          <DayPicker therapist={therapist} open={open} setOpen={setOpen} />
         </Box>
         <Button
           onClick={() => {
-            setVisibility("flex");
+            setOpen(true);
           }}
           variant="contained"
           style={{
