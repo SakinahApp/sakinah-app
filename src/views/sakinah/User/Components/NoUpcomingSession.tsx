@@ -76,7 +76,6 @@ function NoUpcomingSession(props) {
             display: "flex",
             justifyContent: "space-between",
             flexDirection: "column",
-            position: "relative",
             background:
               upSessions?.length === 0 ? "white" : "rgb(95 106 196 / 5%)",
           }}
