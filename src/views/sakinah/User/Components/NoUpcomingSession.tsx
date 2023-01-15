@@ -6,7 +6,7 @@ import SnackbarX from "./SnackbarX";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../../../Firebase";
 import dayjs from "dayjs";
-import CancelSession from "./CancelSession";
+import TherapySession from "./TherapySession";
 
 function NoUpcomingSession(props) {
   const [open, setOpen] = React.useState(false);
@@ -115,19 +115,36 @@ function NoUpcomingSession(props) {
           </div>
         </div>
       ) : (
-        <div>
-          {upSessions?.length > 0 &&
-            upSessions
-              ?.slice(0, props.num)
-              ?.sort(
-                (a, b) =>
-                  dayjs(a.date + " " + a.time?.slice(0, 5)).unix() -
-                  dayjs(b.date + " " + b.time?.slice(0, 5)).unix()
-              )
-              .map((session, index) => (
-                <CancelSession session={session} upSessions={upSessions} />
-              ))}
-        </div>
+        <>
+          <div>
+            {upSessions?.length > 0 &&
+              upSessions
+                ?.slice(0, props.num)
+                ?.sort(
+                  (a, b) =>
+                    dayjs(a.date + " " + a.time?.slice(0, 5)).unix() -
+                    dayjs(b.date + " " + b.time?.slice(0, 5)).unix()
+                )
+                .filter((session) => session.cancel === false)
+                .map((session, index) => (
+                  <TherapySession session={session} upSessions={upSessions} />
+                ))}
+          </div>
+          <div>
+            {upSessions?.length > 0 &&
+              upSessions
+                ?.slice(0, props.num)
+                ?.sort(
+                  (a, b) =>
+                    dayjs(a.date + " " + a.time?.slice(0, 5)).unix() -
+                    dayjs(b.date + " " + b.time?.slice(0, 5)).unix()
+                )
+                .filter((session) => session.cancel === true)
+                .map((session, index) => (
+                  <TherapySession session={session} upSessions={upSessions} />
+                ))}
+          </div>
+        </>
       )}
     </>
   );
