@@ -5,9 +5,9 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-const Questionaire2 = ({hidden}) => {
+const Questionaire2 = ({ hidden }) => {
 	const feelings = [
 		"Apathy",
 		"Mood change",
@@ -161,7 +161,10 @@ const Questionaire2 = ({hidden}) => {
 								value=""
 								className="w-5 h-5 rounded-md text-sky-500 border-gray-100"
 							/>
-							<label htmlFor={item} className="ml-3 text-base font-normal text-stone-800">
+							<label
+								htmlFor={item}
+								className="ml-3 text-base font-normal text-stone-800"
+							>
 								{item}
 							</label>
 						</div>
@@ -179,7 +182,10 @@ const Questionaire2 = ({hidden}) => {
 								value=""
 								className="w-5 h-5 rounded-md text-sky-500 border-gray-100"
 							/>
-							<label htmlFor={item} className="ml-3 text-base font-normal text-stone-800">
+							<label
+								htmlFor={item}
+								className="ml-3 text-base font-normal text-stone-800"
+							>
 								{item}
 							</label>
 						</div>
@@ -197,7 +203,10 @@ const Questionaire2 = ({hidden}) => {
 								value=""
 								className="w-5 h-5 rounded-md text-sky-500 border-gray-100"
 							/>
-							<label htmlFor={item} className="ml-3 text-base font-normal text-stone-800">
+							<label
+								htmlFor={item}
+								className="ml-3 text-base font-normal text-stone-800"
+							>
 								{item}
 							</label>
 						</div>
@@ -215,7 +224,10 @@ const Questionaire2 = ({hidden}) => {
 								value=""
 								className="w-5 h-5 rounded-md text-sky-500 border-gray-100"
 							/>
-							<label htmlFor={item} className="ml-3 text-base font-normal text-stone-800">
+							<label
+								htmlFor={item}
+								className="ml-3 text-base font-normal text-stone-800"
+							>
 								{item}
 							</label>
 						</div>
@@ -233,7 +245,10 @@ const Questionaire2 = ({hidden}) => {
 								value=""
 								className="w-5 h-5 rounded-md text-sky-500 border-gray-100"
 							/>
-							<label htmlFor={item} className="ml-3 text-base font-normal text-stone-800">
+							<label
+								htmlFor={item}
+								className="ml-3 text-base font-normal text-stone-800"
+							>
 								{item}
 							</label>
 						</div>
@@ -251,7 +266,10 @@ const Questionaire2 = ({hidden}) => {
 								value=""
 								className="w-5 h-5 rounded-md text-sky-500 border-gray-100"
 							/>
-							<label htmlFor={item} className="ml-3 text-base font-normal text-stone-800">
+							<label
+								htmlFor={item}
+								className="ml-3 text-base font-normal text-stone-800"
+							>
 								{item}
 							</label>
 						</div>
@@ -269,7 +287,10 @@ const Questionaire2 = ({hidden}) => {
 								value=""
 								className="w-5 h-5 rounded-md text-sky-500 border-gray-100"
 							/>
-							<label htmlFor={item} className="ml-3 text-base font-normal text-stone-800">
+							<label
+								htmlFor={item}
+								className="ml-3 text-base font-normal text-stone-800"
+							>
 								{item}
 							</label>
 						</div>
@@ -289,7 +310,10 @@ const Questionaire2 = ({hidden}) => {
 								value=""
 								className="w-5 h-5 rounded-md text-sky-500 border-gray-100"
 							/>
-							<label htmlFor={item} className="ml-3 text-base font-normal text-stone-800">
+							<label
+								htmlFor={item}
+								className="ml-3 text-base font-normal text-stone-800"
+							>
 								{item}
 							</label>
 						</div>
@@ -324,13 +348,20 @@ const Questionaire2 = ({hidden}) => {
 				</div>
 			</Container>
 
-			<div className={`bg-gray-50 w-full mt-10 border-t border-blue-300 ${hidden && "hidden"}`}>
+			<div
+				className={`bg-gray-50 w-full mt-10 border-t border-blue-300 ${
+					hidden && "hidden"
+				}`}
+			>
 				<Container>
 					<div className="flex justify-between py-10">
 						<Link to="/therapists/onboarding/">
-						<button className="btn-secondary ">Back</button>
+							<button className="btn-secondary ">Back</button>
 						</Link>
-						<Link to="/therapists/onboarding/3"> <button className="btn-primary ">Next</button></Link>
+						<Link to="/therapists/onboarding/3">
+							{" "}
+							<button className="btn-primary ">Next</button>
+						</Link>
 					</div>
 				</Container>
 			</div>
