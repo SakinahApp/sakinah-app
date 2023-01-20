@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import "./styles.css"
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./Firebase";
 import AuthContainer from "./views/auth/User/AuthContainer";
@@ -21,6 +22,23 @@ import MyPreferences from "./views/sakinah/User/MyPreferences";
 import { db } from "./Firebase";
 import { getDoc, doc } from "firebase/firestore";
 import { useStoreUser } from "./Zustand";
+import LayoutTherapist from './views/sakinah/Therapist/pages/LayoutTherapist';
+import CalendarTherapist from './views/sakinah/Therapist/pages/CalendarTherapist';
+import  DashboardTherapist  from './views/sakinah/Therapist/pages/DashboardTherapist';
+import Onboarding1 from './views/sakinah/Therapist/Onboarding/Onboarding1';
+import Onboarding2 from './views/sakinah/Therapist/Onboarding/Onboarding2';
+import Onboarding3 from './views/sakinah/Therapist/Onboarding/Onboarding3';
+import AuthTherapist from "./views/auth/Therapist/AuthTherapist"
+import LoginTherapist from "./views/auth/Therapist/SignInTherapist"
+import OnboardingLayout from "./views/sakinah/Therapist/Onboarding/OnboardingLayout";
+import SignUpTherapist from './views/auth/Therapist/SignUpTherapist';
+import { Navigate, Outlet } from 'react-router-dom';
+// import ProtectedRouteTherapist from './views/auth/ProtectedRoutes/ProtectedRouteTherapist';
+import CustomersTherapist from './views/sakinah/Therapist/pages/CustomersTherapist';
+import PaymentsTherapist from './views/sakinah/Therapist/pages/PaymentsTherapist';
+import SettingsTherapist from './views/sakinah/Therapist/pages/SettingsTherapist';
+import TherapistProfilePage from './views/sakinah/Therapist/pages/TherapistProfilePage';
+import CustomerProfile from './views/sakinah/Therapist/pages/CustomerProfile';
 
 function App() {
   const { userInfo, setUserInfo, userLogin, setUserLogin } = useStoreUser();
@@ -28,6 +46,8 @@ function App() {
   console.log("userInfo :>> ", userInfo);
   console.log("userLogin :>> ", userLogin);
 
+
+  
   // Fetch current user data
   async function fetchData(uid: string) {
     const docRef = doc(db, "users", uid);
@@ -68,10 +88,37 @@ function App() {
           <Route index element={<MyHome />} />
           <Route path="preferences" element={<Preferences />} />
           <Route path="sessions" element={<MySessions />} />
-          <Route path="therapists" element={<MyTherapists />} />
-          <Route path="therapist/:id" element={<TherapistProfile />} />
+          {/* Please add everywhere to "/user/" so that it does not clash with the therapist dashboard */}
+          <Route path="/user/therapists" element={<MyTherapists />} />
+          <Route path="/user/therapist/:id" element={<TherapistProfile />} />
           <Route path="settings" element={<MySettings />} />
         </Route>
+      </Route>
+
+      {/* Therapist Auth */}
+      <Route path="/auth/therapists" element={<AuthTherapist/>}>
+      <Route path="signin" element={<LoginTherapist />} />
+      <Route path="signup" element={<SignUpTherapist />} />
+      </Route>
+
+      {/* Therapist Onboarding */}
+      {/* <Route element={<ProtectedRouteTherapist user={true} />}> */}
+      <Route path="/therapists/onboarding" element={<OnboardingLayout/>} >
+        <Route index element={< Onboarding1 hidden={false} />} />
+        <Route path="2" element={< Onboarding2 hidden={false} />} />
+        <Route path="3" element={< Onboarding3 hidden={false} text="Submit & Go to Dashboard"/>} />
+      </Route>
+      {/* </Route>  */}
+
+      {/* Therapist Dashboard */}
+      <Route path="/therapists" element={<LayoutTherapist />} >
+        <Route index element={< DashboardTherapist/>} />
+        <Route path="calendar" element={< CalendarTherapist />} />
+        <Route path="customers" element={< CustomersTherapist />} />
+        <Route path="customers/:id" element={<CustomerProfile />}  />
+        <Route path="payments" element={< PaymentsTherapist />} />
+        {/* <Route path="profile" element={< TherapistProfilePage />} /> */}
+        <Route path="settings" element={< SettingsTherapist />} />
       </Route>
     </Routes>
   );

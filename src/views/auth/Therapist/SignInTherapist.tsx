@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import LoginIcon from "@mui/icons-material/Login";
 import Typography from "@mui/material/Typography";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../Firebase";
+import { authTherapist } from "../../../FirebaseTherapist";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Alert } from "@mui/material";
 
@@ -25,15 +25,15 @@ function Copyright(props: any) {
     >
       {"Copyright © "}
       <a color="inherit" href="#">
-        Sakinah
-      </a>
+        Your Website
+      </a>{" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>
   );
 }
 
-export default function SignIn() {
+export default function SignInTherapist() {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -41,13 +41,13 @@ export default function SignIn() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(authTherapist, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         if (user.emailVerified) {
           console.log('user', user)
-          return user.displayName ? navigate("/") : navigate("/user-info");
+          return user.displayName ? navigate("/therapists") : navigate("/therapists/onboarding");
         } else {
           return setError("Please verify your email");
         }
@@ -67,7 +67,7 @@ export default function SignIn() {
         }
       });
   };
-
+  
   return (
     <>
       <CssBaseline />
@@ -150,8 +150,9 @@ export default function SignIn() {
                 justifyContent: "center",
                 marginBottom: 10,
               }}
-            >
-              <NavLink to="/auth/signup">
+       >
+        
+              <NavLink to="/auth/therapists/signup">
                 Don't have an account?{" "}
                 <span style={{ textDecoration: "underline", color: "#1976d2" }}>
                   Sign Up
