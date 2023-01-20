@@ -25,8 +25,7 @@ function Copyright(props: any) {
     >
       {"Copyright © "}
       <a color="inherit" href="#">
-        Your Website
-      </a>{" "}
+Sakinah      </a>{" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -50,8 +49,7 @@ export default function SignUp() {
         sendEmailVerification(user).then(() => {
           // Email verification sent!
           setMessage(
-            "Email verification sent! Please check your email. After verified your account, you can log in."
-          );
+            "Email verification sent! Please check your email including SPAM folder. After verified your account, you can log in."          );
           // navigate("/auth/login");
         });
       })
