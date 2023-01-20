@@ -3,17 +3,28 @@ import { Container } from "@mui/material";
 import { Box } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import Upload from '../Components/Upload';
-import { Link } from 'react-router-dom';
+import Upload from "../Components/Upload";
+import { Link } from "react-router-dom";
 
-const Onboarding1 = ({hidden}) => {
+const Onboarding1 = ({ hidden }) => {
 	const [gender, setGender] = useState(null);
 
 	const handleChange = (event, newAlignment) => {
 		setGender(newAlignment);
 	};
 
-	const qualifications = ["Consulting psychology", "Psychotherapist", "MSc", "BACP", "MBACP", "MSc", "MA", "PhD", "BACP", "Other"];
+	const qualifications = [
+		"Consulting psychology",
+		"Psychotherapist",
+		"MSc",
+		"BACP",
+		"MBACP",
+		"MSc",
+		"MA",
+		"PhD",
+		"BACP",
+		"Other",
+	];
 	const treatment = [
 		"Creative Therapy ",
 		"Cognitive Behavioural",
@@ -33,9 +44,12 @@ const Onboarding1 = ({hidden}) => {
 
 	return (
 		<div>
-
 			<Container>
-				<p className={`flex m-auto max-w-lg text-lg mt-12 text-stone-700 ${hidden && "hidden" } `}>
+				<p
+					className={`flex m-auto max-w-lg text-lg mt-12 text-stone-700 ${
+						hidden && "hidden"
+					} `}
+				>
 					Thank you for signing up to join our platform! We are grateful for your
 					interest and are looking forward to working with you. We know that your
 					time is valuable, and we appreciate you taking the time to complete the
@@ -329,21 +343,27 @@ const Onboarding1 = ({hidden}) => {
 						></textarea>
 					</div>
 
-					<Upload title="Upload CV (optional)"/>
+					<Upload title="Upload CV (optional)" />
 					<p className=" text-gray-600 text-xs italic">
-				Please upload your CV, so that we could take information from and put on your profile 	</p>
+						Please upload your CV, so that we could take information from and put on
+						your profile{" "}
+					</p>
 					<Upload title="Upload photo" />
 				</form>
-				
 			</Container>
 
-
-			<div className={`bg-gray-50 w-full mt-10 border-t border-blue-300 ${hidden && "hidden"}`}>
+			<div
+				className={`bg-gray-50 w-full mt-10 border-t border-blue-300 ${
+					hidden && "hidden"
+				}`}
+			>
 				<Container>
 					<div className="flex justify-between py-10">
-						<button className="btn-secondary " disabled>Back</button>
+						<button className="btn-secondary " disabled>
+							Back
+						</button>
 						<Link to="/therapists/onboarding/2">
-						<button className="btn-primary">Next</button>
+							<button className="btn-primary">Next</button>
 						</Link>
 					</div>
 				</Container>
