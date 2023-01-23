@@ -32,7 +32,7 @@ const LayoutTherapist = () => {
 
 	return (
 		<div className="flex">
-			<nav className="flex-none flex-nowrap h-screen block top-0 left-0 overflow-y-auto uppercase overflow-hidden shadow-xl bg-white  justify-between w-56 z-10 py-4 px-6 cursor-pointer">
+			<nav className="flex-none flex-nowrap h-full min-h-screen block top-0 left-0 overflow-y-auto uppercase overflow-hidden shadow-xl bg-white  justify-between w-56 z-10 py-4 px-6 cursor-pointer">
 				<div className="mb-10 "> SAKINAH LOGO </div>
 
 				{sidebar.map((item, index) => (
@@ -52,7 +52,6 @@ const LayoutTherapist = () => {
 					className="flex items-center text-xs uppercase py-3 font-bold   text-gray-600 hover:text-blue-500"
 					onClick={handleLogout}
 				>
-					{" "}
 					<ListItemIcon style={{ color: "inherit" }}>
 						<ExitToAppOutlinedIcon />{" "}
 					</ListItemIcon>{" "}

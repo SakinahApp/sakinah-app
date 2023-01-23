@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
@@ -14,156 +14,16 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import NoUpcomingSession from "../../../User/Components/NoUpcomingSession";
-import ActionUpcommingSession from "../ActionUpcomingSession";
 import data from "../Data/DummyData";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
-
-function Row(props) {
-	const { row } = props;
-	const [open, setOpen] = React.useState(false);
-
-	return (
-		<React.Fragment>
-			<TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-				<TableCell>
-					<IconButton
-						aria-label="expand row"
-						size="small"
-						onClick={() => setOpen(!open)}
-					>
-						{open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-					</IconButton>
-				</TableCell>
-				<TableCell component="th" scope="row">
-					{/* Need to iterate over the full list of object that's inside the array, not just the 1st object */}
-					<CalendarMonthOutlinedIcon style={{ color: "inherit" }} />{" "}
-					{row.upcommingSessions[0]["date"]}
-				</TableCell>
-				<TableCell align="left">{row.name}</TableCell>
-				<TableCell align="left">
-					<ScheduleOutlinedIcon style={{ color: "inherit" }} />
-					{row.upcommingSessions[0]["time"]}
-				</TableCell>
-				<TableCell align="left">{row.sessionNumber}</TableCell>
-				<TableCell align="left">{row.upcommingSessions[0]["status"][0]}</TableCell>
-				<TableCell align="left">
-					<ActionUpcommingSession />
-				</TableCell>
-			</TableRow>
-
-			<TableRow style={{ background: "#Ffffff", width: "100%" }}>
-				<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
-					<Collapse in={open} timeout="auto" unmountOnExit>
-						<Box sx={{ margin: 1 }}>
-							<Typography variant="body2" component="div">
-								Details
-							</Typography>
-							<Table size="small">
-								<TableRow>
-									<TableCell>{row.phone}</TableCell>
-									<TableCell>{row.email}</TableCell>
-									<TableCell>{row.location}</TableCell>
-								</TableRow>
-							</Table>
-
-							<Typography variant="body2" component="div">
-								Tags
-							</Typography>
-
-							<TableRow>
-								{row.tags.map((tag) => (
-									<span className="text-sm font-semibold inline-block m-1 py-1 px-2 uppercase rounded text-sky-700 bg-sky-200 last:mr-0 mr-1">
-										{" "}
-										{tag}
-									</span>
-								))}
-							</TableRow>
-							<Typography variant="body2" component="div">
-								Notes
-							</Typography>
-							<TableRow>
-								{row.notes.map((tag) => (
-									<div className="text-sm min-w-full  inline-block m-1 py-1 px-2  rounded text-black bg-yellow-50 last:mr-0 mr-1">
-										<p> {tag.note}</p>
-										<div className="text-xs text-gray-700">
-											<p> {tag.nameTherapist}</p>
-											<p> {tag.date}</p>
-										</div>
-									</div>
-								))}
-							</TableRow>
-							{/* Can be separate component Client Upcoming sessions */}
-							<Typography variant="body2" component="div">
-								Upcoming sessions
-							</Typography>
-
-							<Table size="small">
-								<TableHead>
-									<TableRow>
-										<TableCell>Date</TableCell>
-										<TableCell>Time</TableCell>
-										<TableCell>Status</TableCell>
-										<TableCell>Action</TableCell>
-									</TableRow>
-								</TableHead>
-								{row.upcommingSessions.map((item) => (
-									<TableRow>
-										<TableCell>
-											{" "}
-											<CalendarMonthOutlinedIcon style={{ color: "inherit" }} />
-											{item.date}
-										</TableCell>
-										<TableCell>
-											<ScheduleOutlinedIcon style={{ color: "inherit" }} />
-
-											{item.time}
-										</TableCell>
-										<TableCell>{item.status[1]}</TableCell>
-										<TableCell>
-											<ActionUpcommingSession />
-										</TableCell>
-									</TableRow>
-								))}
-								{/* Can be separate component Client Upcoming sessions */}
-							</Table>
-
-							<Typography variant="body2" component="div">
-								Past sessions
-							</Typography>
-							<Table size="small">
-								<TableHead>
-									<TableRow>
-										<TableCell>Date</TableCell>
-										<TableCell>Time</TableCell>
-										<TableCell>Status</TableCell>
-										<TableCell>Action</TableCell>
-									</TableRow>
-								</TableHead>
-								{row.pastSessions.map((item) => (
-									<TableRow>
-										<TableCell>
-											<CalendarMonthOutlinedIcon style={{ color: "inherit" }} />
-											{item.date}
-										</TableCell>
-										<TableCell>
-											<ScheduleOutlinedIcon style={{ color: "inherit" }} />
-											{item.time}
-										</TableCell>
-										<TableCell>{item.status[0]}</TableCell>
-										<TableCell>
-											<ActionUpcommingSession />
-										</TableCell>
-									</TableRow>
-								))}
-							</Table>
-						</Box>
-					</Collapse>
-				</TableCell>
-			</TableRow>
-		</React.Fragment>
-	);
-}
+import ActionUpcommingSession from "../ActionUpcomingSession";
+import clientData from "../Data/ClientDetails";
+import notesData from "../Data/NotesData";
+import sessionData from "../Data/SessionsData";
+import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
+import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 
 export default function TableTherapist() {
 	return (
@@ -173,19 +33,131 @@ export default function TableTherapist() {
 					<TableRow>
 						<TableCell />
 						<TableCell>Date</TableCell>
-						<TableCell align="left">Name</TableCell>
 						<TableCell align="left">Time</TableCell>
-						<TableCell align="left">Session</TableCell>
+						<TableCell align="left">Name</TableCell>
+						{/* <TableCell align="left">Session</TableCell> */}
 						<TableCell align="left">Status</TableCell>
 						<TableCell align="left">Action</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{data.map((item) => (
-						<Row key={item.name} row={item} />
+					{sessionData.map((session) => (
+						<TableTherapistRow session={session} />
 					))}
 				</TableBody>
 			</Table>
 		</TableContainer>
 	);
 }
+
+const TableTherapistRow = ({ session }) => {
+	const [open, setOpen] = useState(false);
+	const [expandedRows, setExpandedRows] = useState([]);
+
+	const handleRowClick = (userId) => {
+		if (expandedRows.includes(userId)) {
+			setExpandedRows(expandedRows.filter((id) => id !== userId));
+		} else {
+			setExpandedRows([...expandedRows, userId]);
+		}
+	};
+	return (
+		<React.Fragment key={session.user_id}>
+			<TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+				<TableCell>
+					<IconButton
+						aria-label="expand row"
+						size="small"
+						onClick={() => (setOpen(!open), handleRowClick(session.user_id))}
+					>
+						{open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+					</IconButton>
+				</TableCell>
+				<TableCell component="th" scope="row">
+					<CalendarMonthOutlinedIcon style={{ color: "gray" }} />
+					{session.date}
+				</TableCell>
+				<TableCell align="left">
+					<ScheduleOutlinedIcon style={{ color: "gray" }} />
+					{session.time}
+				</TableCell>
+				<TableCell align="left">{session.user_name}</TableCell>
+				{/* <TableCell align="left">{row.sessionNumber}</TableCell> */}
+				<TableCell align="left">{session.status[0]}</TableCell>
+				<TableCell align="left">
+					<ActionUpcommingSession />
+				</TableCell>
+			</TableRow>
+
+			{expandedRows.includes(session.user_id) &&
+				clientData
+					.filter((client) => client.user_id === session.user_id)
+					.map((client) => (
+						<TableRow style={{ background: "#Ffffff", width: "100%" }}>
+							<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+								<Collapse in={open} timeout="auto" unmountOnExit>
+									<Box sx={{ margin: 1 }}>
+										<Typography variant="body2" component="div">
+											Details
+										</Typography>
+										<Table size="small">
+											<TableRow>
+												<TableCell>
+													<AlternateEmailIcon style={{ color: "gray" }}/>
+													{client.email}
+												</TableCell>
+												<TableCell>
+													<LocalPhoneOutlinedIcon style={{ color: "gray" }}/> {client.phone}
+												</TableCell>
+												<TableCell>
+													<LocationOnOutlinedIcon style={{ color: "gray" }}/>
+													{client.location}
+												</TableCell>
+											</TableRow>
+										</Table>
+										<Typography variant="body2" component="div">
+											Tags
+										</Typography>
+										{client.tags.map((tag) => (
+											<span className="text-sm font-semibold inline-block m-1 py-1 px-2 uppercase rounded text-sky-700 bg-sky-200 last:mr-0 mr-1">
+												{tag}
+											</span>
+										))}
+										<Typography variant="body2" component="div">
+											Notes
+										</Typography>
+										<TableRow>
+											{expandedRows.includes(session.user_id) &&
+												notesData
+													.filter((note) => note.user_id === session.user_id)
+													.map((note) =>
+														note.writtenBy === "user" ? (
+															<div className="text-sm min-w-full  inline-block m-1 py-1 px-2  text-black bg-pink-50 last:mr-0 mr-1">
+																<p> {note.note}</p>
+																<div className="text-xs text-gray-700">
+																	<p className="mt-2">Note from the client</p>
+																	<p> {note.date}</p>
+																</div>
+															</div>
+														) : (
+															<div className="text-sm min-w-full  inline-block m-1 py-1 px-2  text-black bg-yellow-50 last:mr-0 mr-1">
+																<p> {note.note}</p>
+																<div className="text-xs text-gray-700">
+																	<p className="mt-2">
+																		Notes from the therapist : {note.nameTherapist}
+																	</p>
+																	<p> {note.date}</p>
+																</div>
+															</div>
+														)
+													)}
+										</TableRow>
+										<TableRow />
+									</Box>
+								</Collapse>
+							</TableCell>
+						</TableRow>
+					))}
+		</React.Fragment>
+	);
+};
