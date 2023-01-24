@@ -28,7 +28,6 @@ function NoUpcomingSession(props) {
   // fetch upcoming sessions for the current user and add them to session[]
   async function fetchData() {
     const sessions = [];
-    // set filter for fetch
     try {
       const q = query(
         collection(db, "therapy-session"),
@@ -37,13 +36,10 @@ function NoUpcomingSession(props) {
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        // console.log(" => ", doc.data());
         sessions.push({ ...doc.data(), docId: doc.id });
       });
 
       setUpcomingSession(sessions);
-      console.log("sessions", sessions);
     } catch (error) {
       console.log("error", error);
     }

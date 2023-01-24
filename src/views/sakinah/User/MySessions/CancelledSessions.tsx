@@ -13,21 +13,18 @@ import { useStore } from "../../../../Zustand";
 import dayjs from "dayjs";
 import { Box } from "@mui/material";
 
-export default function PrevSessions() {
+export default function CancelledSessions() {
   const { upcomingSessionState } = useStore((state) => state);
 
   // Filtering previous sessions
-  const now = dayjs().unix();
 
-  const prevSessions =
+  const cancelledSessions =
     upcomingSessionState?.length > 0 &&
-    upcomingSessionState?.filter(
-      (session) =>
-        dayjs(session.date + " " + session.time?.slice(0, 5)).unix() < now
-    );
+    upcomingSessionState?.filter((session) => session.cancel === true);
 
   return (
     <Box sx={{ marginTop: "40px" }}>
+      <CssBaseline />
       <h3
         style={{
           fontWeight: 600,
@@ -36,7 +33,7 @@ export default function PrevSessions() {
           color: "#5f616a",
         }}
       >
-        Previous Sessions
+        Cancelled Sessions
       </h3>
       <TableContainer
         component={Paper}
@@ -46,7 +43,6 @@ export default function PrevSessions() {
           boxShadow: "none",
         }}
       >
-        <CssBaseline />
         <Table aria-label="simple table">
           <TableHead>
             <TableRow
@@ -75,8 +71,8 @@ export default function PrevSessions() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {prevSessions?.length > 0 &&
-              prevSessions
+            {cancelledSessions?.length > 0 &&
+              cancelledSessions
                 ?.sort(
                   (a, b) =>
                     dayjs(b.date + " " + b.time?.slice(0, 5)).unix() -
@@ -85,7 +81,9 @@ export default function PrevSessions() {
                 ?.map((row, index) => (
                   <TableRow
                     key={row.docId}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                    }}
                   >
                     <TableCell
                       component="th"
