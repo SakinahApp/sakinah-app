@@ -122,7 +122,7 @@ export default function AccountMenu() {
             <ListItemIcon>
               <Settings fontSize="small" />
             </ListItemIcon>
-            Profile settings
+            Profile Settings
           </Link>
         </MenuItem>
         <Divider />
