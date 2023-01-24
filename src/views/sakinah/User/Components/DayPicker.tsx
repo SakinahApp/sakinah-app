@@ -15,8 +15,8 @@ const isWeekend = (date: Dayjs) => {
 };
 
 export default function DayPicker({ therapist, open, setOpen }) {
-  const [value, setValue] = React.useState<Dayjs | null>(dayjs("2022-12-07"));
-  const [time, setTime] = React.useState("11:00-12:00");
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs());
+  const [time, setTime] = React.useState("09:00");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
   const date = dayjs(value).format("LL");
@@ -59,19 +59,20 @@ export default function DayPicker({ therapist, open, setOpen }) {
           justifyContent: "center",
           flexWrap: "wrap",
           margin: 0,
-          marginTop: "25px",
+          marginTop: "15px",
         }}
       >
         {[
-          "08:00-09:00",
-          "09:00-10:00",
-          "10:00-11:00",
-          "11:00-12:00",
-          "12:00-13:00",
-          "13:00-14:00",
-          "14:00-15:00",
-          "15:00-16:00",
-          "16:00-17:00",
+          "08:00",
+          "09:00",
+          "10:00",
+          "11:00",
+          "12:00",
+          "13:00",
+          "14:00",
+          "15:00",
+          "16:00",
+          "17:00",
         ].map((item, index) => (
           <Button
             key={index}
