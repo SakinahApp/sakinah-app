@@ -11,15 +11,21 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import CloseIcon from "@mui/icons-material/Close";
 
-function ConfirmBooking({ therapist, open, setOpen, date, time }) {
+function ConfirmBooking({
+  therapist,
+  open,
+  setOpen,
+  date,
+  time,
+  setOpenSnackbar,
+}) {
   const { setUpcomingSession } = useStore((state) => state);
   const { userInfo, setUserInfo } = useStoreUser((state) => state);
-  const { setSnackbarOpen } = useStoreTemporary((state) => state);
 
   // Add a new session with a generated id.
   async function addSession() {
     try {
-      const docRef = await addDoc(collection(db, "therapy-session"), {
+      await addDoc(collection(db, "therapy-session"), {
         // room_code: Math.floor(100000 + Math.random() * 900000),
         therapist_id: therapist.id,
         therapist_name: therapist.fullName,
@@ -32,7 +38,7 @@ function ConfirmBooking({ therapist, open, setOpen, date, time }) {
         user_email: userInfo.email,
         cancel: false,
       });
-      setSnackbarOpen(true);
+      setOpenSnackbar(true);
       return;
     } catch (e) {
       console.log(e);

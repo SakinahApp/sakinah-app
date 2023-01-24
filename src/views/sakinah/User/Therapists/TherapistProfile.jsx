@@ -1,7 +1,6 @@
 import { Avatar, Box, Button, Chip } from '@mui/material';
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom'
-import ConfirmBooking from '../Components/ConfirmBooking';
 import Calendar from './Calendar';
 import therapistImage from '../images/therapist1.png'
 
