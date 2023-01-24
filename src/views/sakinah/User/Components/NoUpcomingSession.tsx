@@ -25,6 +25,8 @@ function NoUpcomingSession(props) {
         dayjs(session.date + " " + session.time?.slice(0, 5)).unix() >= now
     );
 
+  console.log("upSessions", upSessions);
+
   // fetch upcoming sessions for the current user and add them to session[]
   async function fetchData() {
     const sessions = [];
@@ -38,6 +40,8 @@ function NoUpcomingSession(props) {
       querySnapshot.forEach((doc) => {
         sessions.push({ ...doc.data(), docId: doc.id });
       });
+
+      console.log("sessions :>> ", sessions);
 
       setUpcomingSession(sessions);
     } catch (error) {
@@ -58,7 +62,8 @@ function NoUpcomingSession(props) {
         message="You have successfully cancelled your sessions!"
       />
 
-      {!upSessions || upSessions.length === 0 ? (
+      {!upSessions ||
+      upSessions.filter((item) => item.cancel !== true).length === 0 ? (
         <div
           style={{
             boxShadow:
