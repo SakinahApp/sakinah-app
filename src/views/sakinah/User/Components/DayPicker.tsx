@@ -7,6 +7,7 @@ import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
 import { Box, Button } from "@mui/material";
 import "./Style.css";
 import ConfirmBooking from "./ConfirmBooking";
+import SnackbarX from "./SnackbarX";
 
 const isWeekend = (date: Dayjs) => {
   const day = date.day();
@@ -16,6 +17,7 @@ const isWeekend = (date: Dayjs) => {
 export default function DayPicker({ therapist, open, setOpen }) {
   const [value, setValue] = React.useState<Dayjs | null>(dayjs("2022-12-07"));
   const [time, setTime] = React.useState("11:00-12:00");
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
   const date = dayjs(value).format("LL");
 
@@ -29,8 +31,15 @@ export default function DayPicker({ therapist, open, setOpen }) {
         therapist={therapist}
         open={open}
         setOpen={setOpen}
+        setOpenSnackbar={setOpenSnackbar}
         date={date}
         time={time}
+      />
+      <SnackbarX
+        open={openSnackbar}
+        setOpen={setOpenSnackbar}
+        backgroundColor="#32a676"
+        message="The session has been successfully booked!"
       />
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <StaticDatePicker

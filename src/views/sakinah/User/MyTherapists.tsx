@@ -2,7 +2,6 @@ import React from "react";
 import { therapistData } from "../../../data/Data";
 // import {therapistData}
 import { useStoreUser } from "../../../Zustand";
-import ConfimrBooking from "./Components/ConfirmBooking";
 import ChosenPrefrences from "./Therapists/ChosenPrefrences";
 import TherapistCard from "./Therapists/TherapistCard";
 
