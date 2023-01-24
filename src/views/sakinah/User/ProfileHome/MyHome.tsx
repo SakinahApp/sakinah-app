@@ -1,80 +1,20 @@
 import React from "react";
 import NoUpcomingSession from "../Components/NoUpcomingSession";
 import TherapistAvatars from "../Components/TherapistAvatars";
-import welcomeImage from "./subscribe.svg";
-import { useStoreUser } from "../../../../Zustand";
-import { auth } from "../../../../Firebase";
+import MyTherapists from "../MyTherapists";
+import Navbar from "../Navbar";
 
 function MyHome() {
-  const { userInfo } = useStoreUser((state) => state);
-
   return (
-    <div style={{ display: "flex", height: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <Navbar />
       <div style={{ display: "flex" }}>
-        <div
-          style={{
-            background: "#5f6ac4",
-            padding: "20px 30px 30px",
-            flex: 1,
-            margin: 10,
-            borderRadius: 8,
-            color: "white",
-            // height: "100%",
-          }}
-        >
-          <h3 style={{ marginBottom: 20, fontWeight: 600, fontSize: 22 }}>
-            As-salamu aleikum, {userInfo?.name || ""}! 🙂
-          </h3>
-          <p>
-            We are glad that you have taken the step to seek support and
-            guidance for your mental health and well-being. We are here to
-            provide a safe and confidential space for you to share your
-            thoughts, feelings, and experiences.
-          </p>
-          <br />
-          <p>
-            May Allah bless and guide you on your journey towards healing and
-            growth.
-          </p>
-          <img
-            src={welcomeImage}
-            style={{ width: 400, margin: "auto" }}
-            alt=""
-          />
-        </div>
         <div style={{ display: "flex", flex: 2, flexDirection: "column" }}>
           <NoUpcomingSession num={1} />
-          <TherapistAvatars />
+          {/* <TherapistAvatars /> */}
+          <MyTherapists />
         </div>
       </div>
-      {/* <div style={{ display: "flex", height: "100%" }}>
-        <div
-          style={{
-            background: "#5f6ac4",
-            padding: "20px 20px 30px",
-            flex: 1,
-            margin: 10,
-            borderRadius: 8,
-            color: "white",
-            height: "100%",
-          }}
-        >
-          How to deal with mental health?
-        </div>
-        <div
-          style={{
-            background: "#5f6ac4",
-            padding: "20px 20px 30px",
-            flex: 1,
-            margin: 10,
-            borderRadius: 8,
-            color: "white",
-            height: "100%",
-          }}
-        >
-          How to deal with mental health?
-        </div>
-      </div> */}
     </div>
   );
 }

@@ -86,10 +86,7 @@ export default function ConfirmationModal({
           <Button
             onClick={handleYes}
             autoFocus
-            style={{
-              backgroundColor: "rgb(95, 106, 196)",
-              color: "white",
-            }}
+            style={{ backgroundColor: "rgb(95, 106, 196)", color: "white" }}
           >
             Yes
           </Button>

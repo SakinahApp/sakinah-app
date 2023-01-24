@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useStore, useStoreUser } from "../../../../Zustand";
@@ -115,10 +115,28 @@ function NoUpcomingSession(props) {
         </div>
       ) : (
         <>
-          <div>
+          <h3
+            style={{
+              margin: 10,
+              fontWeight: 600,
+              fontSize: 19,
+              color: "#5f616a",
+            }}
+          >
+            Upcoming Sessions
+          </h3>
+          <div
+            style={{
+              display: "flex",
+              overflowX: "scroll",
+              overflowY: "hidden",
+              boxSizing: "border-box",
+              width: "calc(100vw - 290px)",
+            }}
+          >
             {upSessions?.length > 0 &&
               upSessions
-                ?.slice(0, props.num)
+                // ?.slice(0, props.num)
                 ?.sort(
                   (a, b) =>
                     dayjs(a.date + " " + a.time?.slice(0, 5)).unix() -
@@ -129,7 +147,7 @@ function NoUpcomingSession(props) {
                   <TherapySession session={session} upSessions={upSessions} />
                 ))}
           </div>
-          <div>
+          {/* <Box>
             {upSessions?.length > 0 &&
               upSessions
                 ?.slice(0, props.num)
@@ -142,7 +160,7 @@ function NoUpcomingSession(props) {
                 .map((session, index) => (
                   <TherapySession session={session} upSessions={upSessions} />
                 ))}
-          </div>
+          </Box> */}
         </>
       )}
     </>

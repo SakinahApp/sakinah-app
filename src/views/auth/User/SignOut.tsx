@@ -9,10 +9,12 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import { auth } from "../../../../Firebase";
+import { auth } from "../../../Firebase";
 import { signOut } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
-import { useStoreUser } from "../../../../Zustand";
+import { useStoreUser } from "../../../Zustand";
+import { Button } from "@mui/material";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 export default function AccountMenu() {
   const navigate = useNavigate();
@@ -43,6 +45,17 @@ export default function AccountMenu() {
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+        <Link to="/therapists">
+          <Button
+            variant="contained"
+            style={{ background: "rgb(95, 106, 196)", width: "100%" }}
+          >
+            <CalendarMonthIcon
+              style={{ width: 17, height: 17, marginRight: 5 }}
+            />
+            Book
+          </Button>
+        </Link>
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
@@ -52,7 +65,14 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32, border: "1px solid white" }}>
+            <Avatar
+              sx={{
+                width: 34,
+                height: 34,
+                border: "2px solid rgb(95, 106, 196)",
+                background: "rgba(95, 106, 196, 0.05)",
+              }}
+            >
               {userInfo?.name?.slice(0, 1)}
             </Avatar>
           </IconButton>

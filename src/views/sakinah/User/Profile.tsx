@@ -26,7 +26,6 @@ function Profile(props: any) {
   return (
     <Grid sx={{ width: "100%" }}>
       <ThemeProvider theme={theme}>
-        <Navbar />
         <Grid
           item
           xs={12}
@@ -43,14 +42,15 @@ function Profile(props: any) {
           <Sidebar />
           <Box
             style={{
-              background: "white",
+              background: "#5f6ac40a",
               padding: "20px",
               borderRadius: 5,
               maxWidth: "none",
-              height: "calc(100vh - 100px)",
-              margin: "5px 10px 10px 5px",
+              height: "calc(100vh - 0px)",
+              // margin: "5px 10px 10px 5px",
               width: "100%",
               overflowY: "scroll",
+              overflowX: "hidden",
             }}
           >
             <Outlet />

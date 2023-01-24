@@ -25,9 +25,25 @@ function ForgotPassword(props) {
       });
   };
   return (
-    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      noValidate
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        maxWidth: "100%",
+        minWidth: "400px",
+        background: "#5f6ac40f",
+        borderRadius: "8px",
+        padding: 5,
+        paddingTop: "30px",
+        margin: "10px",
+      }}
+    >
       <CssBaseline />
-
       <Typography component="h1" variant="h5" mb="10px">
         Reset Password
       </Typography>
