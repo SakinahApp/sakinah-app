@@ -50,7 +50,7 @@ export default function DayPicker({ therapist, open, setOpen }) {
           justifyContent: "center",
           flexWrap: "wrap",
           margin: 0,
-          marginTop: "-25px",
+          marginTop: "25px",
         }}
       >
         {[

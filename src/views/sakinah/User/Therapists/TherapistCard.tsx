@@ -8,11 +8,11 @@ function TherapistCard({ details }) {
     <div
       style={{
         padding: "20px 10px",
-        width: 240,
+        width: 200,
         marginRight: 20,
         borderRadius: 23,
         color: "white",
-        height: 300,
+        height: 250,
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
@@ -22,22 +22,22 @@ function TherapistCard({ details }) {
     >
       <Avatar
         src={therapistImage}
-        sx={{ bgcolor: "purple", width: 90, height: 90 }}
+        sx={{ bgcolor: "purple", width: 70, height: 70 }}
       />
 
       <Box display="flex" alignItems="center" flexDirection="column">
-        <h4
+        <h5
           style={{
             color: "#323331",
             fontWeight: 600,
-            fontSize: 18,
+            fontSize: 16,
             padding: 0,
             margin: 0,
+            marginTop: 8,
           }}
         >
           {details.fullName}
-        </h4>
-        <p style={{ color: "grey" }}>Therapist #22</p>
+        </h5>
         <Link to={`/therapist/${details.id}`} state={{ therapist: details }}>
           <p
             style={{
@@ -57,9 +57,10 @@ function TherapistCard({ details }) {
             padding: "3px 10px",
             background: "white",
             border: "2px solid rgb(226, 109, 128)",
-            width: "55px",
+            width: "50px",
             borderRadius: 12,
-            marginBottom: 20,
+            marginBottom: 15,
+            fontSize: "13px",
           }}
         >
           £50

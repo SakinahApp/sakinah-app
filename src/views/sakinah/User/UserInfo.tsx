@@ -91,117 +91,119 @@ export default function UserInfo() {
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        margin: "20px 40px",
+        padding: "100px",
+        background: "white",
+      }}
+    >
       <CssBaseline />
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: "column",
           alignItems: "start",
-          margin: "20px 40px",
-          padding: "100px",
+          maxWidth: "650px",
+          background: "#5f6ac40f",
+          borderRadius: "8px",
+          padding: 5,
+          paddingTop: "30px",
+          margin: "10px",
         }}
       >
-        <Box
-          sx={{
+        <p
+          style={{
             display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-            flexDirection: "column",
+            alignItems: "Start",
+            fontWeight: 600,
+            fontSize: 22,
+            margin: "10px 0px",
           }}
         >
-          <p
-            style={{
-              display: "flex",
-              alignItems: "center",
-              fontWeight: 600,
-              fontSize: 22,
-              margin: "10px 0px",
-            }}
-          >
-            {/* <Avatar sx={{ m: 1, bgcolor: "rgb(95, 106, 196)" }}>
+          {/* <Avatar sx={{ m: 1, bgcolor: "rgb(95, 106, 196)" }}>
             <SettingsIcon />
           </Avatar> */}
-            Profile details
-          </p>
-          <p>
-            Please fill basic information about yourself. (*You can use any
-            name)
-          </p>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 5, maxWidth: 500 }}
-          >
-            <Grid container spacing={4}>
-              <Grid item xs={12}>
-                <TextField
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="Name"
-                  autoFocus
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  type="number"
-                  fullWidth
-                  label="Age"
-                  value={age}
-                  onChange={(e) => setAge(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <ToggleButtonGroup
-                  color="primary"
-                  value={gender}
-                  exclusive
-                  onChange={handleChange}
-                  aria-label="Platform"
-                  style={{ borderColor: "#e5e7eb", height: 56 }}
-                >
-                  <ToggleButton
-                    value="male"
-                    style={{
-                      display: "flex",
-                      flex: 1,
-                      width: 250,
-                      borderColor: "#e5e7eb",
-                    }}
-                  >
-                    Male
-                  </ToggleButton>
-                  <ToggleButton
-                    value="female"
-                    style={{
-                      display: "flex",
-                      flex: 1,
-                      width: 250,
-                      borderColor: "#e5e7eb",
-                    }}
-                  >
-                    Female
-                  </ToggleButton>
-                </ToggleButtonGroup>
-              </Grid>
+          Profile details
+        </p>
+        <p>Enter details to set up ypur account (*Use any name)</p>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={handleSubmit}
+          sx={{ mt: 5, maxWidth: 500 }}
+        >
+          <Grid container spacing={4}>
+            <Grid item xs={12}>
+              <TextField
+                name="firstName"
+                required
+                fullWidth
+                id="firstName"
+                label="Name"
+                autoFocus
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 8, mb: 2, background: "rgb(226, 109, 128)" }}
-            >
-              Next
-            </Button>
-          </Box>
+            <Grid item xs={12}>
+              <TextField
+                type="number"
+                fullWidth
+                label="Age"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <ToggleButtonGroup
+                color="primary"
+                value={gender}
+                exclusive
+                onChange={handleChange}
+                aria-label="Platform"
+                style={{ borderColor: "#e5e7eb", height: 56 }}
+              >
+                <ToggleButton
+                  value="male"
+                  style={{
+                    display: "flex",
+                    flex: 1,
+                    width: 250,
+                    borderColor: "#e5e7eb",
+                  }}
+                >
+                  Male
+                </ToggleButton>
+                <ToggleButton
+                  value="female"
+                  style={{
+                    display: "flex",
+                    flex: 1,
+                    width: 250,
+                    borderColor: "#e5e7eb",
+                  }}
+                >
+                  Female
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </Grid>
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 8, mb: 2, background: "rgb(226, 109, 128)" }}
+          >
+            Next
+          </Button>
         </Box>
-        <img src={photo} style={{ width: 450 }} alt="profile" />
       </Box>
-    </>
+      <img src={photo} style={{ width: 450 }} alt="profile" />
+    </Box>
   );
 }

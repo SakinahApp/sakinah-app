@@ -21,6 +21,7 @@ function Calendar({ therapist }) {
           justifyContent: "space-between",
           alignItems: "center",
           flexDirection: "column",
+          background: "white",
         }}
       >
         <Box
@@ -36,6 +37,7 @@ function Calendar({ therapist }) {
               fontSize: "17px",
               fontWeight: 600,
               color: "rgb(50, 51, 49)",
+              marginBottom: 20,
             }}
           >
             Pick your session

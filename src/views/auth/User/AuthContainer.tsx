@@ -1,6 +1,7 @@
 import { Box, Container } from "@mui/system";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Outlet } from "react-router-dom";
+import WelcomeMessage from "../../sakinah/User/Components/WelcomeMessage";
 
 const theme = createTheme();
 
@@ -10,24 +11,17 @@ function AuthContainer(props: any) {
       sx={{
         width: "100vw",
         height: "100vh",
-        background: "#e0e0e0",
+        background: "white",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
       }}
     >
       <ThemeProvider theme={theme}>
-        <Container
-          component="main"
-          maxWidth="xs"
-          style={{
-            background: "white",
-            padding: "40px",
-            borderRadius: 5,
-          }}
-        >
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <WelcomeMessage />
           <Outlet />
-        </Container>
+        </Box>
       </ThemeProvider>
     </Box>
   );

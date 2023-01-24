@@ -1,5 +1,6 @@
-import { Chip } from "@mui/material";
 import React from "react";
+import { therapistData } from "../../../data/Data";
+// import {therapistData}
 import { useStoreUser } from "../../../Zustand";
 import ConfimrBooking from "./Components/ConfirmBooking";
 import ChosenPrefrences from "./Therapists/ChosenPrefrences";
@@ -9,7 +10,14 @@ function MyTherapists() {
   const { userInfo } = useStoreUser();
 
   return (
-    <div style={{ overflowY: "scroll", overflow: "hidden" }}>
+    <div
+      style={{
+        overflowY: "scroll",
+        overflow: "hidden",
+        width: "calc(100vw - 290px)",
+        marginTop: "30px",
+      }}
+    >
       <h3
         style={{ margin: 10, fontWeight: 600, fontSize: 19, color: "#5f616a" }}
       >
@@ -21,6 +29,7 @@ function MyTherapists() {
           flexWrap: "nowrap",
           overflowX: "scroll",
           marginBottom: 45,
+          marginLeft: "10px",
         }}
       >
         {therapistData.map((item, index) => (
@@ -50,48 +59,3 @@ function MyTherapists() {
 }
 
 export default MyTherapists;
-
-const therapistData = [
-  {
-    id: 1,
-    fullName: "Akbar Hussain",
-    background: "#f5f5f5",
-    link: "https://teleport.video/sakinah/yaseenavgani",
-  },
-  {
-    id: 2,
-    fullName: "Akbar Hussain",
-    background: "#fff4e8",
-    link: "https://teleport.video/sakinah/yaseenavgani",
-  },
-  {
-    id: 3,
-    fullName: "Akbar Hussain",
-    background: "#e0f1f0",
-    link: "https://teleport.video/sakinah/yaseenavgani",
-  },
-  {
-    id: 4,
-    fullName: "Akbar Hussain",
-    background: "#f1e0e0",
-    link: "https://teleport.video/sakinah/yaseenavgani",
-  },
-  {
-    id: 4,
-    fullName: "Akbar Hussain",
-    background: "#e0e1f1",
-    link: "https://teleport.video/sakinah/yaseenavgani",
-  },
-];
-
-const prefData = [
-  "Feeling sad",
-  "feeling Low",
-  "Happy",
-  "Feeling sad",
-  "feeling Low",
-  "Happy",
-  "Feeling sad",
-  "feeling Low",
-  "Happy",
-];
