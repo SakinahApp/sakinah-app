@@ -142,7 +142,7 @@ function TherapySession({ session, upSessions }) {
             <AccessTimeIcon
               style={{
                 color: "rgb(110 110 110 / 96%)",
-                width: 27,
+                width: 30,
                 height: 27,
                 marginLeft: -3,
                 marginRight: 5,
