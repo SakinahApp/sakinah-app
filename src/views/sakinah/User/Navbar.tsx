@@ -26,8 +26,8 @@ function Navbar() {
         justifyContent: "space-between",
       }}
     >
-      <h3 style={{ fontWeight: 300, fontSize: 25, color: "#323331" }}>
-        As-salamu aleikum, <strong>{userInfo?.name || ""}</strong>! 🙂
+      <h3 style={{ fontSize: 25, color: "#32325d" }}>
+        As-salamu aleikum, <strong>{userInfo?.name || ""}!</strong> 🙂
       </h3>
       <AccountMenu />
     </Grid>
