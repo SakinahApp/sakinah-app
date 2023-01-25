@@ -35,7 +35,9 @@ function Statistics(props) {
     },
     {
       name: "Amount Paid",
-      number: `£${prevSessions?.length * 50}`,
+      number: `£${
+        (upcomingSessionState?.length - cancelledSessions?.length) * 50
+      }`,
     },
   ];
 
