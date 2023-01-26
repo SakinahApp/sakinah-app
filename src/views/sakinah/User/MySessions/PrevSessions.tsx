@@ -44,6 +44,7 @@ export default function PrevSessions() {
           margin: "20px 10px 10px",
           width: "calc(100% - 25px)",
           boxShadow: "none",
+          maxHeight: "600px",
         }}
       >
         <CssBaseline />

@@ -41,6 +41,7 @@ export default function CancelledSessions() {
           margin: "20px 10px 10px",
           width: "calc(100% - 25px)",
           boxShadow: "none",
+          maxHeight: "600px",
         }}
       >
         <Table aria-label="simple table">
