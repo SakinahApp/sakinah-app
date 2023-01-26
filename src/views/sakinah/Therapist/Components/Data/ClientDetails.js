@@ -1,6 +1,6 @@
 const clientData = [
 	{
-		user_id: 1,
+		user_id: "1",
 		user_name: "Salih Uddin",
 		gender: "Male",
 		age: 25,
@@ -20,7 +20,7 @@ const clientData = [
 		location: "Tajikistan",
 	},
 	{
-		user_id: 2,
+		user_id: "2",
 		user_name: "Sabrina Salaha",
 		gender: "Female",
 		age: 25,
@@ -37,10 +37,10 @@ const clientData = [
 			"Guilt",
 			"Burnout",
 		],
-		location: "Tajikistan",
+		location: "UAE",
 	},
 	{
-		user_id: 3,
+		user_id: "3",
 		user_name: "Andrew Tatov",
 		gender: "Male",
 		age: 23,
@@ -57,10 +57,10 @@ const clientData = [
 			"Guilt",
 			"Burnout",
 		],
-		location: "Tajikistan",
+		location: "EU",
 	},
 	{
-		user_id: 4,
+		user_id: "4",
 		user_name: "Hadija Uddin",
 		gender: "Female",
 		age: 31,
@@ -77,7 +77,7 @@ const clientData = [
 			"Guilt",
 			"Burnout",
 		],
-		location: "Tajikistan",
+		location: "UK",
 	},
 ];
 
