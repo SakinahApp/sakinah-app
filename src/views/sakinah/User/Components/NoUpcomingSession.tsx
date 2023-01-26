@@ -25,8 +25,6 @@ function NoUpcomingSession(props) {
         dayjs(session.date + " " + session.time?.slice(0, 5)).unix() >= now
     );
 
-  console.log("upSessions", upSessions);
-
   // fetch upcoming sessions for the current user and add them to session[]
   async function fetchData() {
     const sessions = [];

@@ -1,7 +1,6 @@
 import React from "react";
 import NoUpcomingSession from "./Components/NoUpcomingSession";
 import Statistics from "./Components/Statistics";
-import TherapistAvatars from "./Components/TherapistAvatars";
 import MyTherapists from "./MyTherapists";
 import Navbar from "./Navbar";
 
@@ -12,8 +11,7 @@ function MyDashboard() {
       <div style={{ display: "flex" }}>
         <div style={{ display: "flex", flex: 2, flexDirection: "column" }}>
           <NoUpcomingSession num={1} />
-          <Statistics />
-          {/* <TherapistAvatars /> */}
+          <Statistics displayGraphs={false} />
           <MyTherapists />
         </div>
       </div>
