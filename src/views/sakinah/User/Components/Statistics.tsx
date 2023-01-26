@@ -53,7 +53,7 @@ function Statistics(props) {
       name: "Amount Paid",
       color: "rgb(94 196 151 / 8%)",
       number: `£${
-        (upcomingSessionState?.length - cancelledSessions?.length) * 50
+        (upcomingSessionState?.length - cancelledSessions?.length) * 50 || 0
       }`,
       icon: <PaidIcon style={{ width: 50, height: 50, color: "#5fc497" }} />,
     },
@@ -107,7 +107,7 @@ function Statistics(props) {
                   color: "rgb(50, 51, 49)",
                 }}
               >
-                {item.number}
+                {item.number || 0}
               </h2>
               <p style={{ fontSize: 15, color: "rgba(50, 51, 49, 0.8)" }}>
                 {item.name}
