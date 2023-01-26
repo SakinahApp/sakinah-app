@@ -9,7 +9,7 @@ import Login from "./views/auth/User/SignIn";
 import SignUp from "./views/auth/User/SignUp";
 import Profile from "./views/sakinah/User/Profile";
 import Preferences from "./views/sakinah/User/MyPreferences";
-import MyHome from "./views/sakinah/User/ProfileHome/MyHome";
+import MyDashboard from "./views/sakinah/User/MyDashboard";
 import MySessions from "./views/sakinah/User/MySessions";
 import MyTherapists from "./views/sakinah/User/MyTherapists";
 import MySettings from "./views/sakinah/User/MySettings";
@@ -24,7 +24,6 @@ import { useStoreUser } from "./Zustand";
 
 function App() {
   const { userInfo, setUserInfo, userLogin, setUserLogin } = useStoreUser();
-
 
   // Fetch current user data
   async function fetchData(uid: string) {
@@ -63,7 +62,7 @@ function App() {
         <Route path="/user-preferences" element={<MyPreferences />} />
         <Route path="user-info" element={<UserInfo />} />
         <Route path="/" element={<Profile />}>
-          <Route index element={<MyHome />} />
+          <Route index element={<MyDashboard />} />
           <Route path="preferences" element={<Preferences />} />
           <Route path="sessions" element={<MySessions />} />
           <Route path="therapists" element={<MyTherapists />} />
