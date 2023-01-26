@@ -9,23 +9,10 @@ import Paper from "@mui/material/Paper";
 import { Avatar } from "@mui/material";
 import therapistImage from "../images/therapist1.png";
 import CssBaseline from "@mui/material/CssBaseline";
-import { useStore } from "../../../../Zustand";
 import dayjs from "dayjs";
 import { Box } from "@mui/material";
 
-export default function PrevSessions() {
-  const { upcomingSessionState } = useStore((state) => state);
-
-  // Filtering previous sessions
-  const now = dayjs().unix();
-
-  const prevSessions =
-    upcomingSessionState?.length > 0 &&
-    upcomingSessionState?.filter(
-      (session) =>
-        dayjs(session.date + " " + session.time?.slice(0, 5)).unix() < now
-    );
-
+export default function SessionsList({ title, data }) {
   return (
     <Box sx={{ marginTop: "40px" }}>
       <h3
@@ -36,7 +23,7 @@ export default function PrevSessions() {
           color: "#5f616a",
         }}
       >
-        Previous Sessions
+        {title}
       </h3>
       <TableContainer
         component={Paper}
@@ -76,8 +63,8 @@ export default function PrevSessions() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {prevSessions?.length > 0 &&
-              prevSessions
+            {data?.length > 0 &&
+              data
                 ?.sort(
                   (a, b) =>
                     dayjs(b.date + " " + b.time?.slice(0, 5)).unix() -
