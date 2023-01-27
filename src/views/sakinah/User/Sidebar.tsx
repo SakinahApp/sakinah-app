@@ -164,7 +164,7 @@ const data = [
     icon: <PersonIcon />,
   },
   {
-    name: "My Preferences",
+    name: "Conditions",
     link: "/preferences",
     icon: <AcUnitIcon />,
   },
