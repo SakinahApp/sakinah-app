@@ -11,6 +11,7 @@ import { db } from "../../../Firebase";
 import { updateDoc, doc } from "firebase/firestore";
 import { useStoreUser } from "../../../Zustand";
 import SnackbarX from "./Components/SnackbarX";
+import ConditionsTags from "./Components/ConditionsTags";
 
 // Feelings and emotions, complex experiences and states
 const situationData = [
@@ -82,11 +83,8 @@ const difficult_experiences = [
 ];
 
 const styling = {
-  // background: "rgb(245, 245, 245)",
   borderRadius: 10,
-  // margin: "10px 5px",
-  padding: "10px 20px",
-  // width: 350,
+  padding: "10px 5px",
 };
 
 export default function MyPreferences() {
@@ -127,7 +125,10 @@ export default function MyPreferences() {
 
   return (
     <Container
-      style={{ marginTop: location.pathname.includes("user-pref") ? 80 : 0 }}
+      style={{
+        marginTop: location.pathname.includes("user-pref") ? 80 : 0,
+        padding: "20px 40px",
+      }}
     >
       <SnackbarX
         open={open}
@@ -147,9 +148,7 @@ export default function MyPreferences() {
           style={{
             boxShadow: "none",
             background: "rgb(95, 106, 196)",
-            // padding: "10px 20px",
             flex: 2,
-            // margin: 10,
             borderRadius: 8,
             width: "100%",
             display: "flex",
@@ -157,6 +156,7 @@ export default function MyPreferences() {
             justifyContent: "start",
             alignItems: "center",
             flexDirection: "row",
+            marginBottom: 20,
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "transparent" }}>
@@ -166,18 +166,8 @@ export default function MyPreferences() {
             What would you like to discuss with your therapist?
           </h2>
         </div>
-        <Grid
-          container
-          spacing={2}
-          sx={{
-            mt: 1,
-            // display: "flex",
-            // flexDirection: "row",
-            // justifyContent: "space-between",
-            // width: "100%",
-            // flexWrap: "wrap",
-          }}
-        >
+        <ConditionsTags />
+        <Grid container spacing={2} sx={{ mt: 1 }}>
           <Grid item xs={12} sm={6} style={styling}>
             <CheckboxesGroup
               title="Feelings and emotions, complex experiences and states"

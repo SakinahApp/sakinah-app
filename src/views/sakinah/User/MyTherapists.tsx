@@ -2,6 +2,7 @@ import React from "react";
 import { therapistData } from "../../../data/Data";
 // import {therapistData}
 import { useStoreUser } from "../../../Zustand";
+import ConditionsTags from "./Components/ConditionsTags";
 import ChosenPrefrences from "./Therapists/ChosenPrefrences";
 import TherapistCard from "./Therapists/TherapistCard";
 
@@ -37,22 +38,7 @@ function MyTherapists() {
           </div>
         ))}
       </div>
-      <h3
-        style={{ margin: 10, fontWeight: 600, fontSize: 19, color: "#5f616a" }}
-      >
-        My Preferences
-      </h3>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          width: "100%",
-        }}
-      >
-        {userInfo?.consultationType?.map((item) => (
-          <ChosenPrefrences item={item} />
-        ))}
-      </div>
+      <ConditionsTags />
     </div>
   );
 }
