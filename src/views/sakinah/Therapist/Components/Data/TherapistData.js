@@ -18,6 +18,7 @@ const therapistData = [
 			"Burnout",
 		],
 		location: "UK",
+		blockedDays: [],
 	},
 	{
 		therapist_id: "12",
@@ -38,6 +39,7 @@ const therapistData = [
 			"Burnout",
 		],
 		location: "Morocco",
+		blockedDays: [],
 	},
 ];
 
