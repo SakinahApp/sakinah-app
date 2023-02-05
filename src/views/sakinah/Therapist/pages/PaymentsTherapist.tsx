@@ -41,7 +41,12 @@ const PaymentsTherapist = () => {
 				/>
 			</div>
 			{/* <Tabs /> */}
-			<TabPayments color="blue" tab1="Sales History" tab2="Payout History" />
+			<TabPayments
+				color="blue"
+				tab1="Sales History"
+				tab2="Payout History"
+				tab3=""
+			/>
 		</div>
 	);
 };
