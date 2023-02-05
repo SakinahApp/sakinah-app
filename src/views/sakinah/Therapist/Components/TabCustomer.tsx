@@ -3,7 +3,7 @@ import NotesTherapist from "./Notes/NotesTherapist";
 import NotesClient from "./Notes/NotesClient";
 import TabComponent from "./TabComponent";
 
-const TabsCustomer = ({ color, tab1, tab2, client }) => {
+const TabsCustomer = ({ color, tab1, tab2, tab3, client }) => {
 	const [openTab, setOpenTab] = React.useState(1);
 	return (
 		<>
@@ -12,6 +12,7 @@ const TabsCustomer = ({ color, tab1, tab2, client }) => {
 					<TabComponent
 						tab1={tab1}
 						tab2={tab2}
+						tab3={tab3}
 						color={color}
 						openTab={openTab}
 						setOpenTab={setOpenTab}
@@ -41,7 +42,7 @@ const TabsCustomer = ({ color, tab1, tab2, client }) => {
 								</div>
 								<div className={openTab === 2 ? "block" : "hidden"} id="link2">
 									<NotesClient client={client} />
-									<NotesTherapist client={client}/>
+									<NotesTherapist client={client} />
 								</div>
 							</div>
 						</div>

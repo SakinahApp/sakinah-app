@@ -6,12 +6,15 @@ import AvatarCustomers from "../Components/AvatarCustomers";
 import { Link } from "react-router-dom";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import { useState } from "react";
+import clientData from '../Components/Data/ClientDetails';
+
+
 
 const CustomersTherapist = () => {
-	const [filteredNames, setFilteredNames] = useState(data);
+	const [filteredNames, setFilteredNames] = useState(clientData);
 	const handleSearch = (e) => {
-		const filtered = data.filter((item) =>
-			item.name.toLowerCase().includes(e.toLowerCase())
+		const filtered = clientData.filter((item) =>
+			item.user_name.toLowerCase().includes(e.toLowerCase())
 		);
 		setFilteredNames(filtered);
 	};
@@ -51,17 +54,17 @@ const CustomersTherapist = () => {
 				</thead>
 				<tbody>
 					{filteredNames
-						.sort((a, b) => (a.name > b.name ? 1 : -1))
+						.sort((a, b) => (a.user_name > b.user_name ? 1 : -1))
 						.map((item) => (
 							<tr>
 								<Link
-									key={item.id}
-									to={`${item.id}`}
+									key={item.user_id}
+									to={`${item.user_id}`}
 									className="flex flex-nowrap my-5  gap rounded-2xl items-center hover:bg-slate-100"
 								>
-									<AvatarCustomers name={item.name} />
+									<AvatarCustomers name={item.user_name} />
 									<td className="ml-3 font-medium text-lg cursor-pointer  text-stone-900 w-full">
-										{item.name}
+										{item.user_name}
 									</td>
 									<td className=" ml-20 font-medium text-lg cursor-pointer text-stone-900 w-full">
 										{item.gender}

@@ -2,7 +2,11 @@ import React from "react";
 import ActionUpcommingSession from "../ActionUpcomingSession";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
-const TableCustomerProfile = ({ tableHead, data }) => {
+import clientData from "../Data/ClientDetails";
+import notesData from "../Data/NotesData";
+import sessionData from "../Data/SessionsData";
+
+const TableCustomerProfile = ({ tableHead, client }) => {
 	return (
 		<div>
 			<div className="shadow-md rounded-lg">
@@ -24,46 +28,29 @@ const TableCustomerProfile = ({ tableHead, data }) => {
 							<h2 className="text-lg font-semibold pl-5">Upcomming Sessions</h2>
 						</tr>
 						{/* <tr className="bg-white border-b  "> */}
-						{data[0].upcommingSessions.map((item) => (
-							<tr>
-								<td className="px-6 py-4">
-									<CalendarMonthOutlinedIcon style={{ color: "inherit" }} />
-									{item.date}
-								</td>
-								<td className="px-6 py-4">
-									<ScheduleOutlinedIcon style={{ color: "inherit" }} />
-									{item.time}
-								</td>
-								<td className="px-6 py-4">{item.status[0]}</td>
-								<td className="px-6 py-4">£ {item.paid}</td>
-								<td className="px-6 py-4">
-									<ActionUpcommingSession />
-								</td>
-							</tr>
-						))}
-
+						{sessionData
+							.filter((session) => session.user_id === client.user_id)
+							.map((session) => (
+								<tr>
+									<td className="px-6 py-4">
+										<CalendarMonthOutlinedIcon style={{ color: "inherit" }} />
+										{session.date}
+									</td>
+									<td className="px-6 py-4">
+										<ScheduleOutlinedIcon style={{ color: "inherit" }} />
+										{session.time}
+									</td>
+									<td className="px-6 py-4">{session.status[0]}</td>
+									<td className="px-6 py-4">£ {session.paid}</td>
+									<td className="px-6 py-4">
+										<ActionUpcommingSession />
+									</td>
+								</tr>
+							))}
 						<tr>
 							{" "}
 							<h2 className="text-lg font-semibold pl-5">Past Sessions </h2>
 						</tr>
-						{data[0].pastSessions.map((item) => (
-							<tr>
-								<td className="px-6 py-4">
-									<CalendarMonthOutlinedIcon style={{ color: "inherit" }} />
-									{item.date}
-								</td>
-								<td className="px-6 py-4">
-									<ScheduleOutlinedIcon style={{ color: "inherit" }} />
-									{item.time}
-								</td>
-								<td className="px-6 py-4">{item.status[0]}</td>
-								<td className="px-6 py-4">£ {item.paid}</td>
-
-								<td className="px-6 py-4 ">
-									<ActionUpcommingSession />
-								</td>
-							</tr>
-						))}
 					</tbody>
 				</table>
 			</div>
