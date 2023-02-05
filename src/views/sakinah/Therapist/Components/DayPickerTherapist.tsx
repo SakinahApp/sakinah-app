@@ -6,6 +6,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
 import { Box, Button } from "@mui/material";
 import "./Style.css";
+import sessionData from "./Data/SessionsData";
+import isBetween from "dayjs/plugin/isBetween";
 
 const isWeekend = (date: Dayjs) => {
 	const day = date.day();
@@ -13,20 +15,16 @@ const isWeekend = (date: Dayjs) => {
 };
 
 export default function DayPickerT({ therapist, visibility, setVisibility }) {
-	const [value, setValue] = React.useState<Dayjs | null>(dayjs("2022-12-07"));
-	const [time, setTime] = React.useState("11:00-12:00");
+	const [value, setValue] = React.useState<Dayjs | null>(dayjs());
 
-	const date = dayjs(value).format("LL");
-	const day = dayjs(value).date();
-	const month = dayjs(value).month();
-	const year = dayjs().year();
+	const date = dayjs(value);
+	dayjs.extend(isBetween);
 
 	return (
 		<Box sx={{}}>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>
 				<StaticDatePicker
 					displayStaticWrapperAs="desktop"
-					shouldDisableDate={isWeekend}
 					value={value}
 					onChange={(newValue) => {
 						setValue(newValue);
@@ -61,47 +59,36 @@ export default function DayPickerT({ therapist, visibility, setVisibility }) {
 					}}
 				>
 					<p style={{ fontWeight: 600 }}>Chosen Date</p>
-					<p>{date}</p>
+					<p>{date.format("LL")}</p>
 				</Box>
 
-				{calendarData.map((item) => (
-					<div className="grid grid-cols-2	text-left w-64 m-auto cursor-pointer">
-						<p className="text-left">{item.time}</p>
-						<p className="text-left">{item.name}</p>
-					</div>
-				))}
+				{sessionData.map(
+					(session) =>
+						dayjs(session.start_time).format("LL") === date.format("LL") &&
+						(dayjs().isBetween(
+							dayjs(session.start_time).utc(),
+							dayjs(session.end_time).utc()
+						) ? (
+							<div className="grid grid-cols-2	text-left w-64 m-auto cursor-pointer">
+								<p className="text-left text-green-700">
+									{dayjs(session.start_time).utc().format("HH:mm")} -{" "}
+									{dayjs(session.end_time).utc().format("HH:mm")}
+								</p>
+								<p className="text-left text-green-700">
+									{session.user_name}
+								</p>
+							</div>
+						) : (
+							<div className="grid grid-cols-2	text-left w-64 m-auto cursor-pointer">
+								<p className="text-left">
+									{dayjs(session.start_time).utc().format("HH:mm")} -{" "}
+									{dayjs(session.end_time).utc().format("HH:mm")}
+								</p>
+								<p className="text-left">{session.user_name}</p>
+							</div>
+						))
+				)}
 			</Box>
 		</Box>
 	);
 }
-
-const calendarData = [
-	{
-		time: "09:00 - 10:00",
-		name: "Mohammed Salah",
-	},
-	{
-		time: "10:00 - 11:00",
-		name: "Paul Pogba",
-	},
-	{
-		time: "11:00 - 12:00",
-		name: "Kamila Ahmed",
-	},
-	{
-		time: "12:00 - 13:00",
-		name: "Khalid ibn Walid",
-	},
-	{
-		time: "13:00 - 14:00",
-		name: "Abdul Kareem",
-	},
-	{
-		time: "15:00 - 16:00",
-		name: "Salama Ahmad",
-	},
-	{
-		time: "16:00 - 17:00",
-		name: "Mehmed Ahmed",
-	},
-];
