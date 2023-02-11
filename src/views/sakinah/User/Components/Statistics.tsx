@@ -81,7 +81,7 @@ function Statistics({ displayGraphs }) {
       <div
         style={{
           display: "flex",
-          width: "100%",
+          width: "calc(100% - 10px)",
         }}
       >
         {data.map((item) => (

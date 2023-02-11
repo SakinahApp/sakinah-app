@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import { useStore, useStoreUser } from "../../../../Zustand";
+import { useStore, useStoreUser, useStoreTemporary } from "../../../../Zustand";
 import SnackbarX from "./SnackbarX";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../../../Firebase";
@@ -14,6 +14,7 @@ function NoUpcomingSession(props) {
   const { upcomingSessionState, setUpcomingSession } = useStore(
     (state) => state
   );
+  const { sidebarWidth } = useStoreTemporary();
 
   // Filtering upcoming sessions
   const now = dayjs().unix();
@@ -38,8 +39,6 @@ function NoUpcomingSession(props) {
       querySnapshot.forEach((doc) => {
         sessions.push({ ...doc.data(), docId: doc.id });
       });
-
-      console.log("sessions :>> ", sessions);
 
       setUpcomingSession(sessions);
     } catch (error) {
@@ -130,7 +129,7 @@ function NoUpcomingSession(props) {
               overflowX: "scroll",
               overflowY: "hidden",
               boxSizing: "border-box",
-              width: "calc(100vw - 290px)",
+              width: `calc(100vw - ${sidebarWidth}px)`,
             }}
           >
             {upSessions?.length > 0 &&

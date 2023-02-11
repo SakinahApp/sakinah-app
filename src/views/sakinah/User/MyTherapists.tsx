@@ -1,20 +1,20 @@
 import React from "react";
 import { therapistData } from "../../../data/Data";
 // import {therapistData}
-import { useStoreUser } from "../../../Zustand";
+import { useStoreTemporary } from "../../../Zustand";
 import ConditionsTags from "./Components/ConditionsTags";
 import ChosenPrefrences from "./Therapists/ChosenPrefrences";
 import TherapistCard from "./Therapists/TherapistCard";
 
 function MyTherapists() {
-  const { userInfo } = useStoreUser();
+  const { sidebarWidth } = useStoreTemporary();
 
   return (
     <div
       style={{
         overflowY: "scroll",
         overflow: "hidden",
-        width: "calc(100vw - 290px)",
+        width: `calc(100vw - ${sidebarWidth}px)`,
         marginTop: "30px",
       }}
     >

@@ -5,7 +5,14 @@ import ChosenPrefrences from "../Therapists/ChosenPrefrences";
 function ConditionsTags(props) {
   const { userInfo } = useStoreUser();
   return (
-    <div style={{ width: "100%" }}>
+    <div
+      style={{
+        width: "100%",
+        background: "white",
+        borderRadius: 8,
+        padding: 10,
+      }}
+    >
       <h3
         style={{
           margin: 10,
