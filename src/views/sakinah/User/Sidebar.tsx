@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
@@ -8,9 +8,11 @@ import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import ShieldMoonIcon from "@mui/icons-material/ShieldMoon";
 import LogoutIcon from "@mui/icons-material/Logout";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
 import {
-  Button,
+  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -21,10 +23,14 @@ import VideoChatIcon from "@mui/icons-material/VideoChat";
 import PersonIcon from "@mui/icons-material/Person";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { useStoreTemporary } from "../../../Zustand";
 
 function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [hide, setHide] = useState(true);
+  const [isShown, setIsShown] = useState(false);
+  const { setSidebarWidth } = useStoreTemporary();
 
   const handleLogout = () => {
     signOut(auth)
@@ -44,37 +50,65 @@ function Sidebar() {
         background: "white",
         padding: "16px",
         maxWidth: "none",
-        width: 300,
+        width: hide ? 300 : 90,
+        transition: "width 0.5s ease-out",
         display: "flex",
         flexDirection: "column",
+        position: "relative",
+        overflow: "overlay",
+        overflowX: "hidden",
       }}
+      onMouseEnter={() => setIsShown(true)}
+      onMouseLeave={() => setIsShown(false)}
     >
-      <Link to="/">
+      <Link to="/" style={{ display: "flex", marginLeft: !hide && 10 }}>
+        <ShieldMoonIcon
+          style={{ width: 35, height: 35, marginRight: 5, color: "#5f6ac4" }}
+        />
         <h2
           style={{
             fontWeight: 600,
             fontSize: 22,
-            display: "flex",
             alignItems: "center",
             color: "#323331",
-            marginBottom: 66,
             marginTop: 0,
             marginLeft: 2,
+            maxWidth: 180,
+            minWidth: 170,
+            display: hide ? "flex" : "none",
           }}
         >
           {" "}
-          <ShieldMoonIcon
-            style={{ width: 35, height: 35, marginRight: 5, color: "#5f6ac4" }}
-          />
           Sakinah App
         </h2>
       </Link>
+      <IconButton
+        onClick={() => (
+          setHide(!hide),
+          setIsShown(!isShown),
+          hide ? setSidebarWidth(90) : setSidebarWidth(300)
+        )}
+        style={{
+          position: "absolute",
+          top: hide ? 15 : 60,
+          right: hide ? 2 : 22,
+          color: "#BAB9CC",
+          display: isShown ? "flex" : "none",
+        }}
+      >
+        {hide ? (
+          <KeyboardDoubleArrowLeftIcon />
+        ) : (
+          <KeyboardDoubleArrowRightIcon />
+        )}
+      </IconButton>
       <Box
         style={{
           height: "100%",
           display: "flex",
           justifyContent: "space-between",
           flexDirection: "column",
+          marginTop: 66,
         }}
       >
         <List>

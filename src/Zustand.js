@@ -5,7 +5,9 @@ import { persist } from 'zustand/middleware'
 const useStoreTemporary = create((set) => ({
     snackbarOpen: false,
     setSnackbarOpen: () => set({ snackbarOpen: true }),
-    setSnackbarOpenFalse: (open) => set({ snackbarOpen: open })
+    setSnackbarOpenFalse: (open) => set({ snackbarOpen: open }),
+    sidebarWidth: 300,
+    setSidebarWidth: (width) => set({ sidebarWidth: width })
 }))
 
 
