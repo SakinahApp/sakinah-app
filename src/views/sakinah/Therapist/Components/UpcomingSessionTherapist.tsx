@@ -1,13 +1,46 @@
-import React from "react";
-import { Avatar } from "@mui/material";
+import React, { useState, useEffect } from "react";
 import { IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import LockOpenIcon from "@mui/icons-material/LockOpen";
-import calendar from "./../../User/images/calendar.svg";
 import ActionUpcommingSession from "./ActionUpcomingSession";
+import sessionData from "./Data/SessionsData";
+import dayjs from "dayjs";
+import isToday from "dayjs/plugin/isToday";
+import isTomorrow from "dayjs/plugin/isTomorrow";
+import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
+import VideoCallIcon from "@mui/icons-material/VideoCall";
+import isBetween from "dayjs/plugin/isBetween";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 const UpcomingSessionTherapist = () => {
+	const [nextSession, setNextSession] = useState(null);
+	dayjs.extend(isToday);
+	dayjs.extend(isTomorrow);
+	dayjs.extend(isBetween);
+	dayjs.extend(relativeTime);
+
+	useEffect(() => {
+		const findNextSession = () => {
+			for (let i = 0; i < sessionData.length; i++) {
+				const startTime = dayjs(sessionData[i].start_time).utc();
+				const endTime = dayjs(sessionData[i].end_time).utc();
+				const patient = sessionData[i].user_name;
+				console.log("startTime", startTime);
+				console.log("endTime", endTime);
+				if (dayjs().utc().isBefore(endTime)) {
+					setNextSession({
+						startTime: startTime.utc().format("HH:mm"),
+						endTime: endTime.utc().format("HH:mm"),
+						date: startTime.utc().format("DD MMM YYYY"),
+						countdown: startTime.utc().fromNow(),
+						patient: patient,
+					});
+					break;
+				}
+			}
+		};
+		findNextSession();
+	}, [sessionData]);
+
 	return (
 		<div>
 			{" "}
@@ -20,7 +53,7 @@ const UpcomingSessionTherapist = () => {
 					margin: 10,
 					borderRadius: 8,
 					color: "white",
-					maxHeight: 220,
+					maxHeight: 270,
 					display: "flex",
 					justifyContent: "space-between",
 					flexDirection: "column",
@@ -48,7 +81,7 @@ const UpcomingSessionTherapist = () => {
 					>
 						<ActionUpcommingSession />
 					</IconButton>
-					<div>
+					<div className="">
 						<h3
 							style={{
 								color: "#5f6ac4",
@@ -69,86 +102,77 @@ const UpcomingSessionTherapist = () => {
 								marginBottom: 5,
 							}}
 						>
-							15 June 2023
-						</p>
-						<p
-							style={{
-								color: "rgb(50, 51, 49)",
-								fontSize: "17px",
-								marginBottom: 10,
-								display: "flex",
+							{nextSession ? (
+								// @ts-ignore
+								<div className="flex flex-col my-2">
+									{dayjs(nextSession.date).isToday() &&
+									dayjs().isBefore(nextSession.endTime) ? (
+										// @ts-ignore
+										<span className="text-violet-900 p-2 bg-violet-300 rounded-tl-lg rounded-br-lg animate-pulse	">
+											Session started
+										</span>
+									) : dayjs(nextSession.date).isToday() ? (
+										<span className="text-green-900 p-2   bg-green-300 rounded-tl-lg rounded-br-lg ">
+											Today
+										</span>
+									) : dayjs(nextSession.date).isTomorrow() ? (
+										<span className="text-yellow-900 p-2  bg-yellow-300 rounded-tl-lg rounded-br-lg ">
+											Tomorrow
+										</span>
+									) : (
+										dayjs(nextSession.date).format("DD MMM YYYY")
+									)}
 
-								alignItems: "center",
-								flexDirection: "row",
-							}}
-						>
-							<AccessTimeIcon
-								style={{
-									color: "rgb(110 110 110 / 96%)",
-									width: 30,
-									height: 30,
-									marginLeft: -3,
-									marginRight: 5,
-								}}
-							/>{" "}
-							18:00{" "}
-							<p
-								style={{
-									color: "rgb(50, 51, 49)",
-									fontSize: "17px",
-									marginLeft: 25,
-									display: "flex",
+									<div
+										style={{
+											color: "rgb(50, 51, 49)",
+											fontSize: "17px",
+											marginBottom: 10,
+											display: "flex",
+											alignItems: "center",
+											flexDirection: "row",
+											marginTop: 5,
+										}}
+									>
+										<AccessTimeIcon
+											style={{
+												color: "rgb(110 110 110 / 96%)",
+												width: 30,
+												height: 30,
+											}}
+										/>
+										<span className="mx-2">{nextSession.startTime}</span>
 
-									alignItems: "center",
-									flexDirection: "row",
-								}}
-							>
-								<LockOpenIcon
-									style={{
-										color: "rgb(110 110 110 / 96%)",
-										width: 25,
-										height: 25,
-										marginLeft: -3,
-										marginRight: 5,
-									}}
-								/>
-								2123
-								{/* {session.room_code} */}
-							</p>
+										<TimerOutlinedIcon
+											style={{
+												color: "rgb(110 110 110 / 96%)",
+												width: 30,
+												height: 30,
+											}}
+										/>
+										<span className="mx-2">{nextSession.countdown}</span>
+									</div>
+									<div>
+										<p
+											style={{
+												fontSize: 12,
+												color: "grey",
+												marginBottom: -5,
+											}}
+										>
+											Patient
+										</p>
+										<p className="text-base">{nextSession.patient}</p>
+										<button className="btn-call -px-3">
+											{" "}
+											<VideoCallIcon /> Start Call{" "}
+										</button>
+									</div>
+								</div>
+							) : (
+								<p>No upcoming sessions</p>
+							)}
 						</p>
-						<div
-							style={{
-								color: "rgb(50, 51, 49)",
-								fontSize: "16px",
-								display: "flex",
-								alignItems: "center",
-								flexDirection: "row",
-							}}
-						>
-							{/* <Avatar
-            src={therapistImage}
-            sx={{
-              bgcolor: "grey",
-              border: "1px solid #5f6ac4",
-              width: 30,
-              height: 30,
-              marginRight: 1,
-            }}
-          /> */}
-							<div>
-								<p
-									style={{
-										fontSize: 12,
-										color: "grey",
-										marginBottom: -5,
-									}}
-								>
-									Therapist
-								</p>
-								Qamariddin Urozov
-								{/* {session.therapist_name} */}
-							</div>
-						</div>
 					</div>
 					<img
 						style={{
@@ -160,6 +184,10 @@ const UpcomingSessionTherapist = () => {
 						// src={calendar}
 						alt="calendar"
 					/>
+					<div>
+						{/* @ts-ignore */}
+						{/* {console.log("currentSession :>> ", currentSession)} */}
+					</div>
 				</div>
 			</div>
 		</div>

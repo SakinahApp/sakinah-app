@@ -3,9 +3,19 @@
 @tailwind utilities;
 
 .btn-primary {
- @apply flex py-4 px-14 text-xl font-medium ease-in-out duration-200 text-white tracking-tighter bg-blue-500 border-2 hover:bg-white hover:text-blue-500 hover:border-blue-500 hover:border-2  rounded-xl
+ @apply
+ text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
+
 }
 .btn-secondary {
- @apply flex py-4 px-14 text-xl font-medium ease-in-out duration-200 text-blue-500 border-2 tracking-tighter bg-white border-blue-500 hover:bg-white hover:text-blue-300 hover:border-blue-300 hover:border-2  rounded-xl
+ @apply 
+ py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700
+
+}
+
+.btn-call {
+ @apply
+focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900
+
 }
 
