@@ -1,0 +1,8 @@
+.css-bkrceb-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+ background-color: green !important;
+}
+
+.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked,
+.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
+ color: green !important;
+}
