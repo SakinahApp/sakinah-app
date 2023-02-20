@@ -1,7 +1,6 @@
 import React from "react";
 // import Table from '../Components/Table';
 import TableTherapist from "../Components/Tables/TableTherapist";
-import CalendarDashboard from "../Components/CalendarDashboard";
 import Dropdown from "../Components/ActionUpcomingSession";
 import StatisticsCard from "../Components/StatisticsCard";
 import { clients } from "../../../../assets/images/images";
@@ -11,6 +10,7 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import CurrencyPoundIcon from "@mui/icons-material/CurrencyPound";
 import UpcomingSessionTherapist from "../Components/UpcomingSessionTherapist";
 import TableExpandable from "../Components/Tables/TableExpandable";
+import CalendarDashboard from '../Components/Calendars/CalendarDashboard';
 
 const DashboardTherapist = () => {
 	return (
