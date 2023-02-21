@@ -19,11 +19,13 @@ export default function DayPicker({ therapist, open, setOpen }) {
   const [time, setTime] = React.useState("09:00");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
-  const date = dayjs(value).format("LL");
+  const date = dayjs(value[0]).format("LL");
 
-  const day = dayjs(value).date();
-  const month = dayjs(value).month();
-  const year = dayjs().year();
+  // console.log("date", date);
+
+  // const day = dayjs(value[0]).date();
+  // const month = dayjs(value).month();
+  // const year = dayjs().year();
 
   return (
     <Box sx={{}}>
