@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import LoginIcon from "@mui/icons-material/Login";
 import Typography from "@mui/material/Typography";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { authTherapist } from "../../../FirebaseTherapist";
+import { auth } from "../../../Firebase";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Alert } from "@mui/material";
 
@@ -41,13 +41,13 @@ export default function SignInTherapist() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    signInWithEmailAndPassword(authTherapist, email, password)
+    signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         if (user.emailVerified) {
           console.log('user', user)
-          return user.displayName ? navigate("/therapists") : navigate("/therapists/onboarding");
+          return user.displayName ? navigate("/therapists/onboarding/2") : navigate("/therapists/onboarding");
         } else {
           return setError("Please verify your email");
         }

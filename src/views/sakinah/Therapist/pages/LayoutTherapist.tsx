@@ -12,14 +12,14 @@ import PaymentOutlinedIcon from "@mui/icons-material/PaymentOutlined";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import { signOut } from "firebase/auth";
-import { authTherapist } from "../../../../FirebaseTherapist";
+import { auth } from "../../../../Firebase";
 
 const LayoutTherapist = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 
 	const handleLogout = () => {
-		signOut(authTherapist)
+		signOut(auth)
 			.then(() => {
 				// Sign-out successful.
 				navigate("/auth/therapists/signin");
@@ -77,10 +77,6 @@ const sidebar = [
 		link: "/therapists/customers",
 		icon: <GroupsOutlinedIcon />,
 	},
-	// {name:"Profile",
-	// link:"/therapists/profile",
-	// icon: <PortraitOutlinedIcon/>
-	// },
 	{
 		name: "Payments",
 		link: "/therapists/payments",
