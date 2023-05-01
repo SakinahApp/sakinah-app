@@ -24,8 +24,13 @@ import sessionData from "../Data/SessionsData";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import dayjs from "dayjs";
 
 export default function TableTherapist() {
+	const futureSessions = sessionData.filter((session) => {
+		return dayjs(session.end_time).isAfter(dayjs());
+	});
+
 	return (
 		<TableContainer component={Paper}>
 			<Table aria-label="collapsible table">
@@ -41,7 +46,7 @@ export default function TableTherapist() {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{sessionData.map((session) => (
+					{futureSessions.map((session) => (
 						<TableTherapistRow session={session} />
 					))}
 				</TableBody>
@@ -73,13 +78,15 @@ const TableTherapistRow = ({ session }) => {
 						{open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
 					</IconButton>
 				</TableCell>
+				{/* @ts-ignore */}
 				<TableCell component="th" scope="row">
 					<CalendarMonthOutlinedIcon style={{ color: "gray" }} />
-					{session.date}
+					{dayjs(session.start_time).format("DD MMM YYYY")}
 				</TableCell>
+				{/* @ts-ignore */}
 				<TableCell align="left">
 					<ScheduleOutlinedIcon style={{ color: "gray" }} />
-					{session.time}
+					{dayjs(session.start_time).format("HH:mm")}
 				</TableCell>
 				<TableCell align="left">{session.user_name}</TableCell>
 				{/* <TableCell align="left">{row.sessionNumber}</TableCell> */}
@@ -103,14 +110,14 @@ const TableTherapistRow = ({ session }) => {
 										<Table size="small">
 											<TableRow>
 												<TableCell>
-													<AlternateEmailIcon style={{ color: "gray" }}/>
+													<AlternateEmailIcon style={{ color: "gray" }} />
 													{client.email}
 												</TableCell>
 												<TableCell>
-													<LocalPhoneOutlinedIcon style={{ color: "gray" }}/> {client.phone}
+													<LocalPhoneOutlinedIcon style={{ color: "gray" }} /> {client.phone}
 												</TableCell>
 												<TableCell>
-													<LocationOnOutlinedIcon style={{ color: "gray" }}/>
+													<LocationOnOutlinedIcon style={{ color: "gray" }} />
 													{client.location}
 												</TableCell>
 											</TableRow>

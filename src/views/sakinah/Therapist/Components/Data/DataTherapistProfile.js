@@ -1,13 +1,4 @@
-const qualifications = [
-	"Consulting psychology",
-	"Psychotherapist",
-	"MSc",
-	"BACP",
-	"MBACP",
-	"MA",
-	"PhD",
-	"Other",
-];
+const title = ["Psychotherapist", "Psychologist", "Counselor"];
 const treatment_types = [
 	"Creative Therapy ",
 	"Cognitive Behavioural",
@@ -159,7 +150,7 @@ const allTopics = [
 ];
 
 export {
-	qualifications,
+	title,
 	treatment_types,
 	languages,
 	feelings,
