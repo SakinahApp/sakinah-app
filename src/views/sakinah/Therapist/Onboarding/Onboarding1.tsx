@@ -22,11 +22,7 @@ import { updateProfile } from "firebase/auth";
 import TherapistProfile from "../../User/Therapists/TherapistProfile";
 import { Language } from "@mui/icons-material";
 import Checkbox from "../Components/Checkbox";
-import {
-	treatment_types,
-	qualifications,
-	languages,
-} from "../Components/Data/DataTherapistProfile";
+import { title, languages } from "../Components/Data/DataTherapistProfile";
 import Input from "../Components/Input";
 import CssBaseline from "@mui/material/CssBaseline";
 
@@ -34,7 +30,7 @@ const Onboarding1 = ({ hidden, prevPage, nextPage, text }) => {
 	const [gender, setGender] = useState(null);
 	const navigate = useNavigate();
 	const [selectedLanguages, setSelectedLanguages] = useState([]);
-	const [selectedQualifications, setSelectedQualifications] = useState([]);
+	const [selectedTitles, setSelectedTitles] = useState([]);
 	const [selectedTreatmentType, setSelectedTreatmentType] = useState([]);
 	const { setSnackbarOpen } = useStoreTemporary((state) => state);
 
@@ -46,15 +42,20 @@ const Onboarding1 = ({ hidden, prevPage, nextPage, text }) => {
 		country: "",
 		gender: gender,
 		experience: null,
-		qualifications_other: "",
-		therapist_id: auth.currentUser.uid,
-		therapist_email: auth.currentUser.email,
+		education_other: "",
+		therapist_id: auth.currentUser?.uid,
+		therapist_email: auth.currentUser?.email,
 		treatment_type_other: "",
 		language: selectedLanguages,
-		qualification: selectedQualifications,
+		title: selectedTitles,
 		treatment_types: selectedTreatmentType,
 		therapist_image_url: "",
 		therapist_cv_url: "",
+		bank_acc_num: null,
+		bank_sort_code: null,
+		education: "",
+		qualification: "",
+		memberships: "",
 	});
 
 	useEffect(() => {
@@ -66,18 +67,23 @@ const Onboarding1 = ({ hidden, prevPage, nextPage, text }) => {
 					...prevState,
 					name: data.therapist_name,
 					bio: data.bio,
+					education: data.education,
+					education_other: data.education_other,
+					qualification: data.qualification,
+					memberships: data.memberships,
 					city: data.city,
 					country: data.country,
 					phone: data.phone,
 					gender: data.gender,
 					experience: data.experience,
-					qualifications_other: data.qualifications_other,
 					treatment_type_other: data.treatment_type_other,
 					language: data.selectedLanguages,
-					qualification: data.selectedQualifications,
+					title: data.selectedTitles,
 					treatment_types: data.selectedTreatmentType,
 					therapist_image_url: data.therapist_image_url,
 					therapist_cv_url: data.therapist_cv_url,
+					bank_acc_num: data.bank_acc_num,
+					bank_sort_code: data.bank_sort_code,
 					// Update more fields as needed
 				}));
 			} else {
@@ -96,10 +102,8 @@ const Onboarding1 = ({ hidden, prevPage, nextPage, text }) => {
 					setSelectedLanguages(
 						docSnap.data().language !== undefined ? docSnap.data().language : []
 					);
-					setSelectedQualifications(
-						docSnap.data().qualification !== undefined
-							? docSnap.data().qualification
-							: []
+					setSelectedTitles(
+						docSnap.data().title !== undefined ? docSnap.data().title : []
 					);
 					setSelectedTreatmentType(
 						docSnap.data().treatment_types !== undefined
@@ -112,33 +116,37 @@ const Onboarding1 = ({ hidden, prevPage, nextPage, text }) => {
 			}
 		};
 		fetchData();
-	}, [
-		setSelectedLanguages,
-		setSelectedQualifications,
-		setSelectedTreatmentType,
-	]);
+	}, [setSelectedLanguages, setSelectedTitles, setSelectedTreatmentType]);
 
-	const handleTherapistProfileChange = () => {
+	const handleTherapistProfileChange = (action) => {
 		// Update therapist profile in database
-		updateDoc(doc(db, "therapist-profile", auth.currentUser.uid), {
+		action === setDoc &&
+			updateProfile(auth.currentUser, { displayName: therapistProfile.name });
+		action(doc(db, "therapist-profile", auth.currentUser.uid), {
 			therapist_name: therapistProfile.name,
 			therapist_id: auth.currentUser.uid,
 			therapist_email: auth.currentUser.email,
 			bio: therapistProfile.bio,
+			memberships: therapistProfile.memberships,
+			qualification: therapistProfile.qualification,
+			education: therapistProfile.education,
+			education_other: therapistProfile.education_other,
 			city: therapistProfile.city,
 			country: therapistProfile.country,
 			phone: therapistProfile.phone,
 			experience: therapistProfile.experience,
 			treatment_type_other: therapistProfile.treatment_type_other,
-			qualifications_other: therapistProfile.qualifications_other,
 			language: selectedLanguages,
-			qualification: selectedQualifications,
+			title: selectedTitles,
 			treatment_types: selectedTreatmentType,
+			bank_acc_num: therapistProfile.bank_acc_num,
+			bank_sort_code: therapistProfile.bank_sort_code,
 			gender: gender,
 		}).then(() => {
 			window.alert("Changes succesfully made!"); // Open the Snackbar when the profile is successfully updated
 		});
 		console.log(auth.currentUser, " auth.currentUser");
+		console.log("therapistProfile", therapistProfile);
 	};
 
 	const handleInputChange = (event) => {
@@ -157,27 +165,25 @@ const Onboarding1 = ({ hidden, prevPage, nextPage, text }) => {
 						return [...prevSelectedLanguages, value];
 					}
 			  })
-			: name === "qualification"
-			? setSelectedQualifications((prevSelectedQualifications) => {
+			: name === "title"
+			? setSelectedTitles((prevSelectedQualifications) => {
 					if (prevSelectedQualifications.includes(value)) {
-						// If the qualification is already selected, remove it from the list
-						return prevSelectedQualifications.filter(
-							(qualification) => qualification !== value
-						);
+						// If the title is already selected, remove it from the list
+						return prevSelectedQualifications.filter((title) => title !== value);
 					} else {
-						// If the qualification is not selected, add it to the list
+						// If the title is not selected, add it to the list
 						return [...prevSelectedQualifications, value];
 					}
 			  })
 			: name === "treatment"
 			? setSelectedTreatmentType((prevSelectedTreatmentType) => {
 					if (prevSelectedTreatmentType.includes(value)) {
-						// If the qualification is already selected, remove it from the list
+						// If the title is already selected, remove it from the list
 						return prevSelectedTreatmentType.filter(
 							(treatment) => treatment !== value
 						);
 					} else {
-						// If the qualification is not selected, add it to the list
+						// If the title is not selected, add it to the list
 						return [...prevSelectedTreatmentType, value];
 					}
 			  })
@@ -208,15 +214,7 @@ const Onboarding1 = ({ hidden, prevPage, nextPage, text }) => {
 
 		uploadTask.on(
 			"state_changed",
-			(snapshot) => {
-				// Handle upload progress
-				const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-				console.log(`Upload is ${progress}% done`);
-			},
-			(error) => {
-				// Handle errors during upload
-				console.log(error);
-			},
+
 			() => {
 				// Handle successful upload
 				getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -249,10 +247,7 @@ const Onboarding1 = ({ hidden, prevPage, nextPage, text }) => {
 					Thank you again for joining us
 				</p>
 
-				<form
-					className="w-full max-w-lg mt-12 flex flex-col mx-auto"
-					onSubmit={handleTherapistProfileChange}
-				>
+				<form className="w-full max-w-lg mt-12 flex flex-col mx-auto">
 					<div className="flex flex-wrap -mx-3 mb-6">
 						<div className="w-full  px-3 mb-6 md:mb-0">
 							<label
@@ -433,69 +428,100 @@ const Onboarding1 = ({ hidden, prevPage, nextPage, text }) => {
 							</div>
 						</div>
 
-						<label
-							className="pl-3 uppercase tracking-wide text-gray-700 text-xs font-bold mt-7 flex items-start justify-start"
-							htmlFor="qualifications"
-						>
-							Qualifications
-						</label>
-						<div className="grid grid-cols-3 m-3">
-							{qualifications.map((qualification) => (
-								<Checkbox
-									item={qualification}
-									name="qualification"
-									onChange={handleInputChange}
-									checked={selectedQualifications.includes(qualification)}
-								/>
-							))}
+						<div className=" w-full">
+							<label
+								className="pl-3 uppercase tracking-wide text-gray-700 text-xs font-bold mt-7 flex items-start justify-start"
+								htmlFor="title"
+							>
+								title
+							</label>
+							<div className="grid grid-cols-3 m-3">
+								{title.map((title) => (
+									<Checkbox
+										item={title}
+										name="title"
+										onChange={handleInputChange}
+										checked={selectedTitles.includes(title)}
+									/>
+								))}
+							</div>
+
+							<Input
+								type="text"
+								name="education_other"
+								placeholder="Other title"
+								onChange={handleInputChange}
+								value={therapistProfile.education_other}
+								required="false"
+							/>
 						</div>
 
-						<Input
-							type="text"
-							name="qualifications_other"
-							placeholder="Other qualifications"
-							onChange={handleInputChange}
-							value={therapistProfile.qualifications_other}
-							required="false"
-						/>
-
-						<p className="mx-3 mt-3 text-gray-600 text-xs italic">
-							If selected "Other", please indicate all the qualifications that you have
-						</p>
-
 						<label
-							className="pl-3 uppercase tracking-wide text-gray-700 text-xs font-bold mt-7 flex items-start justify-start"
-							htmlFor="treatment"
+							htmlFor="bio"
+							className="block m-3 text-sm font-medium text-stone-800 "
 						>
-							Treatment Aproach
+							About me
 						</label>
-						<div className="m-3  grid grid-cols-3 max-w-lg w-full">
-							{treatment_types.map((item) => (
-								<Checkbox
-									item={item}
-									name="treatment"
-									onChange={handleInputChange}
-									checked={selectedTreatmentType.includes(item)}
-								/>
-							))}
-						</div>
-
-						<Input
-							type="text"
-							name="treatment_type_other"
-							placeholder="Other treatment approaches"
+						<textarea
+							id="message"
+							rows={4}
+							className="block  p-3 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-100 focus:bg-white focus:border-gray-500"
+							placeholder="Please write a bio about yourself or insert a link where we can use it for your profile"
+							name="bio"
+							value={therapistProfile.bio}
 							onChange={handleInputChange}
-							value={therapistProfile.treatment_type_other}
-							required="false"
-						/>
+						></textarea>
 
-						<p className="mx-3 mt-3 text-gray-600 text-xs italic">
-							If selected "Other", please indicate all types of treatment approaches
-						</p>
+						<label
+							htmlFor="education"
+							className="block m-3 text-sm font-medium text-stone-800 "
+						>
+							Higher education
+						</label>
+						<textarea
+							id="education"
+							rows={4}
+							className="block  p-3 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-100 focus:bg-white focus:border-gray-500"
+							placeholder="Please write a education about yourself or insert a link where we can use it for your profile"
+							name="education"
+							value={therapistProfile.education}
+							onChange={handleInputChange}
+						></textarea>
+						<label
+							htmlFor="qualification"
+							className="block m-3 text-sm font-medium text-stone-800 "
+						>
+							Professional qualification and courses
+						</label>
+						<textarea
+							id="qualification"
+							rows={4}
+							className="block  p-3 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-100 focus:bg-white focus:border-gray-500"
+							placeholder="Please write a qualification about yourself or insert a link where we can use it for your profile"
+							name="qualification"
+							value={therapistProfile.qualification}
+							onChange={handleInputChange}
+						></textarea>
+
+						<label
+							htmlFor="memberships"
+							className="block m-3 text-sm font-medium text-stone-800 "
+						>
+							Memberships
+						</label>
+						<textarea
+							id="memberships"
+							rows={4}
+							className="block  p-3 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-100 focus:bg-white focus:border-gray-500"
+							placeholder="Please write a memberships about yourself or insert a link where we can use it for your profile"
+							name="memberships"
+							value={therapistProfile.memberships}
+							onChange={handleInputChange}
+						></textarea>
 
 						<label
 							className="pl-3 uppercase tracking-wide text-gray-700 text-xs font-bold mt-7 flex items-start justify-start"
-							htmlFor="qualifications"
+							htmlFor="language"
 						>
 							Languages you hold sessions in
 						</label>
@@ -510,31 +536,36 @@ const Onboarding1 = ({ hidden, prevPage, nextPage, text }) => {
 								/>
 							))}
 						</div>
-
+					</div>
+					<div className="w-full mt-3">
 						<label
-							htmlFor="message"
-							className="block m-3 text-sm font-medium text-stone-800 "
+							className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+							htmlFor="therapist_phone"
 						>
-							BIO
+							Bank Account Details
 						</label>
-						{/* @ts-ignore */}
-						<div>
-							{/* @ts-ignore */}
-							{console.log("selectedLanguages", selectedLanguages)}
-							{/* @ts-ignore */}
-							{console.log("selectedQualifications", selectedQualifications)}
-							{/* @ts-ignore */}
-							{console.log("selectedTreatmentType", selectedTreatmentType)}
+						<div className="flex justify-between">
+							<Input
+								type="number"
+								name="bank_acc_num"
+								placeholder="Account Number"
+								onChange={handleInputChange}
+								value={therapistProfile.bank_acc_num}
+								required="true"
+							/>
+							<Input
+								type="number"
+								name="bank_sort_code"
+								placeholder="Sort Code"
+								onChange={handleInputChange}
+								value={therapistProfile.bank_sort_code}
+								required="true"
+							/>
 						</div>
-						<textarea
-							id="message"
-							rows={4}
-							className="block  p-3 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-100 focus:bg-white focus:border-gray-500"
-							placeholder="Please write a bio about yourself or insert a link where we can use it for your profile"
-							name="bio"
-							value={therapistProfile.bio}
-							onChange={handleInputChange}
-						></textarea>
+
+						<p className="text-gray-600 text-xs italic">
+							Enter with the country code
+						</p>
 					</div>
 					<input
 						type="file"
@@ -542,7 +573,18 @@ const Onboarding1 = ({ hidden, prevPage, nextPage, text }) => {
 						accept=".pdf, .doc,"
 						onChange={(e) => handleFileChange(e, "cv")}
 					/>
-					={/* <Upload title="Upload CV (optional)" type="file" /> */}
+
+					{therapistProfile.therapist_cv_url && (
+						<a
+							href={therapistProfile.therapist_cv_url}
+							className="underline text-blue-500"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Click here to view existing file
+						</a>
+					)}
+					{/* <Upload title="Upload CV (optional)" type="file" /> */}
 					<p className=" text-gray-600 text-xs italic">
 						Please upload your CV, so that we could take information from and put on
 						your profile{" "}
@@ -554,6 +596,18 @@ const Onboarding1 = ({ hidden, prevPage, nextPage, text }) => {
 						accept=".png, .jpg, .jpeg"
 						onChange={(e) => handleFileChange(e, "image")}
 					/>
+					{therapistProfile.therapist_image_url && (
+						<a
+							href={therapistProfile.therapist_image_url}
+							className="underline text-blue-500"
+							target="_blank"
+							rel="noreferrer"
+						>
+							{" "}
+							Click here to view existing file
+						</a>
+					)}
+
 					<div className={`bg-gray-50 w-full mt-10 border-t border-blue-300 `}>
 						<Container>
 							<div
@@ -568,7 +622,11 @@ const Onboarding1 = ({ hidden, prevPage, nextPage, text }) => {
 									<button
 										className="btn-primary"
 										type="submit"
-										onClick={handleTherapistProfileChange}
+										onClick={() =>
+											auth.currentUser.displayName
+												? handleTherapistProfileChange(updateDoc)
+												: handleTherapistProfileChange(setDoc)
+										}
 									>
 										{text}
 									</button>
