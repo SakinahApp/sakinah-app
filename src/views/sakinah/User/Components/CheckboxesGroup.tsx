@@ -32,7 +32,7 @@ export default function CheckboxesGroup({
   return (
     <Box sx={{ display: "flex" }}>
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-        <FormLabel component="legend">Assign responsibility</FormLabel>
+        <FormLabel component="legend"></FormLabel>
         <FormGroup>
           {data.map((item) => (
             <FormControlLabel
