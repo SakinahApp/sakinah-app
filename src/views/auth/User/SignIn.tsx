@@ -28,6 +28,7 @@ export default function SignIn() {
         // Signed in
         const user = userCredential.user;
         if (user.emailVerified) {
+          console.log('user', user)
           return user.displayName ? navigate("/") : navigate("/user-info");
         } else {
           return setError("Please verify your email");
@@ -37,9 +38,11 @@ export default function SignIn() {
         const errorMessage = error.message;
         if (errorMessage.includes("user-not-found")) {
           return setError("Please sign up first");
-        } else if (errorMessage.includes("auth/wrong-password")) {
-          return setError("Incorrect password");
-        } else if (errorMessage.includes("invalid-email")) {
+        }
+        // else if (errorMessage.includes("auth/wrong-password")) {
+        //   return setError("Incorrect password");
+        // }
+        else if (errorMessage.includes("invalid-email")) {
           return setError("Please enter a valid email");
         } else {
           return setError(errorMessage);
