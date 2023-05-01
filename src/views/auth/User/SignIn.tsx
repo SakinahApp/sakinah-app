@@ -1,54 +1,54 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
+import * as React from "react"
+import Avatar from "@mui/material/Avatar"
+import Button from "@mui/material/Button"
+import CssBaseline from "@mui/material/CssBaseline"
+import TextField from "@mui/material/TextField"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import Checkbox from "@mui/material/Checkbox"
+import Grid from "@mui/material/Grid"
+import Box from "@mui/material/Box"
 // import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import LoginIcon from "@mui/icons-material/Login";
-import Typography from "@mui/material/Typography";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../Firebase";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Alert } from "@mui/material";
+import LoginIcon from "@mui/icons-material/Login"
+import Typography from "@mui/material/Typography"
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { auth } from "../../../Firebase"
+import { Link, NavLink, useNavigate } from "react-router-dom"
+import { Alert } from "@mui/material"
 
 export default function SignIn() {
-  const navigate = useNavigate();
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [error, setError] = React.useState("");
+  const navigate = useNavigate()
+  const [email, setEmail] = React.useState("")
+  const [password, setPassword] = React.useState("")
+  const [error, setError] = React.useState("")
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    event.preventDefault()
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
-        const user = userCredential.user;
+        const user = userCredential.user
         if (user.emailVerified) {
-          console.log('user', user)
-          return user.displayName ? navigate("/") : navigate("/user-info");
+          console.log("user", user)
+          return user.displayName ? navigate("/") : navigate("/user-info")
         } else {
-          return setError("Please verify your email");
+          return setError("Please verify your email")
         }
       })
       .catch((error) => {
-        const errorMessage = error.message;
+        const errorMessage = error.message
         if (errorMessage.includes("user-not-found")) {
-          return setError("Please sign up first");
+          return setError("Please sign up first")
         }
         // else if (errorMessage.includes("auth/wrong-password")) {
         //   return setError("Incorrect password");
         // }
         else if (errorMessage.includes("invalid-email")) {
-          return setError("Please enter a valid email");
+          return setError("Please enter a valid email")
         } else {
-          return setError(errorMessage);
+          return setError(errorMessage)
         }
-      });
-  };
+      })
+  }
 
   return (
     <Box
@@ -137,7 +137,7 @@ export default function SignIn() {
               marginBottom: 10,
             }}
           >
-            <NavLink to="/auth/signup">
+            <NavLink to="/auth/register">
               Don't have an account?{" "}
               <span style={{ textDecoration: "underline", color: "#1976d2" }}>
                 Sign Up
@@ -153,5 +153,5 @@ export default function SignIn() {
         </Link>
       </Box>
     </Box>
-  );
+  )
 }
