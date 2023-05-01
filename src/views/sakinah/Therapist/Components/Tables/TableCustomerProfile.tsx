@@ -40,8 +40,8 @@ const TableCustomerProfile = ({ tableHead, client }) => {
 										<ScheduleOutlinedIcon style={{ color: "inherit" }} />
 										{session.time}
 									</td>
-									<td className="px-6 py-4">{session.status[0]}</td>
-									<td className="px-6 py-4">£ {session.paid}</td>
+									<td className="px-6 py-4">Paid</td>
+									<td className="px-6 py-4">£ 65</td>
 									<td className="px-6 py-4">
 										<ActionUpcommingSession />
 									</td>

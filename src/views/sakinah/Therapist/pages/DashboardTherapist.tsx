@@ -10,7 +10,7 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import CurrencyPoundIcon from "@mui/icons-material/CurrencyPound";
 import UpcomingSessionTherapist from "../Components/UpcomingSessionTherapist";
 import TableExpandable from "../Components/Tables/TableExpandable";
-import CalendarDashboard from '../Components/Calendars/CalendarDashboard';
+import CalendarDashboard from "../Components/Calendars/CalendarDashboard";
 
 const DashboardTherapist = () => {
 	return (
