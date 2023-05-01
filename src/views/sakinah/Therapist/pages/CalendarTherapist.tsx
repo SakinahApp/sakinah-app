@@ -15,12 +15,6 @@ const CalendarTherapist = () => {
 				<CalendarDashboard therapist={true} />
 				<TableTherapist />
 			</div>
-
-			<div className="border-t text-center pt-5 text-lg font-medium from-stone-600"> Edit Availability or Choose Dates Off</div>
-			<div className="m-5 flex">
-				<WorkingDays />
-				<CalendarTimeOff therapist={true} />
-			</div>
 		</>
 	);
 };
