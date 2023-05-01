@@ -1,3 +1,5 @@
+    // @ts-nocheck
+
 const functions = require('firebase-functions');
 const nodemailer = require('nodemailer');
 // The Firebase Admin SDK to access Firestore.
