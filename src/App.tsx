@@ -144,7 +144,7 @@ function App() {
             <Onboarding3
               hidden={false}
               prevPage="/therapists/onboarding/2"
-              nextPage=""
+              nextPage="/therapist"
               text="Submit & Go to Dashboard"
             />
           }
