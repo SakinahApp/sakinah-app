@@ -1,6 +1,6 @@
 import React from "react";
 
-const TabComponent = ({ tab1, tab2, tab3, openTab, setOpenTab, color }) => {
+const TabComponent = ({ tab1, tab2, tab3, tab4, openTab, setOpenTab, color }) => {
 	return (
 		<div>
 			{" "}
@@ -64,6 +64,27 @@ const TabComponent = ({ tab1, tab2, tab3, openTab, setOpenTab, color }) => {
 							role="tablist"
 						>
 							{tab3}
+						</a>
+					</li>
+				)}
+				{tab4 && (
+					<li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+						<a
+							className={
+								"text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+								(openTab === 4
+									? "text-white bg-" + color + "-600"
+									: "text-" + color + "-600 bg-white")
+							}
+							onClick={(e) => {
+								e.preventDefault();
+								setOpenTab(4);
+							}}
+							data-toggle="tab"
+							href="#link3"
+							role="tablist"
+						>
+							{tab4}
 						</a>
 					</li>
 				)}

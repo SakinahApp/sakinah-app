@@ -7,6 +7,8 @@ import PayoutHistory from "./PayoutHistory";
 import Onboarding1 from "../Onboarding/Onboarding1";
 import Onboarding2 from "../Onboarding/Onboarding2";
 import Onboarding3 from "../Onboarding/Onboarding3";
+import WorkingDays from "./WorkingDays";
+import CalendarTimeOff from "./Calendars/CalendarTimeOff";
 
 const TabOnboarding = () => {
 	const [openTab, setOpenTab] = React.useState(1);
@@ -20,6 +22,7 @@ const TabOnboarding = () => {
 						tab1="Personal Details"
 						tab2="Topics Covered"
 						tab3="Main Topics"
+						tab4="Working hours & Days Off"
 						openTab={openTab}
 						setOpenTab={setOpenTab}
 						color="blue"
@@ -53,6 +56,12 @@ const TabOnboarding = () => {
 										text="Save Changes"
 									/>
 									{/* Here should be what it should be showed when clicked on tab3 */}
+								</div>
+								<div className={openTab === 4 ? "block" : "hidden"} id="link2">
+									<div className="m-5 flex">
+										<WorkingDays />
+										<CalendarTimeOff therapist={true} />
+									</div>
 								</div>
 							</div>
 						</div>

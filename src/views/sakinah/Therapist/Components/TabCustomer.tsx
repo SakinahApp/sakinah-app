@@ -3,7 +3,7 @@ import NotesTherapist from "./Notes/NotesTherapist";
 import NotesClient from "./Notes/NotesClient";
 import TabComponent from "./TabComponent";
 
-const TabsCustomer = ({ color, tab1, tab2, tab3, client }) => {
+const TabsCustomer = ({ color, tab1, tab2, tab3, tab4, client }) => {
 	const [openTab, setOpenTab] = React.useState(1);
 	return (
 		<>
@@ -13,6 +13,7 @@ const TabsCustomer = ({ color, tab1, tab2, tab3, client }) => {
 						tab1={tab1}
 						tab2={tab2}
 						tab3={tab3}
+						tab4={tab4}
 						color={color}
 						openTab={openTab}
 						setOpenTab={setOpenTab}

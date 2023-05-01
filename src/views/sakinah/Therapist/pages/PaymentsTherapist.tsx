@@ -46,6 +46,7 @@ const PaymentsTherapist = () => {
 				tab1="Sales History"
 				tab2="Payout History"
 				tab3=""
+				tab4=""
 			/>
 		</div>
 	);
