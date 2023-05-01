@@ -101,7 +101,7 @@ function App() {
           <Route index element={<MyDashboard />} />
           <Route path="preferences" element={<Preferences />} />
           <Route path="sessions" element={<MySessions />} />
-          <Route path="therapists" element={<MyTherapists />} />
+          <Route path="therapist-list" element={<MyTherapists />} />
           <Route path="therapist/:id" element={<TherapistProfile />} />
           <Route path="settings" element={<MySettings />} />
         </Route>
@@ -153,7 +153,7 @@ function App() {
       {/* </Route>  */}
 
       {/* Therapist Dashboard */}
-      <Route path="/therapist-board" element={<LayoutTherapist />}>
+      <Route path="/therapist" element={<LayoutTherapist />}>
         <Route index element={<DashboardTherapist />} />
         <Route path="calendar" element={<CalendarTherapist />} />
         <Route path="customers" element={<CustomersTherapist />} />
