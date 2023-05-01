@@ -5,7 +5,7 @@ import TableCustomerProfile from "./Tables/TableCustomerProfile";
 import TableSales from "./Tables/TableSales";
 import PayoutHistory from "./PayoutHistory";
 
-const TabPayments = ({ color, tab1, tab2, tab3 }) => {
+const TabPayments = ({ color, tab1, tab2, tab3, tab4 }) => {
 	const [openTab, setOpenTab] = React.useState(1);
 	const tableHead = ["Date", "Time", "Status", "Paid", "Action"];
 
@@ -17,6 +17,7 @@ const TabPayments = ({ color, tab1, tab2, tab3 }) => {
 						tab1={tab1}
 						tab2={tab2}
 						tab3={tab3}
+						tab4={tab4}
 						openTab={openTab}
 						setOpenTab={setOpenTab}
 						color={color}

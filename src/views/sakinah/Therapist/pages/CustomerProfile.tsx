@@ -29,6 +29,7 @@ const CustomerProfile = () => {
 									tab1="Profile"
 									tab2="Notes"
 									tab3=""
+									tab4=""
 									client={client}
 								/>
 								<TableCustomerProfile tableHead={tableHead} client={client} />
