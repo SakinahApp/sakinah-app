@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { Box } from "@mui/system";
-import { Link } from "react-router-dom";
-import HomeIcon from "@mui/icons-material/Home";
-import { useLocation } from "react-router-dom";
-import { auth } from "../../../Firebase";
-import { signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import ShieldMoonIcon from "@mui/icons-material/ShieldMoon";
-import LogoutIcon from "@mui/icons-material/Logout";
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import React, { useState } from "react"
+import { Box } from "@mui/system"
+import { Link } from "react-router-dom"
+import HomeIcon from "@mui/icons-material/Home"
+import { useLocation } from "react-router-dom"
+import { auth } from "../../../Firebase"
+import { signOut } from "firebase/auth"
+import { useNavigate } from "react-router-dom"
+import ShieldMoonIcon from "@mui/icons-material/ShieldMoon"
+import LogoutIcon from "@mui/icons-material/Logout"
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft"
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight"
 
 import {
   IconButton,
@@ -18,31 +18,31 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-} from "@mui/material";
-import VideoChatIcon from "@mui/icons-material/VideoChat";
-import PersonIcon from "@mui/icons-material/Person";
-import AcUnitIcon from "@mui/icons-material/AcUnit";
-import SettingsIcon from "@mui/icons-material/Settings";
-import { useStoreTemporary } from "../../../Zustand";
+} from "@mui/material"
+import VideoChatIcon from "@mui/icons-material/VideoChat"
+import PersonIcon from "@mui/icons-material/Person"
+import AcUnitIcon from "@mui/icons-material/AcUnit"
+import SettingsIcon from "@mui/icons-material/Settings"
+import { useStoreTemporary } from "../../../Zustand"
 
 function Sidebar() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [hide, setHide] = useState(true);
-  const [isShown, setIsShown] = useState(false);
-  const { setSidebarWidth } = useStoreTemporary();
+  const location = useLocation()
+  const navigate = useNavigate()
+  const [hide, setHide] = useState(true)
+  const [isShown, setIsShown] = useState(false)
+  const { setSidebarWidth } = useStoreTemporary()
 
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
-        navigate("/auth/login");
-        console.log("Signed out successfully");
+        navigate("/auth/login")
+        console.log("Signed out successfully")
       })
       .catch((error) => {
         // An error happened.
-      });
-  };
+      })
+  }
 
   return (
     <Box
@@ -176,10 +176,10 @@ function Sidebar() {
         </Box>
       </Box>
     </Box>
-  );
+  )
 }
 
-export default Sidebar;
+export default Sidebar
 
 const data = [
   {
@@ -194,7 +194,7 @@ const data = [
   },
   {
     name: "All Therapists",
-    link: "/therapists",
+    link: "/therapist-list",
     icon: <PersonIcon />,
   },
   {
@@ -202,4 +202,4 @@ const data = [
     link: "/preferences",
     icon: <AcUnitIcon />,
   },
-];
+]
