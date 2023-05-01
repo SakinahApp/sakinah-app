@@ -1,6 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import calendar from "../images/calendar.svg";
+import React from "react"
+import { Link } from "react-router-dom"
+import calendar from "../images/calendar.svg"
 import {
   Box,
   Button,
@@ -13,19 +13,19 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-} from "@mui/material";
-import { useStore, useStoreTemporary, useStoreUser } from "../../../../Zustand";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../../../Firebase";
-import { styled } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import PersonIcon from "@mui/icons-material/Person";
-import PaymentUI from "./PaymenyUI";
+} from "@mui/material"
+import { useStore, useStoreTemporary, useStoreUser } from "../../../../Zustand"
+import { collection, addDoc } from "firebase/firestore"
+import { db } from "../../../../Firebase"
+import { styled } from "@mui/material/styles"
+import Dialog from "@mui/material/Dialog"
+import DialogActions from "@mui/material/DialogActions"
+import DialogContent from "@mui/material/DialogContent"
+import DialogTitle from "@mui/material/DialogTitle"
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
+import AccessTimeIcon from "@mui/icons-material/AccessTime"
+import PersonIcon from "@mui/icons-material/Person"
+import PaymentUI from "./PaymenyUI"
 
 function ConfirmBooking({
   therapist,
@@ -35,38 +35,40 @@ function ConfirmBooking({
   time,
   setOpenSnackbar,
 }) {
-  const { setUpcomingSession } = useStore((state) => state);
-  const { userInfo, setUserInfo } = useStoreUser((state) => state);
+  const { setUpcomingSession } = useStore((state) => state)
+  const { userInfo, setUserInfo } = useStoreUser((state) => state)
 
   // Add a new session with a generated id.
   async function addSession() {
-    try {
-      await addDoc(collection(db, "therapy-session"), {
-        // room_code: Math.floor(100000 + Math.random() * 900000),
-        therapist_id: therapist.id,
-        therapist_name: therapist.fullName,
-        therapist_email: therapist.email || null,
-        time: time,
-        date: date,
-        type: "single",
-        user_id: userInfo.uid,
-        user_name: userInfo.name,
-        user_email: userInfo.email,
-        cancel: false,
-        price: therapist.price,
-      });
-      setOpenSnackbar(true);
-      return;
-    } catch (e) {
-      console.log(e);
-      return;
+    if (therapist) {
+      try {
+        await addDoc(collection(db, "therapy-session"), {
+          // room_code: Math.floor(100000 + Math.random() * 900000),
+          therapist_id: therapist?.therapist_id,
+          therapist_name: therapist?.therapist_name,
+          therapist_email: therapist?.therapist_email || null,
+          time: time,
+          date: date,
+          type: "single",
+          user_id: userInfo?.uid,
+          user_name: userInfo?.name,
+          user_email: userInfo?.email,
+          cancel: false,
+          price: therapist?.price_individuals ?? 0,
+        })
+        setOpenSnackbar(true)
+        return
+      } catch (e) {
+        console.log(e)
+        return
+      }
     }
   }
 
   function handleBook() {
-    setOpen(false);
-    addSession();
-    setUpcomingSession({ ...therapist, date: date, time: time });
+    setOpen(false)
+    addSession()
+    setUpcomingSession({ ...therapist, date: date, time: time })
   }
 
   return (
@@ -178,7 +180,7 @@ function ConfirmBooking({
                         style={{ width: 30, height: 30, marginRight: 5 }}
                       />
                     </ListItemIcon>
-                    <ListItemText primary={therapist.fullName} />
+                    <ListItemText primary={therapist?.therapist_name} />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -205,7 +207,7 @@ function ConfirmBooking({
           >
             <p style={{ fontSize: 10 }}>You have to Pay</p>
             <h2 style={{ fontSize: 30 }}>
-              £ <strong>{therapist.price}</strong>
+              £ <strong>{therapist?.price_individuals}</strong>
             </h2>
             {/* <Button
               onClick={handleBook}
@@ -237,10 +239,10 @@ function ConfirmBooking({
         </Grid>
       </Grid>
     </BootstrapDialog>
-  );
+  )
 }
 
-export default ConfirmBooking;
+export default ConfirmBooking
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -252,10 +254,10 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
     flexGrow: 1,
   },
-}));
+}))
 
 export interface DialogTitleProps {
-  id: string;
-  children?: React.ReactNode;
-  onClose: () => void;
+  id: string
+  children?: React.ReactNode
+  onClose: () => void
 }

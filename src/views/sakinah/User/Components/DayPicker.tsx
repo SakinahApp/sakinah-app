@@ -1,25 +1,25 @@
-import * as React from "react";
-import dayjs, { Dayjs } from "dayjs";
-import TextField from "@mui/material/TextField";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
-import { Box, Button } from "@mui/material";
-import "./Style.css";
-import ConfirmBooking from "./ConfirmBooking";
-import SnackbarX from "./SnackbarX";
+import * as React from "react"
+import dayjs, { Dayjs } from "dayjs"
+import TextField from "@mui/material/TextField"
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
+import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker"
+import { Box, Button } from "@mui/material"
+import "./Style.css"
+import ConfirmBooking from "./ConfirmBooking"
+import SnackbarX from "./SnackbarX"
 
 const isWeekend = (date: Dayjs) => {
-  const day = date.day();
-  return day === 0 || day === 6;
-};
+  const day = date.day()
+  return day === 0 || day === 6
+}
 
 export default function DayPicker({ therapist, open, setOpen }) {
-  const [value, setValue] = React.useState<Dayjs | null>(dayjs());
-  const [time, setTime] = React.useState("09:00");
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs())
+  const [time, setTime] = React.useState("09:00")
+  const [openSnackbar, setOpenSnackbar] = React.useState(false)
 
-  const date = dayjs(value[0]).format("LL");
+  const date = dayjs(value).format("LL")
 
   // console.log("date", date);
 
@@ -49,7 +49,7 @@ export default function DayPicker({ therapist, open, setOpen }) {
           shouldDisableDate={isWeekend}
           value={value}
           onChange={(newValue) => {
-            setValue(newValue);
+            setValue(newValue)
           }}
           renderInput={(params) => <TextField {...params} />}
         />
@@ -127,5 +127,5 @@ export default function DayPicker({ therapist, open, setOpen }) {
         <p>{time}</p>
       </Box>
     </Box>
-  );
+  )
 }
