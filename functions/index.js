@@ -19,8 +19,8 @@ var transporter = nodemailer.createTransport({
         ciphers: 'SSLv3'
     },
     auth: {
-        user: `nekruz.avgani@outlook.com`,
-        pass: `Sakinah2022!`
+        user: process.env.REACT_APP_EMAIL,
+        pass: process.env.REACT_APP_EMAIL_PASSWORD
     },
 });
 
@@ -30,8 +30,12 @@ exports.sendEmailX = functions.firestore
     .document('users/{id}')
     .onCreate(async (snap, context) => {
         const user = snap.data()
-        await db.collection('loggin').add({ email: user.email })
-        await db.collection('loggin').add({ user: user })
+        await db.collection('loggin').add({
+            email: user.email
+        })
+        await db.collection('loggin').add({
+            user: user
+        })
 
         const mailOptions = {
             from: `nekruz.avgani@outlook.com`,
@@ -64,7 +68,9 @@ exports.sendEmailRegister = functions.firestore
     .onCreate(async (snap, context) => {
         const user = snap.data()
 
-        await db.collection('loggin').add({ therapy: user.user_email })
+        await db.collection('loggin').add({
+            therapy: user.user_email
+        })
         const mailOptionsRegister = {
             from: `nekruz.avgani@outlook.com`,
             to: `${user.user_email}`,
