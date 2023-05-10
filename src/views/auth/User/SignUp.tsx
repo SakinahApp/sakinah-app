@@ -25,7 +25,8 @@ function Copyright(props: any) {
     >
       {"Copyright © "}
       <a color="inherit" href="#">
-Sakinah      </a>{" "}
+        Sakinah Therapy
+      </a>{" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -36,6 +37,7 @@ export default function SignUp() {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [confirmPassword, setConfirmPassword] = React.useState("");
   const [message, setMessage] = React.useState("");
 
   // Handle register
@@ -65,73 +67,93 @@ export default function SignUp() {
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        maxWidth: "450px",
+        background: "#5f6ac40f",
+        borderRadius: "8px",
+        padding: 5,
+        paddingTop: "30px",
+        margin: "10px",
+      }}
+    >
       <CssBaseline />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOpenIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                value={email}
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                value={password}
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              {message && <Alert severity="success">{message}</Alert>}
-            </Grid>
+      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+        <LockOpenIcon />
+      </Avatar>
+      <Typography component="h1" variant="h5">
+        Sign up
+      </Typography>
+      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              required
+              value={email}
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign Up
-          </Button>
-          <Grid container justifyContent="center">
-            <Grid item>
-              <NavLink to="/auth/login">
-                Already have an account?{" "}
-                <span style={{ textDecoration: "underline", color: "#1976d2" }}>
-                  Sign in
-                </span>
-              </NavLink>
-            </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              value={password}
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="new-password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </Grid>
-        </Box>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              value={confirmPassword}
+              name="confirmPassword"
+              label="Confirm Password"
+              type="password"
+              id="password"
+              autoComplete="new-password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            {confirmPassword !== password && (
+              <Alert severity="error">Passwords do not match!</Alert>
+            )}
+            {message && <Alert severity="success">{message}</Alert>}
+          </Grid>
+        </Grid>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
+          Sign Up
+        </Button>
+        <Grid container justifyContent="center">
+          <Grid item>
+            <NavLink to="/auth/login">
+              Already have an account?{" "}
+              <span style={{ textDecoration: "underline", color: "#1976d2" }}>
+                Sign in
+              </span>
+            </NavLink>
+          </Grid>
+        </Grid>
       </Box>
-      <Copyright sx={{ mt: 5 }} />
-    </>
+      <Copyright sx={{ mt: 2 }} />
+    </Box>
   );
 }

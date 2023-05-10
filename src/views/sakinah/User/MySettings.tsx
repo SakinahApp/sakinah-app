@@ -1,5 +1,6 @@
 //@ts-nocheck
 import * as React from "react";
+import { deleteUser } from "firebase/auth";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -10,86 +11,129 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { auth, db } from "../../../Firebase";
 import photo from "../../../assets/images/business-account.png";
 import { useStoreUser } from "../../../Zustand";
-import {
-  collection,
-  addDoc,
-  getDocs,
-  updateDoc,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
+import { updateDoc, deleteDoc, doc } from "firebase/firestore";
+import SnackbarX from "./Components/SnackbarX";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { Alert } from "@mui/material";
+import ConfirmationModal from "../../../components/Confirm/ConfirmationModal";
 
 export default function MySettings() {
   const { userInfo } = useStoreUser((state) => state);
   const [currentUser, setCurrentUser] = React.useState(null);
   const [email, setEmail] = React.useState(userInfo?.email || "");
+  const [emailMessage, setEmailMessage] = React.useState("");
+  const user = auth.currentUser; // Curent user
+
+  //Snackbar
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+
+  // Onmount set user information
+  React.useEffect(() => {
+    setCurrentUser({
+      ...currentUser,
+      name: userInfo.name,
+      age: userInfo.age,
+      gender: userInfo.gender,
+    });
+  }, []);
+
+  // Reset Password
+  const [openConfirmPassword, setOpenConfirmPassword] = React.useState(false);
+  function resetPassword() {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        setEmailMessage(
+          "Password reset email sent! Please follow the link on your email to reset your password."
+        );
+      })
+      .catch((error) => {
+        setEmailMessage("Something went wrong!");
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+  }
 
   // set gender
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
+    gender: string
   ) => {
-    setCurrentUser({ ...currentUser, gender: newAlignment });
+    setCurrentUser({ ...currentUser, gender: gender });
   };
 
-  // Fetch users data - ALL USERS
-  // React.useEffect(() => {
-  //   async function fetchData() {
-  //     const usersData = await getDocs(collection(db, "users"));
-  //     const arrayUsers = usersData.docs.map((doc) => ({
-  //       ...doc.data(),
-  //       id: doc.id,
-  //     }));
-  //     setCurrentUser(arrayUsers[0]);
-  //   }
-  //   fetchData();
-  // }, []);
-
-  // Add user data
-  async function addUser() {
-    try {
-      const user = await addDoc(collection(db, "users"), {
-        name: currentUser?.name,
-        age: currentUser?.age,
-        gender: currentUser?.gender,
-      });
-      console.log("Document written with ID: ", user);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  }
+  console.log("userInfo", userInfo);
+  console.log("currentUser :>> ", currentUser);
 
   // Update user data
-  async function updateData(id: string) {
-    const userDoc = doc(db, "users", id);
+  const [openConfirmUpdate, setOpenConfirmUpdate] = React.useState(false);
+  async function updateData() {
+    const userDoc = doc(db, "users", userInfo?.uid);
     try {
-      const user = await updateDoc(userDoc, {
-        name: currentUser.name,
-      });
+      const user = await updateDoc(userDoc, currentUser);
+      setOpen(true);
+      setMessage("Your information has been updated!");
       console.log("Updated user: ", user);
     } catch (e) {
-      console.error("Error updating user: ", e);
+      setMessage("Something went wrong");
+      setOpen(true);
     }
   }
 
   // Delete user data
-  async function deleteData(id: string) {
-    const userDoc = doc(db, "users", id);
+  const [openConfirmDelete, setOpenConfirmDelete] = React.useState(false);
+  async function deleteUserAccount() {
+    const userDoc = doc(db, "users", userInfo?.uid);
     await deleteDoc(userDoc);
+
+    deleteUser(user)
+      .then(() => {
+        setMessage("Your acount has been deleted");
+        setOpen(true);
+      })
+      .catch((error) => {
+        setMessage("Something went wrong");
+        setOpen(true);
+      });
   }
 
   // Handle Submit button
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    // updateData();
-    // deleteData("AMtfntrB8PZUs3fx6Ui8");
-    // addUser();
+    updateData();
   };
 
   return (
     <>
       <CssBaseline />
+      <ConfirmationModal
+        openConfirm={openConfirmDelete}
+        setOpenConfirm={setOpenConfirmDelete}
+        action={deleteUserAccount}
+        topic="Delete"
+        message="Are you sure you want to delete your account?"
+      />
+      <ConfirmationModal
+        openConfirm={openConfirmPassword}
+        setOpenConfirm={setOpenConfirmPassword}
+        action={resetPassword}
+        topic="Reset Password"
+        message="Are you sure you want to reset your password?"
+      />
+      <ConfirmationModal
+        openConfirm={openConfirmUpdate}
+        setOpenConfirm={setOpenConfirmUpdate}
+        action={updateData}
+        topic="Update Information"
+        message="Are you sure you want to update your information?"
+      />
+
+      <SnackbarX
+        open={open}
+        setOpen={setOpen}
+        backgroundColor="#32a676"
+        message={message}
+      />
       <Box
         sx={{
           display: "flex",
@@ -187,7 +231,7 @@ export default function MySettings() {
                   </ToggleButton>
                 </ToggleButtonGroup>
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <TextField
                   required
                   value={email}
@@ -198,19 +242,44 @@ export default function MySettings() {
                   autoComplete="email"
                   onChange={(e) => setEmail(e.target.value)}
                 />
-              </Grid>
-              <Grid item xs={12}>
-                <Button>Change Password</Button>
-              </Grid>
+              </Grid> */}
             </Grid>
             <Button
-              type="submit"
+              onClick={() => setOpenConfirmUpdate(true)}
+              // type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 8, mb: 2, background: "rgb(226, 109, 128)" }}
             >
               Update
             </Button>
+            <Button
+              onClick={() => setOpenConfirmDelete(true)}
+              style={{
+                width: "100%",
+                marginBottom: "16px",
+                color: "rgb(226, 109, 128)",
+                border: "1px solid rgb(226, 109, 128)",
+              }}
+            >
+              Delete My Profile
+            </Button>
+            <Button
+              onClick={() => setOpenConfirmPassword(true)}
+              style={{
+                width: "100%",
+                color: "#1976d2",
+                border: "1px solid #1976d2",
+                marginRight: "10px",
+              }}
+            >
+              Change Password
+            </Button>
+            {emailMessage && (
+              <Alert severity="success" style={{ marginTop: 10 }}>
+                {emailMessage}
+              </Alert>
+            )}
           </Box>
           <img src={photo} style={{ width: 400 }} alt="profile" />
         </Box>

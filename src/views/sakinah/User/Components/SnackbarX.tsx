@@ -13,15 +13,19 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 export default function SnackbarX({ open, setOpen, message, backgroundColor }) {
   return (
-    <Stack
-      spacing={2}
-      sx={{ width: "100%", position: "absolute", zIndex: 99999 }}
-    >
+    <Stack spacing={2} sx={{ width: "100%" }}>
       <Snackbar
         open={open}
         autoHideDuration={2000}
         onClose={() => setOpen(false)}
-        style={{ background: "transparent" }}
+        style={{
+          background: "transparent",
+          height: "100px",
+          position: "absolute",
+          zIndex: 99999,
+          top: "100px",
+          left: "45%",
+        }}
       >
         <Alert
           onClose={() => setOpen(false)}

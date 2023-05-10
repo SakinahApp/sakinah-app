@@ -25,14 +25,16 @@ export default function CheckboxesGroup({
     if (!preferences.includes(event.target.name)) {
       return setPreferences([...preferences, event.target.name]);
     } else {
-      return setPreferences(preferences.filter((p) => p!== event.target.name));
+      return setPreferences(preferences.filter((p) => p !== event.target.name));
     }
   };
 
   return (
     <Box sx={{ display: "flex" }}>
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-        <FormLabel component="legend"></FormLabel>
+        <FormLabel component="legend" style={{ height: 55 }}>
+          {title}
+        </FormLabel>
         <FormGroup>
           {data.map((item) => (
             <FormControlLabel

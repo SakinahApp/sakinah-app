@@ -25,9 +25,25 @@ function ForgotPassword(props) {
 			});
 	};
 	return (
-		<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+		<Box
+			component="form"
+			onSubmit={handleSubmit}
+			noValidate
+			sx={{
+				display: "flex",
+				flexDirection: "column",
+				alignItems: "center",
+				justifyContent: "center",
+				maxWidth: "100%",
+				minWidth: "400px",
+				background: "#5f6ac40f",
+				borderRadius: "8px",
+				padding: 5,
+				paddingTop: "30px",
+				margin: "10px",
+			}}
+		>
 			<CssBaseline />
-
 			<Typography component="h1" variant="h5" mb="10px">
 				Reset Password
 			</Typography>
@@ -47,18 +63,11 @@ function ForgotPassword(props) {
 			<Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
 				Reset password
 			</Button>
-			<Box>
-				<Link to="/auth/login">
-					<Button fullWidth variant="outlined" sx={{ mt: 3, mb: 2 }}>
-						Go to User Login
-					</Button>
-				</Link>
-				<Link to="/auth/therapists/signin">
-					<Button fullWidth variant="outlined" sx={{ mt: 3, mb: 2 }}>
-						Go to Therapist Login
-					</Button>
-				</Link>
-			</Box>
+			<Link to="/auth/login">
+				<Button fullWidth variant="outlined" sx={{ mt: 3, mb: 2 }}>
+					Go to Login
+				</Button>
+			</Link>
 		</Box>
 	);
 }

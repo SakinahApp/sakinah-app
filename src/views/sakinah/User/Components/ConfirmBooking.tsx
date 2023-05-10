@@ -1,134 +1,263 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Box, Button, CssBaseline } from "@mui/material";
-import { useStore, useStoreTemporary, useStoreUser } from "../../../../Zustand";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../../../Firebase";
+import React from "react"
+import { Link } from "react-router-dom"
+import calendar from "../images/calendar.svg"
+import {
+  Box,
+  Button,
+  CssBaseline,
+  Divider,
+  Grid,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material"
+import { useStore, useStoreTemporary, useStoreUser } from "../../../../Zustand"
+import { collection, addDoc } from "firebase/firestore"
+import { db } from "../../../../Firebase"
+import { styled } from "@mui/material/styles"
+import Dialog from "@mui/material/Dialog"
+import DialogActions from "@mui/material/DialogActions"
+import DialogContent from "@mui/material/DialogContent"
+import DialogTitle from "@mui/material/DialogTitle"
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
+import AccessTimeIcon from "@mui/icons-material/AccessTime"
+import PersonIcon from "@mui/icons-material/Person"
+import PaymentUI from "./PaymenyUI"
 
-function ConfirmBooking({ therapist, visibility, setVisibility, date, time }) {
-  const { setUpcomingSession } = useStore((state) => state);
-  const { userInfo, setUserInfo } = useStoreUser((state) => state);
-  const { setSnackbarOpen } = useStoreTemporary((state) => state);
+function ConfirmBooking({
+  therapist,
+  open,
+  setOpen,
+  date,
+  time,
+  setOpenSnackbar,
+}) {
+  const { setUpcomingSession } = useStore((state) => state)
+  const { userInfo, setUserInfo } = useStoreUser((state) => state)
 
   // Add a new session with a generated id.
   async function addSession() {
-    try {
-      const docRef = await addDoc(collection(db, "therapy-session"), {
-        room_code: Math.floor(100000 + Math.random() * 900000),
-        therapist_id: therapist.id,
-        therapist_name: therapist.fullName,
-        time: time,
-        date: date,
-        type: "single",
-        user_id: userInfo.uid,
-        user_name: userInfo.name,
-      });
-      setSnackbarOpen(true);
-      // console.log("Document written with ID: ", docRef.id);
-      return;
-    } catch (e) {
-      console.log(e);
-      return;
+    if (therapist) {
+      try {
+        await addDoc(collection(db, "therapy-session"), {
+          // room_code: Math.floor(100000 + Math.random() * 900000),
+          therapist_id: therapist?.therapist_id,
+          therapist_name: therapist?.therapist_name,
+          therapist_email: therapist?.therapist_email || null,
+          time: time,
+          date: date,
+          type: "single",
+          user_id: userInfo?.uid,
+          user_name: userInfo?.name,
+          user_email: userInfo?.email,
+          cancel: false,
+          price: therapist?.price_individuals ?? 0,
+        })
+        setOpenSnackbar(true)
+        return
+      } catch (e) {
+        console.log(e)
+        return
+      }
     }
   }
 
   function handleBook() {
-    setVisibility("flex");
-    addSession();
-    setUpcomingSession({ ...therapist, date: date, time: time });
+    setOpen(false)
+    addSession()
+    setUpcomingSession({ ...therapist, date: date, time: time })
   }
 
   return (
-    <div
-      style={{
-        display: visibility,
-        padding: "20px",
-        boxShadow:
-          "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
-        background: "rgb(95, 106, 196)",
-        width: 380,
-        borderRadius: 12,
-        flexDirection: "column",
-        justifyContent: "space-between",
-        alignItems: "center",
-        zIndex: 9999,
-        position: "absolute",
-        margin: "auto",
-        top: "calc(50% - 100px)",
-        left: "calc(50% - 190px)",
-      }}
+    <BootstrapDialog
+      open={open}
+      onClose={() => setOpen(false)}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      fullWidth={true}
+      maxWidth="lg"
     >
       <CssBaseline />
-      <h2
-        style={{
-          fontWeight: 600,
-          fontSize: 18,
-          color: "white",
-          textAlign: "center",
-        }}
-      >
-        Please confirm your booking
-      </h2>
-      <Box
-        style={{
-          width: "100%",
-          background: "rgb(245, 245, 245)",
-          padding: "10px 0px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          margin: "20px auto 10px",
-          maxWidth: 270,
-          fontSize: 14,
-          borderRadius: "6px",
-        }}
-      >
-        <p style={{ fontWeight: 600 }}>Chosen Date and Time</p>
-        <p>{date}</p>
-        <p>{time}</p>
-      </Box>
-      <Box
-        style={{
-          margin: "auto",
-          color: "black",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <Link to="/sessions">
-          <Button
-            onClick={handleBook}
-            color="inherit"
-            style={{
-              borderRadius: "20px",
-              background: "white",
-              padding: "5px 20px",
-              width: "100px",
-              boxShadow: "none",
-              margin: 5,
-            }}
-          >
-            Book
-          </Button>
-        </Link>
-        <Button
-          onClick={() => setVisibility("none")}
-          color="inherit"
-          style={{
-            borderRadius: "20px",
-            background: "white",
-            padding: "5px 20px",
-            width: "100px",
-            boxShadow: "none",
-            margin: 5,
+      <Grid container sx={{ padding: 5 }}>
+        <Grid item xs={12} sm={9} sx={{ borderRadius: "4px" }}>
+          <PaymentUI handleBook={handleBook} setOpen={setOpen} />
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          sm={3}
+          sx={{
+            borderRadius: "4px",
+            background: "rgba(226, 230, 251, 0.3)",
+            marginBottom: "10px",
+            marginTop: "10px",
           }}
         >
-          Cancel
-        </Button>
-      </Box>
-    </div>
-  );
+          <DialogTitle id="alert-dialog-title">
+            <h2
+              style={{
+                fontWeight: 600,
+                fontSize: "1.2rem",
+                textAlign: "center",
+                padding: "20px 30px 10xp",
+              }}
+            >
+              Chosen Date and Time
+            </h2>
+          </DialogTitle>
+          <DialogContent>
+            <Box
+              style={{
+                width: "100%",
+                background: "white",
+                padding: "10px 0px 20px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                margin: "10px auto",
+                maxWidth: 270,
+                fontSize: 16,
+                borderRadius: "6px",
+              }}
+            >
+              <List>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    className="onHover"
+                    style={{
+                      color: "black",
+                      borderRadius: 5,
+                      marginBottom: 5,
+                    }}
+                  >
+                    <ListItemIcon
+                      style={{
+                        color: "inherit",
+                        fontWeight: 600,
+                        fontSize: 19,
+                      }}
+                    >
+                      <CalendarMonthIcon
+                        style={{ width: 30, height: 30, marginRight: 5 }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary={date} />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    className="onHover"
+                    style={{
+                      color: "black",
+                      borderRadius: 5,
+                      marginBottom: 5,
+                    }}
+                  >
+                    <ListItemIcon style={{ color: "inherit", fontWeight: 600 }}>
+                      <AccessTimeIcon
+                        style={{ width: 30, height: 30, marginRight: 5 }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary={time} />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    className="onHover"
+                    style={{
+                      color: "black",
+                      borderRadius: 5,
+                      marginBottom: 5,
+                    }}
+                  >
+                    <ListItemIcon style={{ color: "inherit", fontWeight: 600 }}>
+                      <PersonIcon
+                        style={{ width: 30, height: 30, marginRight: 5 }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary={therapist?.therapist_name} />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+              <img
+                style={{
+                  color: "aqua",
+                  height: 100,
+                  marginTop: 20,
+                }}
+                src={calendar}
+                alt="calendar"
+              />
+            </Box>
+          </DialogContent>
+          <Divider style={{ color: "red" }} />
+          <DialogActions
+            style={{
+              margin: "auto",
+              color: "black",
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+            }}
+          >
+            <p style={{ fontSize: 10 }}>You have to Pay</p>
+            <h2 style={{ fontSize: 30 }}>
+              £ <strong>{therapist?.price_individuals}</strong>
+            </h2>
+            {/* <Button
+              onClick={handleBook}
+              color="inherit"
+              style={{
+                borderRadius: "4px",
+                backgroundColor: "rgb(95, 106, 196)",
+                color: "white",
+                padding: "5px 20px",
+                width: "100px",
+                boxShadow: "none",
+                margin: 5,
+              }}
+            >
+              Book
+            </Button>
+            <Button
+              onClick={() => setOpen(false)}
+              color="inherit"
+              style={{
+                padding: "5px 20px",
+                width: "100px",
+                margin: 5,
+              }}
+            >
+              Cancel
+            </Button> */}
+          </DialogActions>
+        </Grid>
+      </Grid>
+    </BootstrapDialog>
+  )
 }
 
-export default ConfirmBooking;
+export default ConfirmBooking
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+    flexGrow: 1,
+    height: "50vh",
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+    flexGrow: 1,
+  },
+}))
+
+export interface DialogTitleProps {
+  id: string
+  children?: React.ReactNode
+  onClose: () => void
+}
