@@ -85,7 +85,7 @@ export default function SignUpTherapist() {
 						<LockOutlinedIcon />
 					</Avatar>
 					<Typography component="h1" variant="h5">
-						Sign up
+						Therapist Sign up
 					</Typography>
 					<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
 						<Grid container spacing={2}>
@@ -118,6 +118,9 @@ export default function SignUpTherapist() {
 								{message && <Alert severity="success">{message}</Alert>}
 							</Grid>
 						</Grid>
+						<Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+							Sign Up
+						</Button>
 						<Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
 							Sign Up
 						</Button>

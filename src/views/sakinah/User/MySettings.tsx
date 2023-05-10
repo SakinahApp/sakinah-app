@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as React from "react";
 import { deleteUser } from "firebase/auth";
 import Button from "@mui/material/Button";

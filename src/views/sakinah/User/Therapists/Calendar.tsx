@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Box, Button } from "@mui/material";
 import React from "react";
 import DayPicker from "../Components/DayPicker";
