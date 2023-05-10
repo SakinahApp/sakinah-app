@@ -1,38 +1,66 @@
-import React from "react";
-import { Grid } from "@mui/material";
-import Statistics from "./Components/Statistics";
-import SessionsList from "./MySessions/SessionsList";
-import { useStore } from "../../../Zustand";
-import dayjs from "dayjs";
+import React, { useState } from "react"
+import { Grid } from "@mui/material"
+import Statistics from "./Components/Statistics"
+import SessionsList from "./MySessions/SessionsList"
+import { useStoreUser } from "../../../Zustand"
+import dayjs from "dayjs"
+import { collection, addDoc, query, where, getDocs } from "firebase/firestore"
+import { db } from "../../../Firebase"
 
 function MySessions() {
-  const { upcomingSessionState } = useStore((state) => state);
-  const now = dayjs().unix();
+  const { userInfo } = useStoreUser((state) => state)
+  const [sessions, setSessions] = useState([])
+
+  // fetch upcoming sessions for the current user and add them to session[]
+  async function fetchData() {
+    const sessions = []
+    try {
+      const q = query(
+        collection(db, "therapy-session"),
+        where("user_id", "==", userInfo.uid)
+      )
+      const querySnapshot = await getDocs(q)
+
+      querySnapshot.forEach((doc) => {
+        sessions.push({ ...doc.data(), docId: doc.id })
+      })
+
+      setSessions(sessions)
+    } catch (error) {
+      console.log("error", error)
+    }
+  }
+
+  React.useEffect(() => {
+    fetchData()
+  }, [])
+
+  const now = dayjs().unix()
 
   // Filtering upcoming sessions
   const upcomingSessions =
-    upcomingSessionState?.length > 0 &&
-    upcomingSessionState
+    sessions?.length > 0 &&
+    sessions
       ?.filter(
         (session) =>
           dayjs(session.date + " " + session.time?.slice(0, 5)).unix() > now
       )
-      .filter((session) => session.cancel !== true);
+      .filter((session) => session.cancel !== true)
 
   // Filtering previous sessions
   const prevSessions =
-    upcomingSessionState?.length > 0 &&
-    upcomingSessionState
+    sessions?.length > 0 &&
+    sessions
       ?.filter(
         (session) =>
           dayjs(session.date + " " + session.time?.slice(0, 5)).unix() < now
       )
-      .filter((session) => session.cancel !== true);
+      .filter((session) => session.cancel !== true)
 
   // Filtering previous sessions
   const cancelledSessions =
-    upcomingSessionState?.length > 0 &&
-    upcomingSessionState?.filter((session) => session.cancel === true);
+    sessions?.length > 0 &&
+    sessions?.filter((session) => session.cancel === true)
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -49,7 +77,7 @@ function MySessions() {
         </Grid>
       </Grid>
     </div>
-  );
+  )
 }
 
-export default MySessions;
+export default MySessions

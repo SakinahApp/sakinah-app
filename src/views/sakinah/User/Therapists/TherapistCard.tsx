@@ -1,7 +1,7 @@
-import { Avatar, Box, Button } from "@mui/material";
-import React from "react";
-import { Link } from "react-router-dom";
-import therapistImage from "../images/therapist1.png";
+import { Avatar, Box, Button } from "@mui/material"
+import React from "react"
+import { Link } from "react-router-dom"
+import therapistImage from "../images/therapist1.png"
 
 function TherapistCard({ details }) {
   return (
@@ -17,7 +17,7 @@ function TherapistCard({ details }) {
         justifyContent: "space-between",
         alignItems: "center",
         flexDirection: "column",
-        background: details.background,
+        background: "#e0e1f1",
       }}
     >
       <Avatar
@@ -36,9 +36,12 @@ function TherapistCard({ details }) {
             marginTop: 8,
           }}
         >
-          {details.fullName}
+          {details.therapist_name}
         </h5>
-        <Link to={`/therapist/${details.id}`} state={{ therapist: details }}>
+        <Link
+          to={`/therapist/${details.therapist_id}`}
+          state={{ therapist: details }}
+        >
           <p
             style={{
               cursor: "pointer",
@@ -57,17 +60,19 @@ function TherapistCard({ details }) {
             padding: "3px 10px",
             background: "white",
             border: "2px solid rgb(226, 109, 128)",
-            width: "50px",
             borderRadius: 12,
             marginBottom: 15,
             fontSize: "13px",
           }}
         >
-          £50
+          {details.price_individuals ?? "N/A"}
         </p>
       </Box>
       <Box display="flex" alignItems="center" flexDirection="column">
-        <Link to={`/therapist/${details.id}`} state={{ therapist: details }}>
+        <Link
+          to={`/therapist/${details.therapist_id}`}
+          state={{ therapist: details }}
+        >
           <Button
             variant="contained"
             style={{
@@ -83,7 +88,7 @@ function TherapistCard({ details }) {
         </Link>
       </Box>
     </div>
-  );
+  )
 }
 
-export default TherapistCard;
+export default TherapistCard

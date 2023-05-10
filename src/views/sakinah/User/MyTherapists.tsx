@@ -1,13 +1,36 @@
-import React from "react";
-import { therapistData } from "../../../data/Data";
+import React from "react"
+import { therapistData } from "../../../data/Data"
 // import {therapistData}
-import { useStoreTemporary } from "../../../Zustand";
-import ConditionsTags from "./Components/ConditionsTags";
-import ChosenPrefrences from "./Therapists/ChosenPrefrences";
-import TherapistCard from "./Therapists/TherapistCard";
+import { useStore, useStoreTemporary } from "../../../Zustand"
+import ConditionsTags from "./Components/ConditionsTags"
+import ChosenPrefrences from "./Therapists/ChosenPrefrences"
+import TherapistCard from "./Therapists/TherapistCard"
+import { collection, query, where, getDocs } from "firebase/firestore"
+import { db } from "../../../Firebase"
 
 function MyTherapists() {
-  const { sidebarWidth } = useStoreTemporary();
+  const { sidebarWidth } = useStoreTemporary()
+  const { therapistsList, setTherapistsList } = useStore()
+
+  async function fetchData() {
+    const list = []
+    try {
+      const q = query(collection(db, "therapist-profile"))
+      const querySnapshot = await getDocs(q)
+
+      querySnapshot.forEach((doc) => {
+        list.push({ ...doc.data(), docId: doc.id })
+      })
+
+      setTherapistsList(list)
+    } catch (error) {
+      console.log("error", error)
+    }
+  }
+
+  React.useEffect(() => {
+    fetchData()
+  }, [])
 
   return (
     <div
@@ -32,7 +55,7 @@ function MyTherapists() {
           marginLeft: "10px",
         }}
       >
-        {therapistData.map((item, index) => (
+        {therapistsList?.map((item, index) => (
           <div key={index}>
             <TherapistCard details={item} />
           </div>
@@ -40,7 +63,7 @@ function MyTherapists() {
       </div>
       <ConditionsTags />
     </div>
-  );
+  )
 }
 
-export default MyTherapists;
+export default MyTherapists

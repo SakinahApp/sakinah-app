@@ -1,14 +1,29 @@
 import { Avatar, Box, Button, Chip } from '@mui/material';
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link,  useParams } from 'react-router-dom'
 import Calendar from './Calendar';
 import therapistImage from '../images/therapist1.png'
+import { getDoc, doc } from "firebase/firestore"
+import { db } from "../../../../Firebase"
 
 
 function TherapistProfile(props) {
-    const location = useLocation()
-    const { therapist } = location.state
-    // console.log('therapist :>> ', therapist);
+    const {id} = useParams()
+const [therapist, setTherapist] = useState(null)
+
+  
+  async function fetchData(uid) {
+    const docRef = doc(db, "therapist-profile", uid)
+    const usersData = await getDoc(docRef)
+
+    usersData.exists() ?
+    setTherapist(usersData.data()) :
+        console.log("No such document!")
+}
+
+  React.useEffect(() => {
+    fetchData(id)
+  }, [])
 
     return (
         <Box display='flex' sx={{ height: '100%' }}>
@@ -25,7 +40,7 @@ function TherapistProfile(props) {
                     justifyContent: "space-between",
                     alignItems: "center",
                     flexDirection: "column",
-                    background: therapist.background,
+                    background: '#e0e1f1',
                 }}
             >
                 <Box
@@ -53,7 +68,7 @@ function TherapistProfile(props) {
                                 margin: 0,
                             }}
                         >
-                            Akbar Hussain
+                            {therapist?.therapist_name || 'Name'}
                         </h4>
                         <p style={{ color: "grey", marginBottom: 5 }}>Therapist #22</p>
                         <p style={{
@@ -66,7 +81,7 @@ function TherapistProfile(props) {
                         </p>
                     </Box>
                 </Box>
-                <Box sx={{ padding: '10px 20px' }}>
+                <Box sx={{ padding: '10px 20px', width:'100%'  }}>
                     <h4
                         style={{
                             color: "#323331",
@@ -87,10 +102,10 @@ function TherapistProfile(props) {
                             margin: 0,
                         }}
                     >
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae ducimus saepe blanditiis obcaecati eius, iste, provident, est voluptatem asperiores dolore nihil molestiae veritatis aliquam perferendis alias omnis officia? Modi, dolorem.
+                        {therapist?.bio}
                     </p>
                 </Box>
-                <Box sx={{ padding: '10px 20px' }}>
+                <Box sx={{ padding: '10px 20px', width:'100%' }}>
                     <h4
                         style={{
                             color: "#323331",
@@ -101,7 +116,7 @@ function TherapistProfile(props) {
                             marginBottom: 2
                         }}
                     >
-                        Educaiton
+                        Education
                     </h4>
                     <p
                         style={{
@@ -111,7 +126,7 @@ function TherapistProfile(props) {
                             margin: 0,
                         }}
                     >
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae ducimus saepe blanditiis obcaecati eius, iste, provident, est voluptatem asperiores dolore nihil molestiae veritatis aliquam perferendis alias omnis officia? Modi, dolorem.
+                        {therapist?.education}
                     </p>
                 </Box>
                 <Box sx={{ padding: '10px 20px', float: 'left', width: '100%' }}>
@@ -125,12 +140,12 @@ function TherapistProfile(props) {
                             marginBottom: 4
                         }}
                     >
-                        Highlights
+                        Top topics
                     </h4>
                     <Box display="flex" flexWrap='wrap'>
-                        {[1, 2, 3, 4, 5].map(item => (
+                        {therapist?.top_topics?.map(item => (
                             <Chip
-                                label="4 Years experience"
+                                label={item}
                                 variant="outlined"
                                 style={{
                                     color: '#323331', background: '#d1ddfc', padding: '0.58rem',
