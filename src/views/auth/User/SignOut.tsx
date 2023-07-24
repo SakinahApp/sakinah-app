@@ -48,7 +48,7 @@ export default function AccountMenu() {
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
-        <Link to="/therapists">
+        <Link to="/therapist-list">
           <Button
             variant="contained"
             style={{ background: "rgb(95, 106, 196)", width: "100%" }}

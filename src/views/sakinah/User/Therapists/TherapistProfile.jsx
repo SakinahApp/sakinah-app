@@ -156,7 +156,7 @@ const [therapist, setTherapist] = useState(null)
                     </Box>
                 </Box>
                 <Box display="flex" alignItems="center" flexDirection="row">
-                    <Link to="/therapists">
+                    <Link to="/therapist-list">
                         <Button
                             variant="contained"
                             style={{
